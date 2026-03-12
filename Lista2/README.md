@@ -1,0 +1,1 @@
+Lista zadań 2 "Podstawy Pythona. Praca z funkcjami. Wejście/wyjście standardowe"
