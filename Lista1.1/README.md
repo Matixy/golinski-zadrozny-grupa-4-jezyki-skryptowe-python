@@ -67,17 +67,17 @@ Aplikacja to skrypt Python, który:
 
 
 3. URUCHOMIENIE PROGRAMU:
-   Aby uruchomić główną aplikację, wykonaj polecenie: python src/main.py
+   Aby uruchomić główną aplikację, wykonaj polecenie: python -m Lista1_1.src.team  
 ```
 
 ## 📝 Podsumowanie pracy i Podział obowiązków
 
 Poniżej znajduje się zestawienie ról oraz zadań zrealizowanych przez członków zespołu:
 
-| Członek Zespołu | Zakres obowiązków i wykonane zadania                                                                                                             |
-| :--- |:-------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Paweł Goliński** | Przygotowanie dokumentacji projektu (README)<br>Implementacja logiki i funkcji w `main.py`<br>Przygotowanie i uruchomienie testów jednostkowych  |
-| **Mateusz Zadrozny** | Utworzenie i inicjalizacja repozytorium GitHub<br>Konfiguracja oraz zarządzanie zadaniami przez GitHub Issues                                    |
+| Członek Zespołu | Zakres obowiązków i wykonane zadania                                                                                                                                                     |
+| :--- |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Paweł Goliński** | Przygotowanie dokumentacji projektu (README)<br>Implementacja głównego programu w `team.py`<br>Utworzenie funkcji wyświetlającej dane<br>Przygotowanie i uruchomienie testów             |
+| **Mateusz Zadrozny** | Utworzenie i inicjalizacja repozytorium GitHub<br>Konfiguracja oraz zarządzanie zadaniami przez GitHub Issues<br>Utworzenie funkcji zwracającej liczbę członków i formatującej powitanie |
 
 ---
 
