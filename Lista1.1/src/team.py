@@ -10,4 +10,23 @@ def getGreeting(teamName, teamMembers):
   text: str = f"{greenColor}Witamy w repozytorium zespołu: {teamName}, aktualna liczba członków: {getTeamLen(teamMembers)}{resetColor}"
   
   return text
-  
+
+def displayTeamInformation(teamName, teamMembers):
+  """funkcja wyświetlająca dane w uporządkowanej formie"""
+  print("\n" + f"+"*50)
+  print(f"Nazwa Zespołu: {teamName.upper()}\n")
+  print("Skład:")
+
+  for member in teamMembers:
+    print(member)
+
+  print("+" * 50)
+
+
+if __name__ == '__main__':
+  teamName = "Golinski & Zadrozny Team"
+  teamMembers = ["Pawel Golinski", "Mateusz Zadrozny"]
+
+  print(getGreeting(teamName, teamMembers))
+  displayTeamInformation(teamName, teamMembers)
+  print("\nProjekt został uruchomiony poprawnie!")
