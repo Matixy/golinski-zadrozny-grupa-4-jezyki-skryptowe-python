@@ -1,0 +1,1 @@
+Lista zadań 1.1 "Start pracy zespołowej: Python + GitHub"
