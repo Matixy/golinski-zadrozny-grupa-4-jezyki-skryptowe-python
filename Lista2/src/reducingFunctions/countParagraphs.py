@@ -2,22 +2,35 @@ import sys
 
 READ_STDIN_SIZE: int = 1
 
-def countParagraphs(stream, readSize: int = 1):
+def countParagraphs(stream, readSize: int = READ_STDIN_SIZE) -> int:
   """Funkcja zliczająca akapity w tekście (akapit jest oddzielony pustą linią)"""
   
   count: int = 0
-  char: chr = sys.stdin.read(READ_STDIN_SIZE)
+  isFirstParagraph: bool = True
+  wasLastCharNewline: bool = False
+  
+  char: chr = stream.read(readSize)
   
   while char != "":
-    if char == "\n":
-      count += 1
-  
-    char = sys.stdin.read(READ_STDIN_SIZE)
+
+    if not isFirstParagraph:
+      if char != "\n" and wasLastCharNewline:
+        count += 1
+        wasLastCharNewline = False
+      elif char == "\n" and not wasLastCharNewline:
+        wasLastCharNewline = True
+    else: # warunek sprawdzajacy czy tekst nie zaczyna sie od pustych enterow
+      if char != "\n": # znalezienei pierwszeo akapitu
+        isFirstParagraph = False
+        count += 1
+      
+    char = stream.read(readSize)
+    
   
   return count
 
 def main():
-  result: int = countParagraphs()
+  result: int = countParagraphs(sys.stdin)
   print(result)
 
 if __name__ == "__main__":

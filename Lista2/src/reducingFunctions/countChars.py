@@ -2,22 +2,25 @@ import sys
 
 READ_STDIN_SIZE: int = 1
 
-def countChars():
+def countChars(stream, readSize: int = READ_STDIN_SIZE) -> int:
   """Funkcja zliczająca wszystkie znaki w tekście, z pominięciem białych znaków"""
   
   count: int = 0
-  char: chr = sys.stdin.read(READ_STDIN_SIZE)
+  char: chr = stream.read(readSize)
   
   while char != "":
     if not char.isspace():
       count += 1
       
-    char = sys.stdin.read(READ_STDIN_SIZE)
+    char = stream.read(readSize)
   
   return count
 
 def main():
-  result: int = countChars()
+  #ustawienie kodowania na utf-8
+  sys.stdin.reconfigure(encoding='utf-8')
+  
+  result: int = countChars(sys.stdin)
   print(result)
 
 if __name__ == '__main__':
