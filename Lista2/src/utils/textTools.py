@@ -50,3 +50,19 @@ def cleanLine(lineToClean):
       cleanedLine += char
 
   return cleanedLine
+
+def countWords(text: str) -> int:
+  """Funkcja liczaca wyrazy w tekscie"""
+  wordsCount: int = 0
+  isInWord: bool = False
+  
+  for char in text:
+    if char.isalpha():
+      if not isInWord:
+        wordsCount += 1
+        isInWord = True
+    else:
+      if isInWord:
+        isInWord = False
+      
+  return wordsCount
