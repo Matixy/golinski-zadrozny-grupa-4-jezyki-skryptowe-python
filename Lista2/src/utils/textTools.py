@@ -3,12 +3,28 @@ def generateSentences(stream, readSize: int = 1):
   sentence: str = ""
   char: chr = stream.read(readSize)
   
+  newlineCount: int = 0  # Licznik znaków nowej linii
+  
   while char != "":
-    sentence += char
     
-    if char == "." or char == "?" or char == "!":
-      yield sentence.strip() # zwrocenie wartosci i uspienie funkcji do kolejnego zadania
+    # warunki dot. licznika lini
+    if char == "\n":
+      newlineCount += 1 # zwiekszenie licznika lini
+    elif not char.isspace():
+      newlineCount = 0 # napotkano znak - reset
+      
+    # tworzenie zdania
+    if char == "\n":
+      sentence += " "
+    else:
+      sentence += char
+      
+    # warunek dot. konca zdania normalnie i konca zdania przez akapit- min. 2 puste linie
+    if char == "." or char == "?" or char == "!" or newlineCount >= 2:
+      if sentence.strip() != "":
+        yield sentence.strip() # zwrocenie wartosci i uspienie funkcji do kolejnego zadania
       sentence = ""
+      newlineCount = 0 # reset licznika nowej lini
   
     char = stream.read(readSize)
     
