@@ -2,8 +2,7 @@
 #Informację o wydaniu (zaczyna się od linii mającej pięć myślników -----
 
 #Napisz program, który wypisuje tylko treść książki, ignorując preambułę i informację owydaniu.
-#- Program musi działać potokowo, usuwając zbędne spacje wewnątrz linii i oczyszczając
-#białe znaki na początku i końcu każdej linii. Po odczytaniu EOF, niech zakończy działanie.
+#- Program musi działać potokowo, usuwając zbędne spacje wewnątrz linii i oczyszczając białe znaki na początku i końcu każdej linii. Po odczytaniu EOF, niech zakończy działanie.
 #- Struktura akapitów (puste linie) musi zostać zachowana.
 
 import sys
@@ -15,12 +14,15 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 def main():
     """Glowna funckja ktora zwraca tylko tekst ksiazki pomijajac Preambule i Informacje o wydaniu z pliku txt podanego na wejsciu"""
-    endOfBookTextSymbol = False
-    stillInPreambula = True
-    emptyLineCounter = 0
+    endOfBookTextSymbol = False #flaga czy byl juz symbol "-----"
+    stillInPreambula = True     #flaga czy nadal jestesmy w preambule
+    emptyLineCounter = 0        #licznik pustych linii do sprawdzania preambuly
     currentLine = ""
-    buffer = ""     #potrzebny w przypadku gdy Brak Preambuly
-    bufferLineCounter = 0   #Liczy do 10 (sprzawdzanie Preambuly)
+    buffer = ""                 #potrzebny w przypadku gdy Brak Preambuly
+    bufferLineCounter = 0       #Liczy do 10 (sprzawdzanie gdy brak Preambuly)
+    bookTextStarted = False     #flaga do ignorowania pustych linii po preambule
+    orderedEmptyLinesCounter = 0       #licznik pustych linii do "odroczonego" wypisania
+
 
     try:
         while not endOfBookTextSymbol:
@@ -28,7 +30,7 @@ def main():
 
             if currChar == '':      #zabezpieczenie jestli nie byloby "-----" w pliku
                 if not endOfBookTextSymbol:
-                    raise ValueError("Błąd formatu: Nie znaleziono znaku końca książki (-----).")   # zucamy nasz własny błąd
+                    raise ValueError("Błąd formatu: Nie znaleziono znaku końca książki (-----).")   #Rzucamy nasz własny błąd
                 break
 
 
@@ -38,13 +40,25 @@ def main():
                 if(cleanedLine.startswith('-----')):
                     endOfBookTextSymbol = True
                 else:
-                    if(cleanedLine.strip() == ''):
+                    if(cleanedLine == ''):
                         emptyLineCounter += 1
                     else:
                         emptyLineCounter = 0
 
-                    if (not stillInPreambula):  #Wyswietlamy gotowa linie jestli to nie jest preambula
-                        print(cleanedLine)
+                    if not stillInPreambula:
+                        if not bookTextStarted:     #Ignorujemy puste linie, dopóki nie zacznie się faktyczna treść
+                            if cleanedLine != "":
+                                bookTextStarted = True
+                                print(cleanedLine)  #Wyswietlamy gotowa linie jestli to nie jest preambula
+                        else:                       #Jesli ksiazka juz wystartowala to sprawdzamy czy to nie ostatnie puste linie przed "-----", jesli tak to je iminiemy, jesli nie to wyswietlimy odpowiednia ilosc pominietych pustych wierszy aby zachowac spojnosc z akapitami
+                            if cleanedLine == "":
+                                orderedEmptyLinesCounter += 1
+                            else:
+                                while orderedEmptyLinesCounter > 0:
+                                    print("")
+                                    orderedEmptyLinesCounter -= 1
+                                print(cleanedLine)
+
                     else:
                         buffer += cleanedLine + '\n'
                         bufferLineCounter += 1
@@ -54,6 +68,7 @@ def main():
                             buffer = ""
                         elif bufferLineCounter >= 10:
                             stillInPreambula = False
+                            bookTextStarted = True
                             print(buffer, end="")
                             buffer = ""
 
@@ -62,10 +77,10 @@ def main():
                 currentLine += currChar
 
     except ValueError as e: #Ten blok łapie błąd, który rzuciliśmy wyżej
-        print(e)
+        print(e, file=sys.stderr) # Wypisze na ekran, ale nie do potoku
         sys.exit(1) #Zamykamy program z kodem błędu 1 (co oznacza awarię)
     except Exception as e:  #Ten blok złapie wszystkie inne nieprzewidziane awarie
-        print(e)
+        print(e, file=sys.stderr) # Wypisze na ekran, ale nie do potoku
         sys.exit(1) # Zamykamy program z kodem błędu 1 (co oznacza awarię)
 
 
