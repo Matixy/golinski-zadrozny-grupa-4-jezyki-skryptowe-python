@@ -1,4 +1,5 @@
 import sys
+from src.utils.errorHandler import runFuncWithExceptionHandling
 from src.utils.textTools import generateSentences, countWords, configureSysInOutUtf8
 
 def getMax4WordsSentences(stream) -> str:
@@ -20,4 +21,4 @@ def main():
   print(result)
 
 if __name__ == '__main__':
-  main()
+  runFuncWithExceptionHandling(main)

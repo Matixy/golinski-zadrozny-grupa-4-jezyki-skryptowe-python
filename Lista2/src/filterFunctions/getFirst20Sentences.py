@@ -1,5 +1,6 @@
 import sys
 from src.utils.textTools import generateSentences, configureSysInOutUtf8
+from src.utils.errorHandler import runFuncWithExceptionHandling
 
 def getFirst20Sentences(stream) -> str:
   """Funkcja wypisująca pierwszych 20 zdań tekstu"""
@@ -25,4 +26,4 @@ def main():
   print(result)
 
 if __name__ == '__main__':
-  main()
+  runFuncWithExceptionHandling(main)

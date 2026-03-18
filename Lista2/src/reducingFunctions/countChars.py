@@ -1,5 +1,6 @@
 import sys
 from src.utils.textTools import configureSysInOutUtf8
+from src.utils.errorHandler import runFuncWithExceptionHandling
 
 READ_STDIN_SIZE: int = 1
 
@@ -25,4 +26,4 @@ def main():
   print(result)
 
 if __name__ == '__main__':
-  main()
+  runFuncWithExceptionHandling(main)
