@@ -1,5 +1,6 @@
 import sys
 from src.utils.textTools import generateSentences, findLongestSentence, configureSysInOutUtf8
+from src.utils.errorHandler import runFuncWithExceptionHandling
 
 def isValidSentenceWithoutSameStartingAdjacentLetters(sentence):
     """Sprawdza, czy żadne dwa sąsiadujące słowa nie zaczynają się na tę samą literę. Zgodnie z wymogami, analizujemy zdanie znak po znaku bez użycia list."""
@@ -29,16 +30,10 @@ def isValidSentenceWithoutSameStartingAdjacentLetters(sentence):
 
 def main():
     configureSysInOutUtf8()
-    try:
-        resultSentence = findLongestSentence(sys.stdin, isValidSentenceWithoutSameStartingAdjacentLetters)
-        print(resultSentence)
-    except ValueError as e:
-        print(e, file=sys.stderr)
-        sys.exit(1)
-    except Exception as e:
-        print(e, file=sys.stderr)
-        sys.exit(1)
+
+    resultSentence = findLongestSentence(sys.stdin, isValidSentenceWithoutSameStartingAdjacentLetters)
+    print(resultSentence)
 
 
 if __name__ == "__main__":
-    main()
+    runFuncWithExceptionHandling(main)

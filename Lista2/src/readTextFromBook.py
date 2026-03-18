@@ -2,11 +2,8 @@
 #Informację o wydaniu (zaczyna się od linii mającej pięć myślników -----
 import sys
 import os
-from utils.textTools import cleanLine
-
-# Wymuszenie kodowania UTF-8 dla wejścia i wyjścia
-sys.stdin.reconfigure(encoding='utf-8')
-sys.stdout.reconfigure(encoding='utf-8')
+from src.utils.textTools import cleanLine, configureSysInOutUtf8
+from src.utils.errorHandler import runFuncWithExceptionHandling
 
 def extractTextFromBook(stream, outputFunction):
     """Funckja ktora zwraca tylko tekst ksiazki pomijajac Preambule i Informacje o wydaniu z pliku txt podanego na wejsciu
@@ -77,27 +74,11 @@ def extractTextFromBook(stream, outputFunction):
 
 def main():
     """Główna funkcja programu sterujaca przekazywanym tekstem"""
-    try:
-        extractTextFromBook(sys.stdin, print)   #Przekazujemy sys.stdin jako źródło i print jako funkcje odbierajaca dane
+    configureSysInOutUtf8() #ustawienie kodowania na utf-8
 
-        sys.stdout.flush() #Wypychamy recznie dane aby wywolac blad BrokenPipe ktory zostanie zlapany przez except
-
-    except ValueError as e: #Ten blok łapie błąd, który rzuciliśmy wyżej
-        print(e, file=sys.stderr) # Wypisze na ekran, ale nie do potoku
-        sys.exit(1) #Zamykamy program z kodem błędu 1 (co oznacza awarię)
-    except (BrokenPipeError): #Znalezione roziwazanie na ciche wyjście przy pękniętym potoku jesli Funkcja nie przetworzy calego wejscia
-        try:
-            devnull = os.open(os.devnull, os.O_WRONLY)
-            os.dup2(devnull, sys.stdout.fileno())
-        except:
-            pass
-        sys.exit(0) #Zamyka program z kodem 0 (oznacza ze wszystko zadzialalo poprawnie)
-
-    except Exception as e:  #Ten blok złapie wszystkie inne nieprzewidziane awarie
-        print(e, file=sys.stderr) # Wypisze na ekran, ale nie do potoku
-        sys.exit(1) # Zamykamy program z kodem błędu 1 (co oznacza awarię)
-
+    extractTextFromBook(sys.stdin, print)   #Przekazujemy sys.stdin jako źródło i print jako funkcje odbierajaca dane
+    sys.stdout.flush() #Wypychamy recznie dane aby wywolac blad BrokenPipe ktory zostanie zlapany przez except
 
 
 if __name__ == "__main__":
-    main()
+    runFuncWithExceptionHandling(main)
