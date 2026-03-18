@@ -93,8 +93,8 @@ Lista2/
 
 | Członek Zespołu | Zakres obowiązków i wykonane zadania                                                                                                                                                                                                                      |
 | :--- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Paweł Goliński** | Przygotowanie dokumentacji projektu (README)<br>Implementacja głównego programu ekstraktującego tekst `readTextFromBook.py`<br>Implementacja funkcji wyszukujących<br>Przygotowanie plików wejściowych (Książek)<br>Rozwiązanie błędu przerwanego potoków | Zrobienie testów do wcześniej zaimplementowanych funkcjonalności |
-| **Mateusz Zadrozny** | Implementacja funkcji redukujących <br> Implementacja funkcji filtrujących <br> Implementacja generatora zdań `generateSentences.py` <br> Implementacja funkcji obsugującej wyjatki podanej w parametrze funkcji `errorHandler.py`                        | Zrobienie testów do wcześniej zaimplementowanych funkcjonalności |
+| **Paweł Goliński** | Przygotowanie dokumentacji projektu (README)<br>Implementacja głównego programu ekstraktującego tekst `readTextFromBook.py`<br>Implementacja funkcji wyszukujących<br>Przygotowanie plików wejściowych (Książek)<br>Rozwiązanie błędu przerwanego potoków <br> Zrobienie testów do wcześniej zaimplementowanych funkcjonalności|
+| **Mateusz Zadrozny** | Implementacja funkcji redukujących <br> Implementacja funkcji filtrujących <br> Implementacja generatora zdań `generateSentences.py` <br> Implementacja funkcji obsugującej wyjatki podanej w parametrze funkcji `errorHandler.py` <br> Zrobienie testów do wcześniej zaimplementowanych funkcjonalności |
 
 ---
 
