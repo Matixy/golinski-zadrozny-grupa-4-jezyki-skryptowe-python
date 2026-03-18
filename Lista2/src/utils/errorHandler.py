@@ -12,7 +12,7 @@ def runFuncWithExceptionHandling(func):
   except ValueError as e:
     print(f"{VALUE_ERROR_INFO} {e}", file=sys.stderr)
     sys.exit(1)
-  except BrokenPipeError:
+  except BrokenPipeError: #Znalezione roziwazanie na ciche wyjście przy pękniętym potoku jesli Funkcja nie przetworzy calego wejscia
     # wyjście przy pękniętym potoku- zignorowanie błędu
     try:
         devnull = os.open(os.devnull, os.O_WRONLY)
