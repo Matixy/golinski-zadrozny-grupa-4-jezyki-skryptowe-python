@@ -8,13 +8,13 @@ def getFirst20Sentences(stream) -> str:
   generator = generateSentences(stream)
   counter: int = 0
   
-  while counter != 20:
+  while counter != 19:
     try:
       sentence = next(generator)
       res += sentence + "\n"
       counter += 1
     except StopIteration: # teskt ma mniej niz 20 zdan zakoncz petle
-        break;
+      break;
   
   return res
 
