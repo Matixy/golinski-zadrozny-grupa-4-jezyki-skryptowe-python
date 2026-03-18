@@ -1,5 +1,5 @@
 import sys
-from utils.textTools import generateSentences
+from src.utils.textTools import generateSentences
 
 READ_STDIN_SIZE: int = 1
 
