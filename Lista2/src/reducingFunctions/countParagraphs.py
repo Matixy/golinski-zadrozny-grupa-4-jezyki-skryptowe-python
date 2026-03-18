@@ -2,16 +2,14 @@ import sys
 from src.utils.textTools import configureSysInOutUtf8
 from src.utils.errorHandler import runFuncWithExceptionHandling
 
-READ_STDIN_SIZE: int = 1
-
-def countParagraphs(stream, readSize: int = READ_STDIN_SIZE) -> int:
+def countParagraphs(stream) -> int:
   """Funkcja zliczająca akapity w tekście (akapit jest oddzielony pustą linią)"""
   
   count: int = 0
   isFirstParagraph: bool = True
   wasLastCharNewline: bool = False
   
-  char: chr = stream.read(readSize)
+  char: chr = stream.read(1)
   
   while char != "":
 
@@ -26,7 +24,7 @@ def countParagraphs(stream, readSize: int = READ_STDIN_SIZE) -> int:
         isFirstParagraph = False
         count += 1
       
-    char = stream.read(readSize)
+    char = stream.read(1)
     
   
   return count
