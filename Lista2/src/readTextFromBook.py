@@ -81,7 +81,9 @@ def extractTextFromBook(stream, outputFunction):
 def main():
     """Główna funkcja programu sterujaca przekazywanym tekstem"""
     try:
-        extractTextFromBook(sys.stdin, print)   #Przekazujemy sys.stdin jako źródło i print jako odbiorcę danych
+        extractTextFromBook(sys.stdin, print)   #Przekazujemy sys.stdin jako źródło i print jako funkcje odbierajaca dane
+
+        sys.stdout.flush() #Wypychamy recznie dane aby wywolac blad BrokenPipe ktory zostanie zlapany przez except
 
     except ValueError as e: #Ten blok łapie błąd, który rzuciliśmy wyżej
         print(e, file=sys.stderr) # Wypisze na ekran, ale nie do potoku
