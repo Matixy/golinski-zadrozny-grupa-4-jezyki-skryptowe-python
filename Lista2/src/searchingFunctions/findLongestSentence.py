@@ -1,5 +1,5 @@
 import sys
-from utils.textTools import generateSentences
+from src.utils.textTools import generateSentences
 
 def findLongestSentence(stream):
     """Funkcja wypisująca najdłuższe zdanie w książce (kryterium – liczba znaków)."""

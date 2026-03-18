@@ -1,5 +1,5 @@
 import sys
-from utils.textTools import generateSentences
+from src.utils.textTools import generateSentences
 
 def findFirstComplexSentence(stream):
     """Funkcja wyszukujaca pierwsze zdanie ktore ma wiecej niz jedno zdanie podrzedne (na podstawie przecinkow)"""

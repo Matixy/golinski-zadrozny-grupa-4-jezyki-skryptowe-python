@@ -1,5 +1,5 @@
 import sys
-from utils.textTools import generateSentences
+from src.utils.textTools import generateSentences
 
 def isValidSentenceWithoutSameStartingAdjacentLetters(sentence):
     """Sprawdza, czy żadne dwa sąsiadujące słowa nie zaczynają się na tę samą literę. Zgodnie z wymogami, analizujemy zdanie znak po znaku bez użycia list."""
