@@ -1,5 +1,5 @@
 import sys
-from src.utils.textTools import generateSentences
+from src.utils.textTools import generateSentences, configureSysInOutUtf8
 
 def findFirstComplexSentence(stream):
     """Funkcja wyszukujaca pierwsze zdanie ktore ma wiecej niz jedno zdanie podrzedne (na podstawie przecinkow)"""
@@ -17,8 +17,7 @@ def findFirstComplexSentence(stream):
 
 def main():
     try:
-        sys.stdin.reconfigure(encoding='utf-8')
-        sys.stdout.reconfigure(encoding='utf-8')
+        configureSysInOutUtf8()
 
         resultSentence = findFirstComplexSentence(sys.stdin)    # Pobieramy dane ze stdin (przekazane potokiem)
         print(resultSentence)

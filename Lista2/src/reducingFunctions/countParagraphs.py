@@ -1,4 +1,5 @@
 import sys
+from src.utils.textTools import configureSysInOutUtf8
 
 READ_STDIN_SIZE: int = 1
 
@@ -30,6 +31,8 @@ def countParagraphs(stream, readSize: int = READ_STDIN_SIZE) -> int:
   return count
 
 def main():
+  configureSysInOutUtf8()
+  
   result: int = countParagraphs(sys.stdin)
   print(result)
 

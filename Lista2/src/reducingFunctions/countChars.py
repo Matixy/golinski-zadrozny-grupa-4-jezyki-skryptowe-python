@@ -1,4 +1,5 @@
 import sys
+from src.utils.textTools import configureSysInOutUtf8
 
 READ_STDIN_SIZE: int = 1
 
@@ -18,7 +19,7 @@ def countChars(stream, readSize: int = READ_STDIN_SIZE) -> int:
 
 def main():
   #ustawienie kodowania na utf-8
-  sys.stdin.reconfigure(encoding='utf-8')
+  configureSysInOutUtf8()
   
   result: int = countChars(sys.stdin)
   print(result)

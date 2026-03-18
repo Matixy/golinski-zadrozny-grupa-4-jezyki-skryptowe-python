@@ -1,5 +1,5 @@
 import sys
-from src.utils.textTools import generateSentences
+from src.utils.textTools import generateSentences, configureSysInOutUtf8
 
 def getFirst20Sentences(stream) -> str:
   """Funkcja wypisująca pierwszych 20 zdań tekstu"""
@@ -19,8 +19,7 @@ def getFirst20Sentences(stream) -> str:
 
 def main():
   #ustawienie kodowania na utf-8
-  sys.stdin.reconfigure(encoding='utf-8')
-  sys.stdout.reconfigure(encoding='utf-8')
+  configureSysInOutUtf8()
   
   result: str = getFirst20Sentences(sys.stdin)
   print(result)

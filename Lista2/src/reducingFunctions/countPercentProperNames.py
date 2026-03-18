@@ -1,5 +1,5 @@
 import sys
-from src.utils.textTools import generateSentences
+from src.utils.textTools import generateSentences, configureSysInOutUtf8
 
 READ_STDIN_SIZE: int = 1
 
@@ -43,7 +43,7 @@ def countPercentProperNames(stream, readSize: int = READ_STDIN_SIZE) -> float:
 
 def main():
   #ustawienie kodowania na utf-8
-  sys.stdin.reconfigure(encoding='utf-8')
+  configureSysInOutUtf8()
   
   result: int = countPercentProperNames(sys.stdin)
   print(result)
