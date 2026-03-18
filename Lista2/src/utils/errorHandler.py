@@ -5,7 +5,7 @@ VALUE_ERROR_INFO: str = "Błąd danych:"
 DEFAULT_ERROR_INFO: str = "Błąd programu:"
 
 def runFuncWithExceptionHandling(func):
-  """Funkcja ktora uruchamie obsluguje potencjalne wyjatki metody podanej w parametrze """
+  """Funkcja ktora uruchamia i obsluguje potencjalne wyjatki metody podanej w parametrze """
   
   try:
     func()
