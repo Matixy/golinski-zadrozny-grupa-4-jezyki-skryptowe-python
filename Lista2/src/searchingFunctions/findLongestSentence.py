@@ -1,10 +1,9 @@
 import sys
-from src.utils.textTools import findLongestSentence
+from src.utils.textTools import findLongestSentence, configureSysInOutUtf8
 
 def main():
     try:
-        sys.stdin.reconfigure(encoding='utf-8')
-        sys.stdout.reconfigure(encoding='utf-8')
+        configureSysInOutUtf8()
 
         resultSentence = findLongestSentence(sys.stdin)
         print(resultSentence)

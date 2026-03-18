@@ -1,5 +1,5 @@
 import sys
-from src.utils.textTools import generateSentences, getWord
+from src.utils.textTools import generateSentences, getWord, configureSysInOutUtf8
 
 APPEARANCES_SELECTED_SIGNS: int = 2
 
@@ -40,8 +40,7 @@ def getSelectedSentences(stream, appearances: int) -> str:
 
 def main():
   #ustawienie kodowania na utf-8
-  sys.stdin.reconfigure(encoding='utf-8')
-  sys.stdout.reconfigure(encoding='utf-8')
+  configureSysInOutUtf8()
   
   result: str = getSelectedSentences(sys.stdin, APPEARANCES_SELECTED_SIGNS)
   print(result)

@@ -1,5 +1,5 @@
 import sys
-from src.utils.textTools import generateSentences
+from src.utils.textTools import generateSentences, configureSysInOutUtf8
 
 def getQuestionsAndExclamationsSenteces(stream) -> str:
   """Funkcja, która wypisuje na wyjściu tylko zdania, które są pytaniami lub wykrzyknieniami"""
@@ -14,8 +14,7 @@ def getQuestionsAndExclamationsSenteces(stream) -> str:
 
 def main():
   #ustawienie kodowania na utf-8
-  sys.stdin.reconfigure(encoding='utf-8')
-  sys.stdout.reconfigure(encoding='utf-8')
+  configureSysInOutUtf8()
   
   result: str = getQuestionsAndExclamationsSenteces(sys.stdin)
   print(result)

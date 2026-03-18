@@ -1,3 +1,5 @@
+import sys
+
 def generateSentences(stream, readSize: int = 1):
   """Funkcja czytajaca strumien i zwracajaca zdania w tekscie"""
   sentence: str = ""
@@ -107,3 +109,9 @@ def findLongestSentence(stream, predicateFunction=None):  #opcjonalna funckja fi
     raise ValueError("Nie znaleziono zadnych zdan w podanym tekscie")
 
   return longestSentence
+
+def configureSysInOutUtf8():
+  """ustawienie kodowania potoku na utf-8 dla stdin i stdout"""
+  
+  sys.stdin.reconfigure(encoding='utf-8')
+  sys.stdout.reconfigure(encoding='utf-8')
