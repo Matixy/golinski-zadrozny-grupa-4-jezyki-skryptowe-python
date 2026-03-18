@@ -72,3 +72,20 @@ def countWords(text: str) -> int:
         isInWord = False
       
   return wordsCount
+
+def getWord(text: str) -> str:
+  """Funkcja zwracajaca 1 wyraz z zdania"""
+  
+  word: str = ""
+  isInWord: bool = False
+  
+  for char in text:
+    if char.isalpha():
+      if not isInWord:
+        isInWord = True
+        
+      word += char
+    else:
+      if isInWord:
+        return word
+        

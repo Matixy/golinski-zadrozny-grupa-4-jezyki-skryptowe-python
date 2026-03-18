@@ -1,15 +1,14 @@
 import sys
-from utils.textTools import generateSentences
+from src.utils.textTools import generateSentences, countWords
 
-READ_STDIN_SIZE: int = 1
-
-def getMax4WordsSentences(stream, readSize: int = READ_STDIN_SIZE) -> str:
+def getMax4WordsSentences(stream) -> str:
   """Funkcja wypisująca tylko zdania zawierające co najwyżej 4 wyrazy"""
   
   res: str = ""
   
   for sentence in generateSentences(stream):
-    
+    if countWords(sentence) <= 4:
+      res += sentence + "\n" # dodanie zdania do wyniku i nowej lini po dodanym zdaniu
   
   return res
 
