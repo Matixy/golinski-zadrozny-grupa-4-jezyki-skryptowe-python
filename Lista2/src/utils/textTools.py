@@ -4,6 +4,7 @@ def generateSentences(stream, readSize: int = 1):
   char: chr = stream.read(readSize)
   
   newlineCount: int = 0  # Licznik znaków nowej linii
+  hasLetters: bool = False # flaga odnosnie czy w zdaniu jest znak alfabetu
   
   while char != "":
     
@@ -13,6 +14,9 @@ def generateSentences(stream, readSize: int = 1):
     elif not char.isspace():
       newlineCount = 0 # napotkano znak - reset
       
+    if char.isalpha():
+      hasLetters = True
+      
     # tworzenie zdania
     if char == "\n":
       sentence += " "
@@ -21,15 +25,17 @@ def generateSentences(stream, readSize: int = 1):
       
     # warunek dot. konca zdania normalnie i konca zdania przez akapit- min. 2 puste linie
     if char == "." or char == "?" or char == "!" or newlineCount >= 2:
-      if sentence.strip() != "":
+      if hasLetters:
         yield sentence.strip() # zwrocenie wartosci i uspienie funkcji do kolejnego zadania
+        
       sentence = ""
       newlineCount = 0 # reset licznika nowej lini
+      hasLetters = False
   
     char = stream.read(readSize)
     
   # zabezpieczenie sprawdzajace czy plik skonczyl sie bez kropki- ale zostaly znaki
-  if sentence.strip() != "":
+  if hasLetters:
     yield sentence.strip()
 
 def cleanLine(lineToClean):
