@@ -12,7 +12,7 @@ from src.filterFunctions.getFirst20Sentences import getFirst20Sentences
 def sample_text():
     return (
         "Ala ma kota. "                                 # 3 wyrazy kropka
-        "Oto jest piękny pies! "                        # 4 wyrazy wykrzyknik nazwa własna
+        "Oto jest piękny pies! "                        # 4 wyrazy wykrzyknik
         "Czy to jest prawda? "                          # 4 wyrazy pytajnik
         "To jest bardzo bardzo bardzo długie zdanie. "  # 6 wyrazow
         "i oraz ale że lub."                            # 5 slow kluczowych
