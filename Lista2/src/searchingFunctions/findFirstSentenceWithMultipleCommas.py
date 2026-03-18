@@ -18,6 +18,8 @@ def findFirstComplexSentence(stream):
 def main():
     try:
         sys.stdin.reconfigure(encoding='utf-8')
+        sys.stdout.reconfigure(encoding='utf-8')
+
         resultSentence = findFirstComplexSentence(sys.stdin)    # Pobieramy dane ze stdin (przekazane potokiem)
         print(resultSentence)
     except ValueError as e:
