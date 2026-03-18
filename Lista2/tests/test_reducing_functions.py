@@ -35,4 +35,4 @@ def test_count_percent_proper_names(monkeypatch, processed_text):
     monkeypatch.setattr('sys.stdin', io.StringIO(processed_text))
     
     # procent zdan z nazwami wlasnymi 20%
-    assert countPercentProperNames(sys.stdin) == pytest.approx(20)
+    assert countPercentProperNames(sys.stdin) == 20
