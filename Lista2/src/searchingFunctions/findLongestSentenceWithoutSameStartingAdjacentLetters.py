@@ -1,5 +1,5 @@
 import sys
-from src.utils.textTools import generateSentences
+from src.utils.textTools import generateSentences, findLongestSentence
 
 def isValidSentenceWithoutSameStartingAdjacentLetters(sentence):
     """Sprawdza, czy żadne dwa sąsiadujące słowa nie zaczynają się na tę samą literę. Zgodnie z wymogami, analizujemy zdanie znak po znaku bez użycia list."""
@@ -27,28 +27,11 @@ def isValidSentenceWithoutSameStartingAdjacentLetters(sentence):
     return True
 
 
-def findLongestValidSentence(stream):
-    """Logika wyszukiwania najdłuższego zdania spełniającego warunek literowy."""
-    longestSentence = ""
-    maxLength = 0
-
-    for sentence in generateSentences(stream):
-        if isValidSentenceWithoutSameStartingAdjacentLetters(sentence):
-            currentLength = len(sentence)
-            if currentLength > maxLength:
-                maxLength = currentLength
-                longestSentence = sentence
-
-    if maxLength == 0:
-        raise ValueError("Nie znaleziono zdania spełniającego kryteria zadania.")
-
-    return longestSentence
-
-
 def main():
     sys.stdin.reconfigure(encoding='utf-8')
+    sys.stdout.reconfigure(encoding='utf-8')
     try:
-        resultSentence = findLongestValidSentence(sys.stdin)
+        resultSentence = findLongestSentence(sys.stdin, isValidSentenceWithoutSameStartingAdjacentLetters)
         print(resultSentence)
     except ValueError as e:
         print(e, file=sys.stderr)

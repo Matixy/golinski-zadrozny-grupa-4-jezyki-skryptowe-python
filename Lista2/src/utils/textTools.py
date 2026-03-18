@@ -72,3 +72,20 @@ def countWords(text: str) -> int:
         isInWord = False
       
   return wordsCount
+
+def findLongestSentence(stream, predicateFunction=None):  #opcjonalna funckja filtrujaca
+  """Funkcja wyszukujaca najdłuższe zdanie w książce (kryterium – liczba znaków). Obsluguje podanie predykatu do sprawdzenia przed porownanie dlugosci"""
+  longestSentence = ""
+  maxSentenceLength = 0
+
+  for sentence in generateSentences(stream):
+    if predicateFunction is None or predicateFunction(sentence):  #Jesli nie ma warunku lub jest spelniony porownujemy
+      currentSentenceLength = len(sentence)
+      if currentSentenceLength > maxSentenceLength:
+        longestSentence = sentence
+        maxSentenceLength = currentSentenceLength
+
+  if not longestSentence:
+    raise ValueError("Nie znaleziono zadnych zdan w podanym tekscie")
+
+  return longestSentence
