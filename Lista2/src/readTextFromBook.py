@@ -26,12 +26,12 @@ def extractTextFromBook(stream, outputFunction):
 
         if currChar == '':      #zabezpieczenie jestli nie byloby "-----" w pliku
             if not endOfBookTextSymbol:
-                raise ValueError("Błąd formatu: Nie znaleziono znaku końca książki (-----).")   #Rzucamy nasz własny błąd
+                raise ValueError("Błąd formatu: Nie znaleziono znaku końca książki (-----).") #Rzucamy blad gdy nie bedzie symbolu konca
             break
 
 
-        if currChar == '\n':                #Jesli koniec lini to sprawdzamy co mamy w tej lini
-            cleanedLine = cleanLine(currentLine)
+        if currChar == '\n':    #Jesli koniec lini to sprawdzamy co mamy w tej lini
+            cleanedLine = cleanLine(currentLine)    #oczyszczenie obecnej linii za pomoca funkcji oczyszczajacej
 
             if(cleanedLine.startswith('-----')):
                 endOfBookTextSymbol = True
@@ -45,35 +45,32 @@ def extractTextFromBook(stream, outputFunction):
                     if not bookTextStarted:     #Ignorujemy puste linie, dopóki nie zacznie się faktyczna treść
                         if cleanedLine != "":
                             bookTextStarted = True
-                            outputFunction(cleanedLine) #Wyowalnie przekazanej funkcji wyjsciowej ktora obsluzy wyjscie
-                            # print(cleanedLine)  #Wyswietlamy gotowa linie jestli to nie jest preambula
-                    else:                       #Jesli ksiazka juz wystartowala to sprawdzamy czy to nie ostatnie puste linie przed "-----", jesli tak to je iminiemy, jesli nie to wyswietlimy odpowiednia ilosc pominietych pustych wierszy aby zachowac spojnosc z akapitami
+                            outputFunction(cleanedLine)#print(cleanedLine)  #Wyswietlamy gotowa linie jestli to nie jest preambula
+                    else:  #Jesli ksiazka juz wystartowala to sprawdzamy czy to nie ostatnie puste linie przed "-----", jesli tak to je ominiemy, jesli nie to wyswietlimy odpowiednia ilosc pominietych pustych wierszy aby zachowac spojnosc z akapitami
                         if cleanedLine == "":
                             orderedEmptyLinesCounter += 1
                         else:
                             while orderedEmptyLinesCounter > 0:
-                                outputFunction(cleanedLine)
-                                # print("")
+                                outputFunction("")      #print(cleanedLine)
                                 orderedEmptyLinesCounter -= 1
-                            outputFunction(cleanedLine)
-                            # print(cleanedLine)
+                            outputFunction(cleanedLine) #print(cleanedLine)
 
-                else:
-                    buffer += cleanedLine + '\n'
+                else:   #Jesli jestesmy nadal w Preambule
+                    buffer += cleanedLine + '\n'    #Obsluga kontroli pierwszych 10 lniii w wypadku gdyby tekst nie zawieral preambuly
                     bufferLineCounter += 1
 
-                    if emptyLineCounter >= 2:  # Sprawdzamy czy nadal w preambule, dopiero tutaj bo w ten sposob nie wypiszemy pustego wiersza
+                    if emptyLineCounter >= 2:   #Sprawdzamy czy nadal w preambule
                         stillInPreambula = False
                         buffer = ""
                     elif bufferLineCounter >= 10:
                         stillInPreambula = False
                         bookTextStarted = True
                         outputFunction(buffer.strip("\n")) #wysylamy bufor ale bez ostatniego \n bo print go doda sam na koncu
-                        # print(buffer, end="")
                         buffer = ""
 
                 currentLine = ""        #wyczyszczenie linii
-        else:
+
+        else:   #Jesli odczytany znak nie jest koncem linii dodajemy go do reszty
             currentLine += currChar
 
 
