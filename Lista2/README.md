@@ -91,12 +91,10 @@ Lista2/
 
 ## 📝 Podsumowanie pracy i Podział obowiązków
 
-Poniżej znajduje się zestawienie ról oraz zadań zrealizowanych przez członków zespołu:
-
 | Członek Zespołu | Zakres obowiązków i wykonane zadania                                                                                                                                                                                                                      |
 | :--- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Paweł Goliński** | Przygotowanie dokumentacji projektu (README)<br>Implementacja głównego programu ekstraktującego tekst `readTextFromBook.py`<br>Implementacja funkcji wyszukujących<br>Przygotowanie plików wejściowych (Książek)<br>Rozwiązanie błędu przerwanego potoków |
-| **Mateusz Zadrozny** | Implementacja funkcji redukujących <br> Implementacja funkcji filtrujących <br> Implementacja generatora zdań `generateSentences.py` <br> Implementacja funkcji obsugującej wyjatki podanej w parametrze funkcji `errorHandler.py`                        |
+| **Paweł Goliński** | Przygotowanie dokumentacji projektu (README)<br>Implementacja głównego programu ekstraktującego tekst `readTextFromBook.py`<br>Implementacja funkcji wyszukujących<br>Przygotowanie plików wejściowych (Książek)<br>Rozwiązanie błędu przerwanego potoków | Zrobienie testów do wcześniej zaimplementowanych funkcjonalności |
+| **Mateusz Zadrozny** | Implementacja funkcji redukujących <br> Implementacja funkcji filtrujących <br> Implementacja generatora zdań `generateSentences.py` <br> Implementacja funkcji obsugującej wyjatki podanej w parametrze funkcji `errorHandler.py`                        | Zrobienie testów do wcześniej zaimplementowanych funkcjonalności |
 
 ---
 
@@ -112,5 +110,6 @@ Udział w projekcie pozwolił nam na zdobycie praktycznej wiedzy w zakresie:
 * **Standardów Python:** Tworzenie przejrzystej struktury katalogów i zarządzanie zależnościami.
 * **Analizy strumieniowej:** Efektywne wykorzystanie potoków systemowych oraz standardowych strumieni wejścia/wyjścia (stdin/stdout) do procesowania danych „w locie” bez obciążania pamięci RAM.
 * **Architektury modułowej:** Tworzenie pakietów w Pythonie oraz zarządzanie ścieżkami wyszukiwania modułów w środowiskach wieloplatformowych.
+* **Pytest:** Tworzenie prostych testów w bibliotece pytest.
 
 ---
