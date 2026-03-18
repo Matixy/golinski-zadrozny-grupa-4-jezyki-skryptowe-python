@@ -18,7 +18,6 @@ def processed_text():
 
 # test dla funkcji zliczającej znaki (bez bialych)
 def test_count_chars(monkeypatch, processed_text):
-    # Podmieniamy prawdziwe `sys.stdin` na nasz wirtualny plik z tekstem
     monkeypatch.setattr('sys.stdin', io.StringIO(processed_text))
     
     # znaki = 114
