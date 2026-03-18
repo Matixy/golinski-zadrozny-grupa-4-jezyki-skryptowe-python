@@ -1,5 +1,6 @@
 import sys
 from src.utils.textTools import generateSentences, getWord, configureSysInOutUtf8
+from src.utils.errorHandler import runFuncWithExceptionHandling
 
 APPEARANCES_SELECTED_SIGNS: int = 2
 
@@ -46,4 +47,4 @@ def main():
   print(result)
 
 if __name__ == '__main__':
-  main()
+  runFuncWithExceptionHandling(main)

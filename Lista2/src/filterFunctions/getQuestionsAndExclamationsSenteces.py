@@ -1,5 +1,6 @@
 import sys
 from src.utils.textTools import generateSentences, configureSysInOutUtf8
+from src.utils.errorHandler import runFuncWithExceptionHandling
 
 def getQuestionsAndExclamationsSenteces(stream) -> str:
   """Funkcja, która wypisuje na wyjściu tylko zdania, które są pytaniami lub wykrzyknieniami"""
@@ -20,4 +21,4 @@ def main():
   print(result)
 
 if __name__ == '__main__':
-  main()
+  runFuncWithExceptionHandling(main)
