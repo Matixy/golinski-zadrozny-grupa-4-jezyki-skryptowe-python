@@ -11,19 +11,16 @@ def isValidSentenceWithoutSameStartingAdjacentLetters(sentence):
     for char in sentence:
         # Wyraz to ciąg znaków alfabetu
         if char.isalpha():
-            if not isInWord:
-                # To jest pierwsza litera nowego słowa
-                currentFirstLetter = char.lower()
+            if not isInWord:    #Jesli wczesniej nie bylismy w wyrazie to znaczy ze teraz musimy zapamietac litere
+                currentFirstLetter = char.lower()   #To jest pierwsza litera nowego słowa
 
-                # Porównanie z pierwszą literą poprzedniego słowa
-                if currentFirstLetter == lastFirstLetter:
+                if currentFirstLetter == lastFirstLetter:   #Porównanie z pierwszą literą poprzedniego słowa
                     return False
 
                 lastFirstLetter = currentFirstLetter
                 isInWord = True
         else:
-            # Znaki interpunkcyjne lub spacje oddzielają wyrazy
-            isInWord = False
+            isInWord = False    #Znaki interpunkcyjne lub spacje oddzielają wyrazy
 
     return True
 

@@ -46,7 +46,7 @@ def cleanLine(lineToClean):
   cleanedLine = ""
   lastCharWasSpace = False
 
-  for char in lineToClean:  # petla usuwajaca spacje ###WYDZIELIC DO FUNKCJI
+  for char in lineToClean:  # petla usuwajaca spacje
     if char == " ":
       if lastCharWasSpace:
         continue
