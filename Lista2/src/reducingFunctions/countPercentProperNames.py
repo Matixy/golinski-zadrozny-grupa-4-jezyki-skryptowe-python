@@ -2,8 +2,6 @@ import sys
 from src.utils.textTools import generateSentences, configureSysInOutUtf8
 from src.utils.errorHandler import runFuncWithExceptionHandling
 
-READ_STDIN_SIZE: int = 1
-
 def includeProperName(sentence: str) -> bool:
   """Funckja zwracajaca czy zdanie zawiera przynajmniej jedna nazwe wlasna"""
   isFirstWord: bool = True
@@ -24,7 +22,7 @@ def includeProperName(sentence: str) -> bool:
         
   return False
             
-def countPercentProperNames(stream, readSize: int = READ_STDIN_SIZE) -> float:
+def countPercentProperNames(stream) -> float:
   """
   Funkcja licząca procent zdań, które zawierają przynajmniej jedną nazwę własną (niech
   nazwą własną będzie każdy wyraz napisany wielką literą, nie będący pierwszym

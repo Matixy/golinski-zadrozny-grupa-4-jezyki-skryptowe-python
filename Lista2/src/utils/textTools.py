@@ -1,9 +1,9 @@
 import sys
 
-def generateSentences(stream, readSize: int = 1):
+def generateSentences(stream):
   """Funkcja czytajaca strumien i zwracajaca zdania w tekscie"""
   sentence: str = ""
-  char: chr = stream.read(readSize)
+  char: chr = stream.read(1)
   
   newlineCount: int = 0  # Licznik znaków nowej linii
   hasLetters: bool = False # flaga odnosnie czy w zdaniu jest znak alfabetu
@@ -34,7 +34,7 @@ def generateSentences(stream, readSize: int = 1):
       newlineCount = 0 # reset licznika nowej lini
       hasLetters = False
   
-    char = stream.read(readSize)
+    char = stream.read(1)
     
   # zabezpieczenie sprawdzajace czy plik skonczyl sie bez kropki- ale zostaly znaki
   if hasLetters:
