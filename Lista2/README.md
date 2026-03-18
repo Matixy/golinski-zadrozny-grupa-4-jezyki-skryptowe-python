@@ -83,8 +83,8 @@ Lista2/
 
 3. URUCHOMIENIE PROGRAMU: (cat - Linux/Mac, type - Windows)
    Będąc w głównym folderze "Lista2" wywoujemy np.
-   1) cat data/Andersen-brzydkie-kaczatko.txt | python3 src/readTextFromBook.py | python3 -m src.searchingFunctions.findLongestSentence
-   2) cat data/Andersen-brzydkie-kaczatko.txt | python3 src/readTextFromBook.py | python3 -m src.searchingFunctions.findFirstSentenceWithMultipleCommas
+   1) cat data/Andersen-brzydkie-kaczatko.txt | python3 -m src.readTextFromBook | python3 -m src.searchingFunctions.findLongestSentence
+   2) cat data/Andersen-brzydkie-kaczatko.txt | python3 -m src.readTextFromBook | python3 -m src.searchingFunctions.findFirstSentenceWithMultipleCommas
 
 ```
 
