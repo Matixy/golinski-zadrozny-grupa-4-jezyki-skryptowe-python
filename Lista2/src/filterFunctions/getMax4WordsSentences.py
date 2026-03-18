@@ -15,6 +15,7 @@ def getMax4WordsSentences(stream) -> str:
 def main():
   #ustawienie kodowania na utf-8
   sys.stdin.reconfigure(encoding='utf-8')
+  sys.stdout.reconfigure(encoding='utf-8')
   
   result: str = getMax4WordsSentences(sys.stdin)
   print(result)

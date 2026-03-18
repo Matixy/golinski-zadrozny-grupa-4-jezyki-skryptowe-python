@@ -20,6 +20,7 @@ def getFirst20Sentences(stream) -> str:
 def main():
   #ustawienie kodowania na utf-8
   sys.stdin.reconfigure(encoding='utf-8')
+  sys.stdout.reconfigure(encoding='utf-8')
   
   result: str = getFirst20Sentences(sys.stdin)
   print(result)
