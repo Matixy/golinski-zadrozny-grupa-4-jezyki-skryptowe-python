@@ -10,20 +10,19 @@ def generateSentences(stream):
   
   while char != "":
     
-    # warunki dot. licznika lini
+    # warunki dot. licznika lini i tworzenia zdania
     if char == "\n":
       newlineCount += 1 # zwiekszenie licznika lini
-    elif not char.isspace():
-      newlineCount = 0 # napotkano znak - reset
-      
-    if char.isalpha():
-      hasLetters = True
-      
-    # tworzenie zdania
-    if char == "\n":
       sentence += " "
     else:
       sentence += char
+      
+      if not char.isspace():
+        newlineCount = 0 # napotkano znak (niebedacy bialym znakiem)- reset
+      
+    # sprawdzenie flagi liter
+    if char.isalpha():
+      hasLetters = True
       
     # warunek dot. konca zdania normalnie i konca zdania przez akapit- min. 2 puste linie
     if char == "." or char == "?" or char == "!" or newlineCount >= 2:
