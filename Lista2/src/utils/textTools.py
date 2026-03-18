@@ -88,9 +88,9 @@ def getWord(text: str) -> str:
     else:
       if isInWord:
         return word
+  
+  return word # jezeli wyraz byl na samym koncu stringa zwracany jest wyraz- jezeli nie bylo zwracane jest ""
         
-        
-
 def findLongestSentence(stream, predicateFunction=None):  #opcjonalna funckja filtrujaca
   """Funkcja wyszukujaca najdłuższe zdanie w książce (kryterium – liczba znaków). Obsluguje podanie predykatu do sprawdzenia przed porownanie dlugosci"""
   longestSentence = ""
