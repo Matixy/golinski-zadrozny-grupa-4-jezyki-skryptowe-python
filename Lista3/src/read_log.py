@@ -17,7 +17,7 @@ def read_log(line_limit = -1):
             continue
 
         list_from_line = cleaned_line.split("\t")   #rozdzielanie na podstawie tabulatora
-        print(list_from_line)
+        #print(list_from_line)
 
         if len(list_from_line) != 27:    #sprawdzenie czy jest zgodna linia, zeby pominac bledne linie
             continue
