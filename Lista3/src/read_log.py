@@ -17,6 +17,7 @@ def read_log(line_limit = -1):
             continue
 
         list_from_line = cleaned_line.split("\t")   #rozdzielanie na podstawie tabulatora
+        print(list_from_line)
 
         if len(list_from_line) != 27:    #sprawdzenie czy jest zgodna linia, zeby pominac bledne linie
             continue
@@ -26,8 +27,10 @@ def read_log(line_limit = -1):
             timestamp = datetime.datetime.fromtimestamp(float(list_from_line[0]))
             orig_p = int(list_from_line[3])
             resp_p = int(list_from_line[5])
+            status_code = int(list_from_line[14])
 
-            currTuple = (timestamp, list_from_line[1], list_from_line[2], orig_p, list_from_line[4], resp_p, list_from_line[7], list_from_line[8], list_from_line[9]) 
+
+            currTuple = (timestamp, list_from_line[1], list_from_line[2], orig_p, list_from_line[4], resp_p, list_from_line[7], list_from_line[8], list_from_line[9], status_code) 
             log_tuples_list.append(currTuple)
 
             line_counter+=1
