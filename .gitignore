@@ -1,4 +1,6 @@
 # Editor directories and files
 .vscode/*
-.idea/*
+.idea*
 __pycache__
+.venv
+.pytest_cache
