@@ -41,9 +41,9 @@ def read_log(line_limit = -1):
 
 
 def main():
-    data_log_list = read_log()
+    data_log_list = read_log(10)    #Ograniczenie do wyswietlanai tylko 10 linii na potyrzeby testow
     for tuple in data_log_list:
-        print(tuple, "\n")
+        print(tuple)
 
 
 
