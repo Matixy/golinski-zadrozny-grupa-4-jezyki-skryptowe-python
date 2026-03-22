@@ -34,7 +34,7 @@ def get_entries_by_addr(log_list, addr):
 
 
 def main():
-    data_log_list = read_log.read_log()    #Ograniczenie do wyswietlanai tylko 10 linii na potyrzeby testow
+    data_log_list = read_log.read_log()  
     filtered_log2 = get_entries_by_addr(data_log_list, "192.168.22.252")
 
     for tuple in filtered_log2:

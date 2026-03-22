@@ -20,7 +20,7 @@ def get_entries_by_code(log_list, code):
 
 
 def main():
-    data_log_list = read_log.read_log()    #Ograniczenie do wyswietlanai tylko 10 linii na potyrzeby testow
+    data_log_list = read_log.read_log()   
     filtered_log = get_entries_by_code(data_log_list, 404)
 
     for tuple in filtered_log:
