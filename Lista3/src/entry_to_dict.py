@@ -4,7 +4,7 @@ from enums.http_log_keys import HTTP_LOG_KEYS
 def entry_to_dict(entry: tuple) -> dict:
   """function which convert http log tuple to http log dict"""
   if len(entry) != len(HTTP_LOG_KEYS):
-    raise ValueError(f'Błąd: niepopwna długość krotki danych!')
+    raise ValueError(f'Error: length of log is incorrect!')
   
   dictionary: dict = {}
   for key_enum, value in zip(HTTP_LOG_KEYS, entry):
