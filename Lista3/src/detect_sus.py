@@ -25,7 +25,7 @@ def detect_sus(log: list, threshold: int = DEFAULT_THRESHOLD_NUM_REQ) -> list:
     if errors_404_sum > DEFAULT_THRESHOLD_404_ERRORS_NUM:
       sus_ips.add(ip)
 
-  return sus_ips
+  return list(sus_ips)
 
 def main():
   data: list = read_log.read_log()
