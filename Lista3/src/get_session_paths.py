@@ -4,9 +4,11 @@ from print_dict_entry_dates import get_dict_entry_dates
 from enums.http_log_keys import HTTP_LOG_KEYS
 
 
-def get_session_paths(log_dict: dict) -> dict:
-  """returns the most active session uid"""
+def get_session_paths(log: list) -> dict:
+  """returns paths sorted by time of each uid"""
   # empty logs do not have paths
+  log_dict: dict = log_to_dict(log)
+  
   if not log_dict:
     return {}
   
@@ -23,8 +25,7 @@ def get_session_paths(log_dict: dict) -> dict:
 
 def main():
   data: list = read_log.read_log()
-  log_dict: dict = log_to_dict(data)
-  session_paths: dict = get_session_paths(log_dict)
+  session_paths: dict = get_session_paths(data)
   
   print(session_paths)
 
