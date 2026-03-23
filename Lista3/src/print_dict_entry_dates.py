@@ -53,7 +53,7 @@ def print_dict_entry_dates(log_dict: dict):
   for uid, logs_data in session_logs.items():
     # creating result to print
     print(f'\n--- session uid: {uid} ---')
-    print(f'Hosts: {', '.join(logs_data[SESSION_LOG_KEYS.HOSTS.value])}')
+    print(f'Hosts: {", ".join(logs_data[SESSION_LOG_KEYS.HOSTS.value])}')
     print(f'request number: {logs_data[SESSION_LOG_KEYS.REQUEST_NUMBER.value]}')
     print(f'First request: {logs_data[SESSION_LOG_KEYS.REQUEST_FIRST.value]}')
     print(f'Last request: {logs_data[SESSION_LOG_KEYS.REQUEST_LAST.value]}')
