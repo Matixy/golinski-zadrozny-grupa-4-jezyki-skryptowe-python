@@ -1,14 +1,12 @@
 from read_log import read_log
 from log_to_dict import log_to_dict 
-from count_by_method import count_by_method
-from count_status_classes import count_status_classes
-from get_top_ips import get_top_ips
-from collections import Counter
 from enums.http_log_keys import HTTP_LOG_KEYS
+from enums.session_log_keys import SESSION_LOG_KEYS
 
-
-def print_dict_entry_dates(log_dict: dict):
-  """function which printing data about session"""
+def get_dict_entry_dates(log_dict: dict) -> dict:
+  """function returns data about session"""
+  sessions_data: dict = {}
+  
   for uid, logs in log_dict.items():
     sorted_logs: list = sorted(logs, key=lambda log: log[HTTP_LOG_KEYS.TS.value]) # logs sorted by timeStamp
     
@@ -27,17 +25,43 @@ def print_dict_entry_dates(log_dict: dict):
       if 200 <= log[HTTP_LOG_KEYS.STATUS_CODE.value] < 300:
         succes_codes_num += 1
     
+    # countg methods ratio
+    method_ratio: dict = {}
+    for method, count in method_counts.items():
+      method_ratio[method] = (count / num_requests) * 100
+      
+    # adding session to res dict
+    sessions_data[uid] = prepare_session_data(uid, ips, num_requests, first_req, last_req, method_ratio, (succes_codes_num / num_requests) * 100)
+    
+  return sessions_data
+
+def prepare_session_data(uid: str, ips: set, num_requests: int, first_req: float, last_req: float, method_ratio: float, succes_method_ratio: float) -> dict:
+  return {
+      SESSION_LOG_KEYS.UID.value: uid,
+      SESSION_LOG_KEYS.HOSTS.value: ips,
+      SESSION_LOG_KEYS.REQUEST_NUMBER.value: num_requests,
+      SESSION_LOG_KEYS.REQUEST_FIRST.value: first_req,
+      SESSION_LOG_KEYS.REQUEST_LAST.value: last_req,
+      SESSION_LOG_KEYS.METHODS_RATIO.value: method_ratio,
+      SESSION_LOG_KEYS.SUCCES_METHODS_RATIO.value: succes_method_ratio
+      }
+
+def print_dict_entry_dates(log_dict: dict):
+  """function which printing data about session"""
+  session_logs: dict = get_dict_entry_dates(log_dict)
+  
+  for uid, logs_data in session_logs.items():
     # creating result to print
     print(f'\n--- session uid: {uid} ---')
-    print(f'Hosts: {', '.join(ips)}')
-    print(f'request number: {num_requests}')
-    print(f'First request: {first_req}')
-    print(f'Last request: {last_req}')
+    print(f'Hosts: {', '.join(logs_data[SESSION_LOG_KEYS.HOSTS.value])}')
+    print(f'request number: {logs_data[SESSION_LOG_KEYS.REQUEST_NUMBER.value]}')
+    print(f'First request: {logs_data[SESSION_LOG_KEYS.REQUEST_FIRST.value]}')
+    print(f'Last request: {logs_data[SESSION_LOG_KEYS.REQUEST_LAST.value]}')
     
-    for method, count in method_counts.items():
-      print(f'{method}: {((count / num_requests) * 100):.2f}%')
+    for method, ratio in logs_data[SESSION_LOG_KEYS.METHODS_RATIO.value].items():
+      print(f'{method}: {ratio:.2f}%')
       
-    print(f'2xx codes ratio: {((succes_codes_num / num_requests) * 100):.2f}%')
+    print(f'2xx codes ratio: {logs_data[SESSION_LOG_KEYS.SUCCES_METHODS_RATIO.value]:.2f}%')
       
 
 def main():
