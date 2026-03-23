@@ -21,16 +21,16 @@
 Projekt składa się z zestawu modułów analitycznych, które przetwarzają logi serwera HTTP.
 
 1. ✅ **Wczytywanie i Parsowanie Danych**
--- Dynamiczne wczytywanie ze stdin: Program czyta logi strumieniowo, co pozwala na pracę z plikami o dowolnym rozmiarze bez obciążania pamięci RAM.
--- Konwersja typów: Automatyczna konwersja pól tekstowych na odpowiednie typy danych (np. datetime, int), z obsługą brakujących wartości (-).
+  * Dynamiczne wczytywanie ze stdin: Program czyta logi strumieniowo, co pozwala na pracę z plikami o dowolnym rozmiarze bez obciążania pamięci RAM.
+  * Konwersja typów: Automatyczna konwersja pól tekstowych na odpowiednie typy danych (np. datetime, int), z obsługą brakujących wartości (-).
 2. ✅ **Filtrowanie i Sortowanie**
--- Sortowanie logów po dowolnej kolumnie (np. znaczniku czasu, adresie IP).
--- Filtrowanie wpisów na podstawie kodu statusu HTTP, adresu IP czy rozszerzenia pliku w URI.
+  * Sortowanie logów po dowolnej kolumnie (np. znaczniku czasu, adresie IP).
+  * Filtrowanie wpisów na podstawie kodu statusu HTTP, adresu IP czy rozszerzenia pliku w URI.
 3. ✅ **Agregacja i Analiza Danych**
--- Grupowanie po sesji (uid): Tworzenie słownika, w którym kluczami są unikalne identyfikatory sesji, a wartościami listy wszystkich żądań w danej sesji.
--- Statystyki sesji: Obliczanie i wyświetlanie kluczowych metryk dla każdej sesji, takich jak liczba żądań, unikalne adresy IP, czas trwania, rozkład metod HTTP i stosunek udanych zapytań (2xx).
--- Rankingi: Wyszukiwanie "top N" najczęściej występujących adresów IP oraz URI.
--- Analiza kodów HTTP: Grupowanie kodów statusu w klasy (2xx, 3xx, 4xx, 5xx) i zliczanie ich wystąpień.
+  * Grupowanie po sesji (uid): Tworzenie słownika, w którym kluczami są unikalne identyfikatory sesji, a wartościami listy wszystkich żądań w danej sesji.
+  * Statystyki sesji: Obliczanie i wyświetlanie kluczowych metryk dla każdej sesji, takich jak liczba żądań, unikalne adresy IP, czas trwania, rozkład metod HTTP i stosunek udanych zapytań (2xx).
+  * Rankingi: Wyszukiwanie "top N" najczęściej występujących adresów IP oraz URI.
+  * Analiza kodów HTTP: Grupowanie kodów statusu w klasy (2xx, 3xx, 4xx, 5xx) i zliczanie ich wystąpień.
 
 ---
 
