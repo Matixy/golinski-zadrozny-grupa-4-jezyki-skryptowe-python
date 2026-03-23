@@ -1,17 +1,5 @@
 import read_log
-
-HTTP_LOG_KEYS = [
-  'ts', 
-  'uid', 
-  'ip',
-  'id.orig_p', 
-  'id.resp_h', 
-  'id.resp_p', 
-  'method', 
-  'host', 
-  'uri', 
-  'status_code'
-]
+from enums.http_log_keys import HTTP_LOG_KEYS
 
 def entry_to_dict(entry: tuple) -> dict:
   """function which convert http log tuple to http log dict"""
@@ -19,8 +7,8 @@ def entry_to_dict(entry: tuple) -> dict:
     raise ValueError(f'Błąd: niepopwna długość krotki danych!')
   
   dictionary: dict = {}
-  for i in range(len(entry)):
-    dictionary[HTTP_LOG_KEYS[i]] = entry[i]
+  for key_enum, value in zip(HTTP_LOG_KEYS, entry):
+    dictionary[key_enum.value] = value
   
   return dictionary
 
