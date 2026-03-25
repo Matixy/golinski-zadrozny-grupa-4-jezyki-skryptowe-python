@@ -8,11 +8,11 @@ def  count_status_classes(log: list) -> dict:
   status_classes: dict = {}
   for row in log:
     status_code: int = row[STATUS_CODE_INDEX]
-    status_code_class: str = f'{status_code // 100}xx'
+    status_code_class: str = f'{status_code // 100}xx' #odcinamy 2 ostatnie cyfry i dodajemy "xx" np 4xx, 5xx
     
     status_classes[status_code_class] = status_classes.get(status_code_class, 0) + 1
     
-  return dict(sort_log.sort_log(status_classes.items(), 0))
+  return dict(sort_log.sort_log(status_classes.items(), 0)) #sortowanie dla estetyki
 
 def main():
   data: list = read_log.read_log()    

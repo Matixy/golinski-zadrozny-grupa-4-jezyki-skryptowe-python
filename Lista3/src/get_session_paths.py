@@ -24,7 +24,7 @@ def get_session_paths(log: list) -> dict:
   
 
 def main():
-  data: list = read_log.read_log()
+  data: list = read_log.read_log(3)
   session_paths: dict = get_session_paths(data)
   
   print(session_paths)

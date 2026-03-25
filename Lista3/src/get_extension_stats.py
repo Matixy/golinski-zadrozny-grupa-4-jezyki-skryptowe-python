@@ -17,10 +17,10 @@ def get_extension_stats(log: list) -> dict:
     dot_index: int = file_name.rfind('.')
     
     # if filename exists increment extension_stats
-    if dot_index != -1 and dot_index < len(file_name) - 1:
+    if dot_index != -1 and dot_index < len(file_name) - 1: #check if dot exists in filename and if dot is not the last char in filename
       extension: str = file_name[dot_index + 1:].lower()
       
-      # validation- extension need to be alphanumeric
+      # validation- extension need to be alphanumeric (only digits and letters)
       if extension.isalnum():
         extension_stats[extension] = extension_stats.get(extension, 0) + 1
     

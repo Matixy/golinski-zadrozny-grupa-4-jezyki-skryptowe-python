@@ -7,7 +7,7 @@ def entry_to_dict(entry: tuple) -> dict:
     raise ValueError(f'Error: length of log is incorrect!')
   
   dictionary: dict = {}
-  for key_enum, value in zip(HTTP_LOG_KEYS, entry):
+  for key_enum, value in zip(HTTP_LOG_KEYS, entry): #przyjmuje dowolne obiekty po ktorych mozna iterowac, bierze kolejno pierwszy elemetn z Enuma (TS) i pierwszy z krotki (timestamp), potem drugi i drugi itp tworzac pary
     dictionary[key_enum.value] = value
   
   return dictionary

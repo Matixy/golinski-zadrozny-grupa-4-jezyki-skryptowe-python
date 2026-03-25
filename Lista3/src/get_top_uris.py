@@ -4,14 +4,14 @@ import sort_log
 TOP_URI_TO_RETURN: int = 10
 URI_INDEX: int = 8
 
-def get_top_uris(log: list, n: int = 10) -> list:
+def get_top_uris(log: list, n: int = TOP_URI_TO_RETURN) -> list:
   """returns the n most frequently occurring URIs"""
   uri_occurences: dict = {}
   for row in log:
     uri = row[URI_INDEX]
-    uri_occurences[uri] = uri_occurences.get(uri, 0) + 1
+    uri_occurences[uri] = uri_occurences.get(uri, 0) + 1  #0 to wartosc domyslna w razie braku uri w slowniku
   
-  uris_occurences_sorted: list = sort_log.sort_log(list(uri_occurences.items()), 1, True)
+  uris_occurences_sorted: list = sort_log.sort_log(list(uri_occurences.items()), 1, True) #sortowanie po liscie krotek (uri, licznik), pod indexem 1 jest licznik
   n_uris: list = []
   
   for item in uris_occurences_sorted[:n]:
