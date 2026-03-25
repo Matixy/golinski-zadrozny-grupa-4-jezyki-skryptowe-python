@@ -11,7 +11,7 @@ def get_dict_entry_dates(log_dict: dict) -> dict:
     sorted_logs: list = sorted(logs, key=lambda log: log[HTTP_LOG_KEYS.TS.value]) # logs sorted by timeStamp
     
     # colleting data
-    ips: dict = {log[HTTP_LOG_KEYS.ID_ORIG_H.value] for log in sorted_logs} # provides unique ip 
+    ips: dict = {log[HTTP_LOG_KEYS.ID_ORIG_H.value] for log in sorted_logs} # tworzy Set, wiec usuwa duplikaty i zbiera unikalne ip
     num_requests: int = len(sorted_logs)
     first_req: float = sorted_logs[0][HTTP_LOG_KEYS.TS.value]
     last_req: float = sorted_logs[-1][HTTP_LOG_KEYS.TS.value]

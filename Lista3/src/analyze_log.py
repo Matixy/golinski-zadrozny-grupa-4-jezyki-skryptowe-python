@@ -13,7 +13,19 @@ TOTAL_REQUESTS_KEY: str = 'req_total'
 PERCENT_SUCCESSESS_2XX_KEY: str = '2xx_percent_ratio'
 
 def analyze_log(log: list) -> dict:
-  """returns raport of log as dict"""
+  """
+  Args:
+        log (list): A list of tuples or dictionaries representing the server log entries.
+  Returns:
+      dict: A dictionary containing the following report metrics:
+          - 'freq_ip' (str): The most frequently occurring IP address.
+          - 'freq_uri' (str): The most frequently requested URI path.
+          - 'methods_distribution' (dict): A count of each HTTP method used (e.g., GET, POST).
+          - 'error_count' (int): Total number of failed requests (sum of 4xx and 5xx status codes).
+          - 'req_total' (int): The total number of processed log entries.
+          - '2xx_percent_ratio' (float): The percentage of successful requests (2xx class), 
+            rounded to two decimal places."""
+            
   # if log is empty return {}
   if not log:
     return {}
