@@ -77,8 +77,8 @@ Lista3/
    Wszystkie skrypty należy uruchamiać z głównego katalogu projektu (`Lista3`).
 
    - Zliczanie najczęstszych URI:
-     (Windows): data\http_first_100k.log < python src\get_top_uris.py
-     (Linux):   data/http_first_100k.log < python src/get_top_uris.py
+     (Windows): python src\get_top_uris.py < data\http_first_100k.log
+     (Linux):  python src/get_top_uris.py < data/http_first_100k.log
 
 ```
 
