@@ -44,7 +44,6 @@ Lista3/
 │   │   ├── http_log_keys.py
 │   │   └── session_log_keys.py
 │   ├── utils/                     # Moduły pomocnicze
-│   │   └── errorHandler.py        # Centralna obsługa wyjątków
 │   ├── read_log.py                # Główna funkcja wczytująca logi
 │   ├── sort_log.py                # Funkcja sortująca
 │   └── ...                        # Inne moduły analityczne
@@ -87,7 +86,7 @@ Lista3/
 
 | Członek Zespołu | Zakres obowiązków i wykonane zadania                                                                                                                                                                                                                      |
 | :--- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Paweł Goliński** | Przygotowanie struktury katalogów <br> Implementacja funkcji nr. 1-10|
+| **Paweł Goliński** | Przygotowanie struktury katalogów <br> Implementacja funkcji nr. 0-10|
 | **Mateusz Zadrozny** | Przygotowanie dokumentacji projektu (README)<br> Implementacja funkcji nr. 11-20 |
 
 ---
