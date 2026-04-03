@@ -41,8 +41,14 @@ def __get_files_from_directory(directory_path: str) -> list:
     
     for item in directory.iterdir():
         try:
-            if(item.is_file() and os.access(item, os.X_OK)):    #sprawdzenie czy to plik i czy jest wykonywalny
-                executable_files.append(item.name) #dodanie nazwy pliku do listy
+           if item.is_file(): #sprawdzenie czy plik
+                if os.name == 'nt': #sprawdzamy czy system Windows
+                    if item.suffix.lower() in ['.exe', '.bat', '.cmd']:  #sprawddzenie czy wykonywalny zgodnie z windowsem
+                        executable_files.append(item.name)
+                else:   #sprawdzenie czy (Linux, macOS)
+                    if os.access(item, os.X_OK): #sprawdzenie czy wykonywalny zgodnie z linux/macos
+                        executable_files.append(item.name)
+           
         except PermissionError:
             print(f"[Ostrzeżenie: Nie udalo sie odczytac pliku {item.name}]", file=sys.stderr)
 
@@ -90,7 +96,6 @@ def path_operator() -> None:
 
 def main():
     path_operator()
-    
     
 if __name__ == "__main__":
   main()
