@@ -1,3 +1,3 @@
-org\example\TextAnalyzer.class
-org\example\App.class
-org\example\TextAnalyzer$TextStatistics.class
+org/example/TextAnalyzer$TextStatistics.class
+org/example/TextAnalyzer.class
+org/example/App.class

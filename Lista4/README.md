@@ -1,3 +1,7 @@
+Test programu 4:
+textAnalyzer % java -jar target/textAnalyzer-1.0-SNAPSHOT-jar-with-dependencies.jar
+/Users/pawel/Studia/SEM4/Jezyki Skryptowe/Jezyk-Skryptowe/Lista4/data/Andersen-brzydkie-kaczatko.txt
+
 
 
 Test programu 5 mediaconvert
