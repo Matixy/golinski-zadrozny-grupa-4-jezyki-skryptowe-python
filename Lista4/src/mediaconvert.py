@@ -7,7 +7,7 @@ import shutil
 ALLOWED_VIDEO_EXTENSIONS: set[str] = {'.mp4', '.mkv', '.avi', '.mov', '.mp3', '.wav', '.webm'} #zbior rozszerzen plikow ktore mozna konwertowac
 ALLOWED_IMG_EXTENSIONS: set[str] = {'.jpg', '.jpeg', '.png', '.bmp', '.gif', '.webp', '.tiff'}
 
-def convert_media_files(input_dir_path: pathlib.Path, target_format: str) -> None:
+def convert_media_files(input_dir_path: pathlib.Path, target_format: str, extra_args: list[str] = None) -> None:
     """Main function with converting logic"""
     
     if not input_dir_path.exists():
@@ -16,6 +16,10 @@ def convert_media_files(input_dir_path: pathlib.Path, target_format: str) -> Non
     if not input_dir_path.is_dir():
         raise NotADirectoryError(f"[Error] This is not a directory: {input_dir_path}")
     
+    #jesli nie ma dodatkowych parametrow edytujacych to pusta tablica
+    if extra_args == None:
+        extra_args = []
+        
     target_dir = mediacovert_utils.get_converted_dir() #uzyskanie docelowego katalogu za pomoca pomocniczej funckji
     converted_counter = 0 #licznik konwertowanych plikow
     
@@ -51,9 +55,9 @@ def convert_media_files(input_dir_path: pathlib.Path, target_format: str) -> Non
         
         if tool_name == "ffmpeg":    
             #polecenie do subprocess
-            command = ["ffmpeg", "-y", "-i", str(object), str(output_path)] #-y pozwaala nadpisywac plik pomijajac pytania programu
+            command = ["ffmpeg", "-y", "-i", str(object)] + extra_args + [str(output_path)] #-y pozwaala nadpisywac plik pomijajac pytania programu, dodajemy arg edytujace 'extra_args'
         else: #magick
-            command = ["magick", str(object), str(output_path)]
+            command = ["magick", str(object)] + extra_args + [str(output_path)]
         
             
         try:
@@ -85,9 +89,10 @@ def main():
     input_dir = pathlib.Path(sys.argv[1])
     target_format = sys.argv[2]
     
+    extra_args = sys.argv[3:] #wszystkie dodatkowe parametry
 
     try:
-        convert_media_files(input_dir, target_format)
+        convert_media_files(input_dir, target_format, extra_args)
     except (FileNotFoundError, NotADirectoryError) as e:
         print(e, file=sys.stderr)
     except Exception as e:
