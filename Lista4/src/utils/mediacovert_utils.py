@@ -33,7 +33,7 @@ def rename_output_file(orginal_file: pathlib.Path, target_format: str) -> str:
 
 
 
-def log_to_json(target_path: pathlib.Path, orginal_path: pathlib.Path, output_format: str, output_path: pathlib.Path) -> None:
+def log_to_json(target_path: pathlib.Path, orginal_path: pathlib.Path, output_format: str, output_path: pathlib.Path, tool_used: str) -> None:
     """Saves conversion history to a JSON file."""
     log_file = target_path / "history.json"
     history_data = []
@@ -50,7 +50,8 @@ def log_to_json(target_path: pathlib.Path, orginal_path: pathlib.Path, output_fo
         "data i godzina": timestamp,
         "oryginalna sciezka": str(orginal_path),
         "format wyjsciowy": output_format,
-        "sciezka_wynikowa": str(output_path)
+        "sciezka_wynikowa": str(output_path),
+        "program": tool_used
     }
     
     history_data.append(new_log) #dodanie nowego wpisu do danych
