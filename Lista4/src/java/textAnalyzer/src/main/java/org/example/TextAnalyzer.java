@@ -51,39 +51,38 @@ public class TextAnalyzer {
 
   // private methods
   private TextStatistics analyzeText() throws IOException {
+    // read whole file
+    String fullText = Files.readString(filePath);
+    fullText = fullText.replace("\r\n", "\n"); // standard text if user runs program on windows
+
     // create textStats record
-    long charCount = 0;
+    long charCount = fullText.length();
     long wordCount = 0;
     long lineCount = 0;
+
+    if (!fullText.isEmpty()) {
+      lineCount = fullText.split("\n", -1).length; // split text for new line separators
+    }
 
     // prepare helper structures
     Map<Character, Long> charFreq = new HashMap<>();
     Map<String, Long> wordFreq = new HashMap<>();
 
-    // analyze text
-    try (BufferedReader br = Files.newBufferedReader(filePath)) {
-      String line;
-      while ((line = br.readLine()) != null) {
-        lineCount++;
-        charCount += line.length() + 1; // +1 including \n char- readLine dont include it
+    // analyze chars
+    for (char c : fullText.toCharArray()) {
+      if (!Character.isWhitespace(c)) {
+        char lowerChar = Character.toLowerCase(c);
+        charFreq.put(lowerChar, charFreq.getOrDefault(lowerChar, 0L) + 1L);
+      }
+    }
 
-        // counting chars
-        for (char c : line.toCharArray()) {
-          if (!Character.isWhitespace(c)) {
-            char lowerChar = Character.toLowerCase(c); // standard characters in map
-            charFreq.put(lowerChar, charFreq.getOrDefault(lowerChar, 0L) + 1L);
-          }
-        }
-
-        // count words
-        String[] words = line.split("[^\\p{L}]+"); // split after any which is not letter (like .isalpha())
-        for (String word : words) {
-          if (!word.isEmpty()) {
-            wordCount++;
-            String lowerWord = word.toLowerCase(); // standard words in map
-            wordFreq.put(lowerWord, wordFreq.getOrDefault(lowerWord, 0L) + 1L);
-          }
-        }
+    //analyze words
+    String[] words = fullText.split("[^\\p{L}]+"); // split after any which is not letter (like .isalpha())
+    for (String word : words) {
+      if (!word.isEmpty()) {
+        wordCount++;
+        String lowerWord = word.toLowerCase();
+        wordFreq.put(lowerWord, wordFreq.getOrDefault(lowerWord, 0L) + 1L);
       }
     }
 
