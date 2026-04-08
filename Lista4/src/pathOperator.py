@@ -36,10 +36,10 @@ def __get_files_from_directory(directory_path: str) -> list:
     try:    #zabezpiczenie przed problemem z otwarcie problemu
         iterator = directory.iterdir()
     except PermissionError:
-        print(f"[Ostrzeżenie: Brak uprawnień do wejścia do katalogu {directory}]", file=sys.stderr)
+        print(f"[Info] No permission for reading directory {directory}", file=sys.stderr)
         return []
     
-    for item in directory.iterdir():
+    for item in iterator:
         try:
            if item.is_file(): #sprawdzenie czy plik
                 if os.name == 'nt': #sprawdzamy czy system Windows
@@ -50,7 +50,7 @@ def __get_files_from_directory(directory_path: str) -> list:
                         executable_files.append(item.name)
            
         except PermissionError:
-            print(f"[Ostrzeżenie: Nie udalo sie odczytac pliku {item.name}]", file=sys.stderr)
+            print(f"[Info] Couldn't read file {item.name}", file=sys.stderr)
 
     return executable_files
         
