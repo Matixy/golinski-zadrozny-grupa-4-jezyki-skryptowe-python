@@ -49,11 +49,11 @@ def print_summary(results_list: list[dict]) -> None:
         return
     
     file_number = len(results_list)
-    char_sum = sum(stat['chars'] for stat in results_list)
+    char_sum = sum(stat['chars'] for stat in results_list) #ze slownikow sumujemy wartosci dla kluczy
     words_sum = sum(stat['words'] for stat in results_list)
     row_sum = sum(stat['lines'] for stat in results_list)
 
-    all_most_frequent_char = [stat['mostFrequentChar'] for stat in results_list if stat.get('mostFrequentChar')] #lista najczestszych znakow z plikow
+    all_most_frequent_char = [stat['mostFrequentChar'] for stat in results_list if stat.get('mostFrequentChar')] #lista najczestszych znakow z plikow, if stat.get() pozwala zabezpieczyc przed wrzuceniem pustych wartosci
     all_most_frequent_words = [stat['mostFrequentWord'] for stat in results_list if stat.get('mostFrequentWord')]
 
     most_freq_char = Counter(all_most_frequent_char).most_common(1) #most_common(1) zwraca listę z jedną krotką, np [('a', 3)]
@@ -88,6 +88,10 @@ def main():
         sys.exit(1)
 
     lista_wynikow = process_directory(input_dir, JAR_PATH)
+    # print("============")
+    # print(lista_wynikow)
+    # print("============")
+
     print_summary(lista_wynikow)
     
 
