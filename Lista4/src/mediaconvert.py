@@ -33,7 +33,7 @@ def convert_media_files(input_dir_path: pathlib.Path, target_format: str, extra_
     
     
     for object in input_dir_path.iterdir():
-        if not object.is_file(): # sprawdzenie czy to plik          or object.suffix.lower() not in ALLOWED_EXTENSIONS:
+        if not object.is_file(): # sprawdzenie czy to plik      
             continue
         
         #sprawdzenie czy to ktorys z obslugiwanych formatow i czy podany format koncowy tez jest zgodny, dostosowanie programu do wywolania
