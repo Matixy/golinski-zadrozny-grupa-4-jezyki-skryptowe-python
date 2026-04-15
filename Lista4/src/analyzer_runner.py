@@ -4,7 +4,7 @@ import subprocess
 import json
 from collections import Counter
 
-# Ścieżka do Twojego zbudowanego JAR-a (upewnij się, że jest poprawna z miejsca, z którego odpalasz skrypt)
+#sceizka do pliku jar
 JAR_PATH = "src/java/textAnalyzer/target/textAnalyzer-1.0-SNAPSHOT-jar-with-dependencies.jar"
 
 
@@ -87,13 +87,9 @@ def main():
         print(f"[Error] Path '{input_dir}' is not a dir or does not exist", file=sys.stderr)
         sys.exit(1)
 
-    # Tutaj dzieje się cała magia wywołana zaledwie dwoma linijkami!
     lista_wynikow = process_directory(input_dir, JAR_PATH)
     print_summary(lista_wynikow)
     
-
-
-
 
 if __name__ == "__main__":
     main()
