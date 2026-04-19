@@ -49,6 +49,15 @@ def get_three_part_named_stations(stations: dict) -> list:
       
   return res_stations
 
+def get_street_or_alley_in_name_stations(stations: dict) -> list:
+  res_stations: dict = {}
+  
+  for key, station in stations.items():    
+    if regex_tools.has_street_or_alley_in_name(station.get(METADATA_KEYS.STATION_NAME.value, "")):
+      res_stations[key] = station
+      
+  return res_stations
+
 def main():
   stations: dict = csv_parser.parse_metadata(pathlib.Path(".\\data\\stacje.csv"))
   convert_dates(stations) # 4a
@@ -66,9 +75,15 @@ def main():
   print(check_mobile_stations(stations)) # 4e
 
   # 4f
-  three_part_named_cities: list = get_three_part_named_stations(stations)
-  for city in three_part_named_cities.values():
-    print(city)
+  three_part_named_stations: list = get_three_part_named_stations(stations)
+  for station in three_part_named_stations.values():
+    print(station)
+    
+  # 4g
+  street_or_alley_stations: list = get_street_or_alley_in_name_stations(stations)
+  for station in street_or_alley_stations.values():
+    print(station)
+    
 
 if __name__ == "__main__":
   main()

@@ -3,24 +3,24 @@ from datetime import datetime
 from re import Match, Pattern
 
 POLISH_LETTERS: dict[str, str] = {
-    "ą": "a", 
-    "ć": "c", 
-    "ę": "e", 
-    "ł": "l",
-    "ń": "n", 
-    "ó": "o", 
-    "ś": "s", 
-    "ź": "z", 
-    "ż": "z",
-    "Ą": "A", 
-    "Ć": "C", 
-    "Ę": "E", 
-    "Ł": "L",
-    "Ń": "N", 
-    "Ó": "O", 
-    "Ś": "S", 
-    "Ź": "Z", 
-    "Ż": "Z",
+  "ą": "a", 
+  "ć": "c", 
+  "ę": "e", 
+  "ł": "l",
+  "ń": "n", 
+  "ó": "o", 
+  "ś": "s", 
+  "ź": "z", 
+  "ż": "z",
+  "Ą": "A", 
+  "Ć": "C", 
+  "Ę": "E", 
+  "Ł": "L",
+  "Ń": "N", 
+  "Ó": "O", 
+  "Ś": "S", 
+  "Ź": "Z", 
+  "Ż": "Z",
 }
 
 def format_date(date: str) -> str:
@@ -95,10 +95,19 @@ def has_three_part_name(txt: str):
     return (first_part, second_part, third_part)
   
   return None
-
-def has_comma(txt: str) -> bool:
-  """"checks if txt string has comma"""
   
-def has_street_or_alley(txt: str) -> bool:
-  """"checks if txt string has street or alley prefix- 'ul.'/'al'"""
+def has_street_or_alley_in_name(txt: str) -> bool:
+  """"checks if txt string has comma and then street or alley prefix- 'ul.'/'al'"""
   
+  #regex explanation- checking in string if exist comma and alley or street prefix no matter by order- "ul. Chopina 35, Bogatynia" / "Wrocław, ul. Bartnicza"
+  # (?=)- only checking if given pattern exist in str but not taking it
+  # .*- any chars
+  # \b- letter border to out "bul" only "al"/"ul"
+  pattern: Pattern[str] = re.compile(r"^(?=.*,)(?=.*\b(?:ul|al)\.)")
+  
+  txt_match: Match[str] = pattern.match(txt)
+  
+  if txt_match:
+    return True
+  
+  return False
