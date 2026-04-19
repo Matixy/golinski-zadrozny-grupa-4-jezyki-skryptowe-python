@@ -57,7 +57,7 @@ def format_coordinate(coordinate: str):
 
 def has_two_part_name(txt: str) -> tuple:
   """"Returns tuple if txt has two part name- contain '-' else return None"""
-  pattern: Pattern[str] = re.compile(r"^(?P<first_part>.+?)-(?P<second_part>.+?)$") # regex- before and after - must be something 
+  pattern: Pattern[str] = re.compile(r"^(?P<first_part>[^-]+)-(?P<second_part>[^-]+)$") # regex- before and after - must be something [^-] means everything except '-'
   
   txt_match: Match[str] = pattern.match(txt)
   if txt_match:
@@ -79,13 +79,13 @@ def normalize_str(txt: str) -> str:
 def has_suffix(txt: str, suffix: str) -> bool:
   """"checks if txt string has given suffix"""
   pattern: Pattern[str] = re.compile(re.escape(suffix) + r"$") # re.escape protect for special regex signs like "() ." etc. + r"$" means end of regex
-  txt_match: Match[str] = pattern.match(txt)
+  txt_match: Match[str] = pattern.search(txt) # search going from all string not only from start
   
-  return txt_match
+  return bool(txt_match)
 
 def has_three_part_name(txt: str):
   """"Returns tuple if txt has three part name- contain '-' else return None"""
-  pattern: Pattern[str] = re.compile(r"^(?P<first_part>.+?)-(?P<second_part>.+?)-(?P<third_part>.+?)$") # regex- before and after - must be something 
+  pattern: Pattern[str] = re.compile(r"^(?P<first_part>[^-]+)-(?P<second_part>[^-]+)-(?P<third_part>[^-]+)$") # regex- before and after - must be something 
   
   txt_match: Match[str] = pattern.match(txt)
   if txt_match:
