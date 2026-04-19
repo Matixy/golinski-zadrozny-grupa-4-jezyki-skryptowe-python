@@ -111,3 +111,13 @@ def has_street_or_alley_in_name(txt: str) -> bool:
     return True
   
   return False
+
+def validate_date(date: str):
+  """"Cheks if str date is in format YYYY-MM-DD if correct returns it else return None"""
+  
+  try:
+    datetime.strptime(date, "%Y-%m-%d")
+    return date
+  except ValueError:
+    return None
+  
