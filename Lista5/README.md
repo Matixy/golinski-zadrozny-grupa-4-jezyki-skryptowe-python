@@ -75,9 +75,11 @@ Lista5/
 ```
 
 ## 📝 Podsumowanie pracy i Podział obowiązków
-Członek Zespołu Zakres obowiązków i wykonane zadania
-Mateusz Zadrożny  Implementacja parserów CSV (Zad. 1), grupowań Regex (Zad. 2), ekstrakcji adresów (Zad. 3) oraz wszystkich transformacji i walidacji danych (Zad. 4). Przygotowanie szkieletu CLI w argparse (Zad. 5).
-Paweł Goliński	Konfiguracja systemu logowania (Zad. 6) z podziałem na stdout/stderr. Zadania dodatkowe: Detekcja anomalii w seriach pomiarowych oraz analiza alternatywnych bibliotek CLI (Typer/Click).
+| Członek Zespołu | Zakres obowiązków i wykonane zadania                                                                                                                                                                                                                      |
+| :--- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Paweł Goliński** | Konfiguracja systemu logowania (Zad. 6) z podziałem na stdout/stderr <br/> Zadania dodatkowe: Detekcja anomalii w seriach pomiarowych oraz analiza alternatywnych bibliotek CLI (Typer/Click).
+| **Mateusz Zadrozny** | Implementacja parserów CSV (Zad. 1) <br/> grupowań Regex (Zad. 2) <br/> ekstrakcji adresów (Zad. 3) <br/> Transformacja i walidacja danych (Zad. 4) <br/> Przygotowanie szkieletu CLI w argparse (Zad. 5).
+
 ---
 
 ## ⚠️ Napotkane problemy
