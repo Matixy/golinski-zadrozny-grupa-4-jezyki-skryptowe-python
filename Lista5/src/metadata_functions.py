@@ -33,7 +33,7 @@ def check_mobile_stations(stations: dict) -> bool:
   for station in stations.values():
     station_code: str = station.get(METADATA_KEYS.STATION_CODE.value, "")
     if regex_tools.has_suffix(station_code, "MOB"):
-      if not station[METADATA_KEYS.STATION_TYPE.value] == "mobilna":
+      if not station[METADATA_KEYS.STATION_KIND.value] == "mobilna":
         return False
       
   return True
@@ -68,18 +68,22 @@ def main():
     print(station)
     
   # 4c
+  print()
   two_part_named_stations: dict = get_two_part_name_stations(stations) 
   for station in two_part_named_stations.values():
     print(station)
 
-  print(check_mobile_stations(stations)) # 4e
+  print()
+  print(check_mobile_stations(stations)) # 4e False- Nr 48
 
-  # 4f
+  # # 4f
+  print()
   three_part_named_stations: list = get_three_part_named_stations(stations)
   for station in three_part_named_stations.values():
     print(station)
     
-  # 4g
+  # # 4g
+  print()
   street_or_alley_stations: list = get_street_or_alley_in_name_stations(stations)
   for station in street_or_alley_stations.values():
     print(station)
