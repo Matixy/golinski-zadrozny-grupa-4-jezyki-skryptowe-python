@@ -6,12 +6,11 @@ from datetime import datetime, date
 from enums.measurements_keys import MEASUREMENTS_KEYS
 from enums.metadata_keys import METADATA_KEYS
 
-
 METADATA_DELIMITER: str = ","
 
 MEASUREMENTS_DELIMITER: str = ","
 MEASUREMENTS_NUM_ROWS_ATTRIBUTES_DATA: int = 6 # provides how many first rows of measurement file is not HOURS but others attributes like freq, station_code, etc.
-MEASUREMENTS_STAION_CODES_ROW_NUM: int = 1 # on this row index in csv file is station code
+MEASUREMENTS_STATION_CODES_ROW_NUM: int = 1 # on this row index in csv file is station code
 MEASUREMENTS_UNITS_ROW_NUM: int = 4 # on this row index in csv file is unit
 MEASUREMENTS_STAND_ID_ROW_NUM: int = 5 # on this row index in csv file is stand id
 
@@ -41,7 +40,7 @@ def parse_metadata(path: Path) -> dict:
   
   stations_data: dict = {}
   
-  with open(path, mode='r', encoding='utf-8-sig') as file:
+  with open(path, mode='r', encoding='utf-8-sig') as file: # utf-8-sig- provides BOM (hidden mark at start of file which can do errors)
     reader: DictReader[str] = csv.DictReader(file, delimiter=METADATA_DELIMITER) # dict reader reads first row and do keys based from it for dictionary
     
     for row in reader:
@@ -83,7 +82,7 @@ def parse_measurements(path: Path) -> list[dict]:
 
   # read file
   measurements: list = []
-  with open(path.resolve(), mode='r', encoding='utf-8-sig') as file: # utf-8-sig- provides BOM
+  with open(path.resolve(), mode='r', encoding='utf-8-sig') as file: # utf-8-sig- provides BOM (hidden mark at start of file which can do errors)
     reader = csv.reader(file, delimiter=MEASUREMENTS_DELIMITER)
 
     header_rows = []
@@ -94,17 +93,21 @@ def parse_measurements(path: Path) -> list[dict]:
       return[] # worng file return empty list
     
     # getting data from header rows
-    staion_codes: list[str] = header_rows[MEASUREMENTS_STAION_CODES_ROW_NUM][1:] # skip first column- attribute name
+    STATION_codes: list[str] = header_rows[MEASUREMENTS_STATION_CODES_ROW_NUM][1:] # skip first column- attribute name
     units: list[str] = header_rows[MEASUREMENTS_UNITS_ROW_NUM][1:]
     stand_ids: list[str] = header_rows[MEASUREMENTS_STAND_ID_ROW_NUM][1:]
     
-    # reading real data
+    # reading real data of each row
     for row in reader:
       if not row or not row[0].strip():
         continue # skip empty lines
       
-      date: datetime = datetime.strptime(row[0], "%m/%d/%y %H:%M") # convert str date from csv to datetime
+      try:
+        date: datetime = datetime.strptime(row[0], "%m/%d/%y %H:%M") # convert str date from csv to datetime
+      except ValueError:
+        continue # skip if date is wrong
       
+      # read data from each cell in current row
       for col_idx, value_str in enumerate(row[1:]): # enumerate provides column indexes
         value_str: str = value_str.strip()
         
@@ -116,7 +119,7 @@ def parse_measurements(path: Path) -> list[dict]:
         except ValueError:
           continue # if could not convert value skip this cell
         
-        measure: dict = prepare_measurement_dict(year, pollutant, frequency, staion_codes[col_idx], stand_ids[col_idx], units[col_idx], date, value)
+        measure: dict = prepare_measurement_dict(year, pollutant, frequency, STATION_codes[col_idx], stand_ids[col_idx], units[col_idx], date, value)
         measurements.append(measure)
         
   return measurements
@@ -135,13 +138,13 @@ def prepare_measurement_dict(year: str, pollutant: str, frequency: str, station_
   }
 
 def main():
-  res = parse_measurements(pathlib.Path(".\\data\\measurements\\2023_As(PM10)_24g.csv")) # example for test
+  res = parse_measurements(pathlib.Path(".\\data\\measurements\\2023_BkF(PM10)_24g.csv")) # example for test
   for i in res:
     print(i)
     
-  res = parse_metadata(pathlib.Path(".\\data\\stacje.csv")) # example for test
-  for key,val in res.items():
-    print(f'{key}= {val}')
+  # res = parse_metadata(pathlib.Path(".\\data\\stacje.csv")) # example for test
+  # for key,val in res.items():
+  #   print(f'{key}= {val}')
 
 if __name__ == "__main__":
   main()
