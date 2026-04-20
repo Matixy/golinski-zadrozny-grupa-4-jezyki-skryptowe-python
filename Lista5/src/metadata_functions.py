@@ -32,10 +32,30 @@ def extract_dates_to_dict(stations: dict) -> dict[str, dict[str,str]]:
   
   return result
 
-def convert_coordinates(stations: dict) -> None:
+def convert_coordinates(station: dict) -> None:
+  station[METADATA_KEYS.LONGITUDE.value] = regex_tools.format_coordinate(station.get(METADATA_KEYS.LONGITUDE.value, ""))
+  station[METADATA_KEYS.LATITUDE.value] = regex_tools.format_coordinate(station.get(METADATA_KEYS.LATITUDE.value, ""))
+
+def extract_coordinates(stations: dict) -> dict:
+  """"
+  Extract and converting cooradinates from stations returns dict with station code as key and dict of coordinates as value
+  
+  Data format:
+  {
+    WpOstrowWlkp.25103: {'WGS84 φ N': '-999', 'WGS84 λ E': '-999'}
+  }
+  """
+  
+  stations_coordinates: dict = {}
+  
   for station in stations.values():
-    station[METADATA_KEYS.LONGITUDE.value] = regex_tools.format_coordinate(station.get(METADATA_KEYS.LONGITUDE.value, ""))
-    station[METADATA_KEYS.LATITUDE.value] = regex_tools.format_coordinate(station.get(METADATA_KEYS.LATITUDE.value, ""))
+    convert_coordinates(station)
+    stations_coordinates[station[METADATA_KEYS.STATION_CODE.value]] = {
+      METADATA_KEYS.LONGITUDE.value: station[METADATA_KEYS.LONGITUDE.value],
+      METADATA_KEYS.LATITUDE.value: station[METADATA_KEYS.LATITUDE.value]
+    }
+  
+  return stations_coordinates
 
 def get_two_part_name_stations(stations: dict) -> dict:
   res_stations: dict = {}
@@ -97,8 +117,13 @@ def main():
     print(f"{station_code} -> {station_dates}")
     break
 
+  # 4b
+  station_coordinates: dict = extract_coordinates(stations)
+  print("\n4b")
+  for station_code, coords in station_coordinates.items():
+    print(f'{station_code} -> {coords}')
+    break
   
-  convert_coordinates(stations) # 4b
   normalize_station_name(stations) # 4d
   
   # 4c

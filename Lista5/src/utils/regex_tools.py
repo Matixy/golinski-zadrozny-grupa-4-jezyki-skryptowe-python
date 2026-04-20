@@ -46,13 +46,19 @@ POLISH_LETTERS: dict[str, str] = {
 
 def format_coordinate(coordinate: str):
   """"Function returns converted coordinate as float with X.XXXXXX (6 digits after ".") if str is empty return empty str"""
-  pattern: Pattern[str] = re.compile(r"^(?P<integer_part>\d+)\.?(?P<fractional_part>\d{6})$") # regex- before dot minimum one digit, after must be 6
+  pattern: Pattern[str] = re.compile(r"^(?P<sign>-?)(?P<integer_part>\d+)(?:\.(?P<fractional_part>\d{6}))?$") # regex- before dot minimum one digit, after must be 6
   
   coordinate_match: Match[str] = pattern.match(coordinate)
   if coordinate_match:
+    sign: str = coordinate_match.group("sign")
     integer_part: str = coordinate_match.group("integer_part")
     fractional_part: str = coordinate_match.group("fractional_part")
-    return float(f"{integer_part}.{fractional_part}")
+    
+    # if coordinate hasnt fractional part
+    if not fractional_part:
+      fractional_part = "0"
+    
+    return float(f"{sign}{integer_part}.{fractional_part}")
   
   return coordinate
 
