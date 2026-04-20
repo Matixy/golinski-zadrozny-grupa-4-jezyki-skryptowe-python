@@ -1,13 +1,36 @@
 from enums.metadata_keys import METADATA_KEYS
 import csv_parser
 import pathlib
-
+import re
+from re import Match, Pattern
+from enums.metadata_keys import METADATA_KEYS
 import utils.regex_tools as regex_tools
 
-def convert_dates(stations: dict) -> None:
-  for station in stations.values():
-    station[METADATA_KEYS.START_DATE.value] = regex_tools.format_date(station.get(METADATA_KEYS.START_DATE.value, ""))
-    station[METADATA_KEYS.END_DATE.value] = regex_tools.format_date(station.get(METADATA_KEYS.END_DATE.value, ""))
+####### DO USUNIECIA
+# def convert_dates(stations: dict) -> None:
+#   for station in stations.values():
+#     station[METADATA_KEYS.START_DATE.value] = regex_tools.format_date(station.get(METADATA_KEYS.START_DATE.value, ""))
+#     station[METADATA_KEYS.END_DATE.value] = regex_tools.format_date(station.get(METADATA_KEYS.END_DATE.value, ""))
+
+def extract_dates_to_dict(stations: dict) -> dict[str, dict[str,str]]:
+  result: dict[str, dict[str,str]] = {}
+  pattern: Pattern[str] = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+  for station_code, station_data in stations.items():
+    start_date = station_data.get(METADATA_KEYS.START_DATE.value, "").strip()
+    end_date = station_data.get(METADATA_KEYS.END_DATE.value, "").strip()
+    
+    station_dict = {}
+    if pattern.search(start_date):
+      station_dict[METADATA_KEYS.START_DATE.value] = start_date 
+    
+    if pattern.search(end_date):
+      station_dict[METADATA_KEYS.END_DATE.value] = end_date
+
+    if station_dict:
+      result[station_code] = station_dict
+  
+  return result
 
 def convert_coordinates(stations: dict) -> None:
   for station in stations.values():
@@ -58,36 +81,49 @@ def get_street_or_alley_in_name_stations(stations: dict) -> list:
       
   return res_stations
 
+
+
 def main():
-  stations: dict = csv_parser.parse_metadata(pathlib.Path(".\\data\\stacje.csv"))
-  convert_dates(stations) # 4a
+  path = pathlib.Path("data") / "stacje.csv"
+  stations: dict = csv_parser.parse_metadata(path)
+  for station in stations.values():
+    print(station)
+    break
+
+  # convert_dates(stations) # 4a
+  print("\n4a)")
+  stations_dates = extract_dates_to_dict(stations) #4a test
+  for station_code, station_dates in stations_dates.items():
+    print(f"{station_code} -> {station_dates}")
+    break
+
+  
   convert_coordinates(stations) # 4b
   normalize_station_name(stations) # 4d
   
-  for station in stations.values():
-    print(station)
-    
   # 4c
-  print()
+  print("\n4c")
   two_part_named_stations: dict = get_two_part_name_stations(stations) 
   for station in two_part_named_stations.values():
     print(station)
+    break
 
-  print()
+  print("\n4e")
   print(check_mobile_stations(stations)) # 4e False- Nr 48
 
   # # 4f
-  print()
+  print("\n4f")
   three_part_named_stations: list = get_three_part_named_stations(stations)
   for station in three_part_named_stations.values():
     print(station)
+    break
     
   # # 4g
-  print()
+  print("\n4g")
   street_or_alley_stations: list = get_street_or_alley_in_name_stations(stations)
   for station in street_or_alley_stations.values():
     print(station)
-    
+    break
 
 if __name__ == "__main__":
   main()
