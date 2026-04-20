@@ -5,6 +5,7 @@ from pathlib import Path
 from datetime import datetime, date
 from enums.measurements_keys import MEASUREMENTS_KEYS
 from enums.metadata_keys import METADATA_KEYS
+from utils.logger_setup import logger
 
 METADATA_DELIMITER: str = ","
 
@@ -50,6 +51,10 @@ def parse_metadata(path: Path) -> dict:
         continue # skip if station_code is empty
       
       stations_data[station_code] = row # not clearing/converting data because task 4 is for that
+
+      row_bytes = len(METADATA_DELIMITER.join(row.values()).encode('utf-8'))
+      logger.debug(f"Przeczytano wiersz stacji ({station_code}): {row_bytes} bajtów") #wyciągamy wartości, łączymy przecinkiem i mierzymy wielkość w pamięci do zad 6a
+
 
   return stations_data
 
@@ -102,6 +107,9 @@ def parse_measurements(path: Path) -> list[dict]:
       if not row or not row[0].strip():
         continue # skip empty lines
       
+      row_bytes = len(MEASUREMENTS_DELIMITER.join(row).encode('utf-8')) #wyciągamy wartości, łączymy przecinkiem i mierzymy wielkość w pamięci do zad 6a
+      logger.debug(f"Przeczytano wiersz pomiaru: {row_bytes} bajtów")
+
       try:
         date: datetime = datetime.strptime(row[0], "%m/%d/%y %H:%M") # convert str date from csv to datetime
       except ValueError:
