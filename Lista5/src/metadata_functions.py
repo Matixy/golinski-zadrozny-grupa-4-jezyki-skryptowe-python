@@ -36,7 +36,7 @@ def convert_coordinates(station: dict) -> None:
   station[METADATA_KEYS.LONGITUDE.value] = regex_tools.format_coordinate(station.get(METADATA_KEYS.LONGITUDE.value, ""))
   station[METADATA_KEYS.LATITUDE.value] = regex_tools.format_coordinate(station.get(METADATA_KEYS.LATITUDE.value, ""))
 
-def extract_coordinates(stations: dict) -> dict[dict]:
+def extract_coordinates(stations: dict) -> dict:
   """"
   Extract and converting cooradinates from stations returns dict with station code as key and dict of coordinates as value
   
@@ -46,16 +46,16 @@ def extract_coordinates(stations: dict) -> dict[dict]:
   }
   """
   
-  staions_coordinates: dict[dict] = {}
+  stations_coordinates: dict = {}
   
   for station in stations.values():
     convert_coordinates(station)
-    staions_coordinates[station[METADATA_KEYS.STATION_CODE.value]] = {
+    stations_coordinates[station[METADATA_KEYS.STATION_CODE.value]] = {
       METADATA_KEYS.LONGITUDE.value: station[METADATA_KEYS.LONGITUDE.value],
       METADATA_KEYS.LATITUDE.value: station[METADATA_KEYS.LATITUDE.value]
     }
   
-  return staions_coordinates
+  return stations_coordinates
 
 def get_two_part_name_stations(stations: dict) -> dict:
   res_stations: dict = {}
