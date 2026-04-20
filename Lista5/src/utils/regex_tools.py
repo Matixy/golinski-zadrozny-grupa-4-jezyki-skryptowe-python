@@ -23,25 +23,26 @@ POLISH_LETTERS: dict[str, str] = {
   "Ż": "Z",
 }
 
-def format_date(date: str) -> str:
-  """"Function returns from date DD/MM/YY HH:MM str to YYYY-MM-DD using regex - if date is not in right format return given date"""
-  pattern: Pattern[str] = re.compile(r"^(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{2})\s(?P<hour>\d{2}):(?P<minute>\d{2})$") # regex groupping data in format DD/MM/YY HH:MM- "01/04/23 12:00"
+###### DO USUNIECIA 
+# def format_date(date: str) -> str:
+#   """"Function returns from date DD/MM/YY HH:MM str to YYYY-MM-DD using regex - if date is not in right format return given date"""
+#   pattern: Pattern[str] = re.compile(r"^(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{2})\s(?P<hour>\d{2}):(?P<minute>\d{2})$") # regex groupping data in format DD/MM/YY HH:MM- "01/04/23 12:00"
   
-  date_match: Match[str] = pattern.match(date)
-  if date_match:
-    day: str = date_match.group("day")
-    month: str = date_match.group("month")
-    year: int = int(date_match.group("year"))
+#   date_match: Match[str] = pattern.match(date)
+#   if date_match:
+#     day: str = date_match.group("day")
+#     month: str = date_match.group("month")
+#     year: int = int(date_match.group("year"))
     
-    current_year = datetime.now().year % 100
-    if year > current_year:
-      year += 1900
-    else:
-      year += 2000
+#     current_year = datetime.now().year % 100
+#     if year > current_year:
+#       year += 1900
+#     else:
+#       year += 2000
         
-    return str(year) + "-" + month + "-" + day
+#     return str(year) + "-" + month + "-" + day
   
-  return date
+#   return date
 
 def format_coordinate(coordinate: str):
   """"Function returns converted coordinate as float with X.XXXXXX (6 digits after ".") if str is empty return empty str"""
