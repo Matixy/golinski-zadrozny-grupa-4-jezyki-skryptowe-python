@@ -32,13 +32,13 @@ def validate_date_argparse(date: str):
 
 
 class LoggingArgumentParser(argparse.ArgumentParser):
-    """Our parser, which saves errors to app.log"""
-    
-    def error(self, message):
-        #przechwytujemy błąd z argparse i wpisujemy go do logera, bez tej klasy argparse sam lapal bledy i nie mozna bylo logowach ich w logach
-        logger.error(f"Nieprawidłowe użycie komend (argparse): {message}")
-        #wywołujemy oryginalną funkcję error, żeby program zakończył się poprawnie (jak oczekuje CLI)
-        super().error(message)
+  """Our parser, which saves errors to app.log"""
+  
+  def error(self, message):
+    #przechwytujemy błąd z argparse i wpisujemy go do logera, bez tej klasy argparse sam lapal bledy i nie mozna bylo logowach ich w logach
+    logger.error(f"Nieprawidłowe użycie komend (argparse): {message}")
+    #wywołujemy oryginalną funkcję error, żeby program zakończył się poprawnie (jak oczekuje CLI)
+    super().error(message)
 
 
 def create_argument_parser() -> ArgumentParser:
@@ -140,10 +140,10 @@ def print_stats_from_station_values(station_code: dict, station_values: list) ->
     print(CLI_KEYS.STAT_STATION_MEAN_INFO.value + str(statistics.mean(station_values)))
     
     if len(station_values) > 1:
-        print(CLI_KEYS.STAT_STATION_STD_DEV.value + f"{statistics.stdev(station_values):.2f}")
+      print(CLI_KEYS.STAT_STATION_STD_DEV.value + f"{statistics.stdev(station_values):.2f}")
     else:
-        #print(CLI_KEYS.STAT_STATION_STD_DEV.value + CLI_KEYS.TO_FEW_VALUES_ERROR.value)
-        logger.warning(f"Zbyt mała liczba danych ({len(station_values)}) dla stacji {station_code}, aby obliczyć odchylenie.")
+      #print(CLI_KEYS.STAT_STATION_STD_DEV.value + CLI_KEYS.TO_FEW_VALUES_ERROR.value)
+      logger.warning(f"Zbyt mała liczba danych ({len(station_values)}) dla stacji {station_code}, aby obliczyć odchylenie.")
  
 
 
