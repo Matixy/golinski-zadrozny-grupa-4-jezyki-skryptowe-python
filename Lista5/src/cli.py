@@ -14,6 +14,9 @@ import csv_parser
 from enums.measurements_keys import MEASUREMENTS_KEYS
 from enums.metadata_keys import METADATA_KEYS
 
+from utils.logger_setup import logger
+import utils.exceptions
+
 MEASUREMENTS_DIRECTORY_PATH: Path = pathlib.Path(".\\data\\measurements")
 METADATA_DIRECTORY_PATH: Path = pathlib.Path(".\\data\\stacje.csv")
 
@@ -25,10 +28,21 @@ def validate_date_argparse(date: str):
   
   raise argparse.ArgumentTypeError(CLI_KEYS.WRONG_DATE_ERROR.value)
 
+
+class LoggingArgumentParser(argparse.ArgumentParser):
+    """Our parser, which saves errors to app.log"""
+    
+    def error(self, message):
+        #przechwytujemy błąd z argparse i wpisujemy go do logera, bez tej klasy argparse sam lapal bledy i nie mozna bylo logowach ich w logach
+        logger.error(f"Nieprawidłowe użycie komend (argparse): {message}")
+        #wywołujemy oryginalną funkcję error, żeby program zakończył się poprawnie (jak oczekuje CLI)
+        super().error(message)
+
+
 def create_argument_parser() -> ArgumentParser:
   """"Creates arguments parser from user input converting and validating given arguments"""
   
-  parser: ArgumentParser = argparse.ArgumentParser()
+  parser: ArgumentParser = LoggingArgumentParser()
   files_by_key = group_measurement_files_by_key(MEASUREMENTS_DIRECTORY_PATH)
     
   allowed_pollutants = {key[1] for key in files_by_key.keys()} # get pollutants values from measurement keys in filenames, on index 1 is pollutant value
@@ -57,6 +71,8 @@ def create_argument_parser() -> ArgumentParser:
   
   return parser
 
+
+
 def get_filtered_measurements_by_date(start_date: datetime.datetime, end_date: datetime.datetime, path: Path) -> list:
   """"Returns this measurements data rows bettwen start and end date"""
   
@@ -69,6 +85,8 @@ def get_filtered_measurements_by_date(start_date: datetime.datetime, end_date: d
       filtered_measurements.append(measure)
       
   return filtered_measurements
+
+
 
 def get_random_station(filtered_measurements_by_date: list, stations: dict) -> dict:
   """Returns a random station that has measurements in the filtered dataset"""
@@ -83,6 +101,8 @@ def get_random_station(filtered_measurements_by_date: list, stations: dict) -> d
   
   return station
     
+
+
 def print_random_station(station: dict) -> None:
   if station:
     name: str = station.get(METADATA_KEYS.STATION_NAME.value, CLI_KEYS.NOT_FOUND_STATION_NAME_ERROR.value)
@@ -91,6 +111,9 @@ def print_random_station(station: dict) -> None:
     print(CLI_KEYS.CHOOSED_RANDOM_STATION_ADDRESS_INFO.value + address)
   else:
     print(CLI_KEYS.NOT_FOUND_STATION_IN_DIR_ERROR.value)
+    raise utils.exceptions.StationNotExist(CLI_KEYS.NOT_FOUND_STATION_IN_DIR_ERROR.value)
+
+
 
 def get_station_values(station_code: str, filtered_measurements_by_date: dict) -> list:
   values: list = []
@@ -101,9 +124,12 @@ def get_station_values(station_code: str, filtered_measurements_by_date: dict) -
       
   return values
   
+
+
 def print_stats_from_station_values(station_code: dict, station_values: list) -> None:
   if len(station_values) == 0:
-    print(CLI_KEYS.NO_STATION_VALUES_ERROR.value)
+    logger.warning(f"{CLI_KEYS.NO_STATION_VALUES_ERROR.value} {station_code}") #6c iii
+    #print(CLI_KEYS.NO_STATION_VALUES_ERROR.value)
   else:
     print(station_code)
     print(CLI_KEYS.STAT_NUM_OF_MEASUREMENTS.value + str(len(station_values)))
@@ -112,8 +138,11 @@ def print_stats_from_station_values(station_code: dict, station_values: list) ->
     if len(station_values) > 1:
         print(CLI_KEYS.STAT_STATION_STD_DEV.value + f"{statistics.stdev(station_values):.2f}")
     else:
-        print(CLI_KEYS.STAT_STATION_STD_DEV.value + CLI_KEYS.TO_FEW_VALUES_ERROR.value)
+        #print(CLI_KEYS.STAT_STATION_STD_DEV.value + CLI_KEYS.TO_FEW_VALUES_ERROR.value)
+        logger.warning(f"Zbyt mała liczba danych ({len(station_values)}) dla stacji {station_code}, aby obliczyć odchylenie.")
  
+
+
 def extract_cli_parameters(args: Namespace) -> dict:
   """Extracts, parse and format arguments from CLI to dict"""
   
@@ -129,6 +158,8 @@ def extract_cli_parameters(args: Namespace) -> dict:
     "end_date": datetime.strptime(end_date_str, "%Y-%m-%d").replace(hour=23, minute=59, second=59) # set end of day to include end date day to
   }
 
+
+
 def get_measurement_file_path(year: str, pollutant: str, frequency: str) -> Path | None:
   """"Retruns path to measurements files based on keys if files dont exist return None"""
   files_by_keys: dict = group_measurement_files_by_key(MEASUREMENTS_DIRECTORY_PATH)
@@ -136,50 +167,71 @@ def get_measurement_file_path(year: str, pollutant: str, frequency: str) -> Path
   
   return files_by_keys.get(filter_key)
   
+
+
 def handle_random_station_command(filtered_measurements_by_date: list, stations: dict) -> None:
   print(CLI_KEYS.CHOOSED_RANDOM_STATION_COMMAND_INFO.value)
-  
   random_station: dict = get_random_station(filtered_measurements_by_date, stations)
   print_random_station(random_station)
   
+
+
 def handle_stats_command(args: Namespace, filtered_measurements_by_date: list) -> None:
   print(CLI_KEYS.CHOOSED_STATS_COMMAND_INFO.value)
-  
   station_code_from_parser: str = getattr(args, CLI_KEYS.STATION_ARGUMENT.value.lstrip("-")) # get station code from input
   station_values: list = get_station_values(station_code_from_parser, filtered_measurements_by_date)
   print_stats_from_station_values(station_code_from_parser, station_values)
   
-def main():
-  # preparing primary data
-  parser: ArgumentParser = create_argument_parser()
-  args: Namespace = parser.parse_args()
-  params: dict = extract_cli_parameters(args)
-    
-  #searching and loading right measurement file 
-  path_to_measurements = get_measurement_file_path(params["year"], params["pollutant"], params["frequency"])
-  
-  # if files not exist print error and end programe
-  if not path_to_measurements:
-    print(CLI_KEYS.WRONG_KEYS_ERROR.value)
-    sys.exit(1)
-    
 
-  # parse and filter data
-  stations: dict = csv_parser.parse_metadata(METADATA_DIRECTORY_PATH)
-  filtered_measurements_by_date: list = get_filtered_measurements_by_date(params["start_date"], params["end_date"], path_to_measurements) # all subcommands based only on mesaurements bettwen given timestamp
-  
-  if not filtered_measurements_by_date:
-    print(CLI_KEYS.WRONG_MEASUREMENT_DATE_ERROR.value)
-    sys.exit(0)
-  
-  
-  # choosing right subcommand
-  if params["subcommand"] == CLI_KEYS.RANDOM_STATION_ARGUMENT.value:
-    # example of usage py src\cli.py --wielkosc As(PM10) --czestotliwosc 24g --start 2023-01-01 --koniec 2023-01-31 losowa_stacja
-    handle_random_station_command(filtered_measurements_by_date, stations)
-  elif params["subcommand"] == CLI_KEYS.STATS_ARGUMENT.value:
-    # example of usage py src\cli.py --wielkosc As(PM10) --czestotliwosc 24g --start 2023-01-01 --koniec 2023-01-31 statystyki --stacja "SlGodGliniki"
-    handle_stats_command(args, filtered_measurements_by_date)
+
+def main():
+  logger.info("Uruchomiono program")
+  try:
+    # preparing primary data
+    parser: ArgumentParser = create_argument_parser()
+    args: Namespace = parser.parse_args()
+    params: dict = extract_cli_parameters(args)
+      
+    #searching and loading right measurement file 
+    path_to_measurements = get_measurement_file_path(params["year"], params["pollutant"], params["frequency"])
+    logger.info(f"Parametry wejściowe: Wielkość={params['pollutant']}, Częstotliwość={params['frequency']}, Start={params['start_date'].date()}, Koniec={params['end_date'].date()}, Subkomenda={params['subcommand']}")
+
+    # if files not exist print error and end programe
+    if not path_to_measurements:
+      #print(CLI_KEYS.WRONG_KEYS_ERROR.value)
+      logger.warning(f"Użytkownik podał wielkość ({params['pollutant']}) lub częstotliwość ({params['frequency']}), która nie występuje w bazie danych.")
+      raise utils.exceptions.DataNotFoundError(CLI_KEYS.WRONG_KEYS_ERROR.value)
+      
+      
+
+    # parse and filter data
+    stations: dict = csv_parser.parse_metadata(METADATA_DIRECTORY_PATH)
+    filtered_measurements_by_date: list = get_filtered_measurements_by_date(params["start_date"], params["end_date"], path_to_measurements) # all subcommands based only on mesaurements bettwen given timestamp
+    
+    if not filtered_measurements_by_date:
+      logger.warning(f"{CLI_KEYS.WRONG_MEASUREMENT_DATE_ERROR.value} (od {params['start_date'].date()} do {params['end_date'].date()})")  #6c ii
+      
+    
+    logger.info(f"Pomyślnie załadowano {len(filtered_measurements_by_date)} pomiarów.")
+
+    # choosing right subcommand
+    if params["subcommand"] == CLI_KEYS.RANDOM_STATION_ARGUMENT.value:
+      # example of usage py src\cli.py --wielkosc As(PM10) --czestotliwosc 24g --start 2023-01-01 --koniec 2023-01-31 losowa_stacja
+      handle_random_station_command(filtered_measurements_by_date, stations)
+    elif params["subcommand"] == CLI_KEYS.STATS_ARGUMENT.value:
+      # example of usage py src\cli.py --wielkosc As(PM10) --czestotliwosc 24g --start 2023-01-01 --koniec 2023-01-31 statystyki --stacja "SlGodGliniki"
+      handle_stats_command(args, filtered_measurements_by_date)
+
+    logger.info("Program zakończył działanie bez błędów.")
+
+  except utils.exceptions.CliAppError as e:
+    logger.error(f"Zatrzymano z powodu błędu aplikacji: {str(e)}")
+    #print(f"\n[BŁĄD]: {str(e)}")
+
+  except Exception as e:
+    logger.critical(f"Nieoczekiwany błąd: {str(e)}", exc_info=True) #exec_info=True add more data about error 
+    #print(f"\n[KRYTYCZNY BŁĄD]: Wystąpił nieoczekiwany problem. Sprawdź plik app.log.")
 
 if __name__ == "__main__":
   main()
+
