@@ -17,6 +17,8 @@ from enums.metadata_keys import METADATA_KEYS
 from utils.logger_setup import logger
 import utils.exceptions
 
+from anomaly_finder import find_anomalies
+
 MEASUREMENTS_DIRECTORY_PATH: Path = pathlib.Path(".\\data\\measurements")
 METADATA_DIRECTORY_PATH: Path = pathlib.Path(".\\data\\stacje.csv")
 
@@ -69,6 +71,8 @@ def create_argument_parser() -> ArgumentParser:
   # this subcommand requires station name
   parser_stat.add_argument(CLI_KEYS.STATION_ARGUMENT.value, type=str, required=True, help=CLI_KEYS.STATION_ARGUMENT_DESCRIPTION.value)
   
+  parser_anomalies: ArgumentParser = subparsers.add_parser("anomalie", help="Analizuje dane pod kątem błędów i nietypowych zjawisk") #anomalies parser
+
   return parser
 
 
@@ -168,6 +172,14 @@ def get_measurement_file_path(year: str, pollutant: str, frequency: str) -> Path
   return files_by_keys.get(filter_key)
   
 
+def print_anomalies_info(anomalies_info_list: list) -> None:
+  if not anomalies_info_list:
+    print("Nie wykryto żadnych anomalii w wybranym zbiorze danych.")
+  else:
+    logger.warning(f"Wykryto {len(anomalies_info_list)} anomalii!")
+    for anomaly in anomalies_info_list:
+      print(f"[!] {anomaly}")
+
 
 def handle_random_station_command(filtered_measurements_by_date: list, stations: dict) -> None:
   print(CLI_KEYS.CHOOSED_RANDOM_STATION_COMMAND_INFO.value)
@@ -175,13 +187,17 @@ def handle_random_station_command(filtered_measurements_by_date: list, stations:
   print_random_station(random_station)
   
 
-
 def handle_stats_command(args: Namespace, filtered_measurements_by_date: list) -> None:
   print(CLI_KEYS.CHOOSED_STATS_COMMAND_INFO.value)
   station_code_from_parser: str = getattr(args, CLI_KEYS.STATION_ARGUMENT.value.lstrip("-")) # get station code from input
   station_values: list = get_station_values(station_code_from_parser, filtered_measurements_by_date)
   print_stats_from_station_values(station_code_from_parser, station_values)
-  
+
+
+def handle_anomalies_command(filtered_measurements_by_date: list) -> None:
+  print("Analiza Anomalii")
+  found_anomalies = find_anomalies(filtered_measurements_by_date)
+  print_anomalies_info(found_anomalies)
 
 
 def main():
@@ -221,6 +237,9 @@ def main():
     elif params["subcommand"] == CLI_KEYS.STATS_ARGUMENT.value:
       # example of usage py src\cli.py --wielkosc As(PM10) --czestotliwosc 24g --start 2023-01-01 --koniec 2023-01-31 statystyki --stacja "SlGodGliniki"
       handle_stats_command(args, filtered_measurements_by_date)
+    elif params["subcommand"] == "anomalie":
+      # example of usage py src\cli.py --wielkosc As(PM10) --czestotliwosc 24g --start 2023-01-01 --koniec 2023-12-31 anomalie
+      handle_anomalies_command(filtered_measurements_by_date)
 
     logger.info("Program zakończył działanie bez błędów.")
 

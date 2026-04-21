@@ -161,19 +161,19 @@ def prepare_measurement_dict(year: str, pollutant: str, frequency: str, station_
   }
 
 def main():
-  measurement_path = Path("data") / "measurements" / "2023_BkF(PM10)_24g.csv" # pathlib take care off proper system path symbol
+  measurement_path = Path("data") / "measurements" / "2023_As(PM10)_24g.csv" # pathlib take care off proper system path symbol
   res = parse_measurements(measurement_path) # example for test
   # for i in res:
   #   print(i)
   #   break;
-  print(res[0:2])  
+  print(res[0:10])  
   print("\n")
 
-  metadata_path = Path("data") / "stacje.csv"
-  res = parse_metadata(metadata_path) # example for test
-  for key,val in res.items():
-    print(f'{key}= {val}')
-    break
+  # metadata_path = Path("data") / "stacje.csv"
+  # res = parse_metadata(metadata_path) # example for test
+  # for key,val in res.items():
+  #   print(f'{key}= {val}')
+  #   break
   
 
 if __name__ == "__main__":
