@@ -13,7 +13,7 @@ def find_anomalies(measurements: list) -> list:
     anomalies = [] #return list
 
     ALARM_THRESHOLDS = {"PM10": 500.0}
-    FAST_CHANGE_THRESHOLD = 100.0
+    FAST_CHANGE_THRESHOLD = 50.0
 
 
     all_stations_data = {}
@@ -48,7 +48,7 @@ def find_anomalies(measurements: list) -> list:
                 zero_count = 0
 
             #Value higher than alarm threshold 
-            threshold = ALARM_THRESHOLDS.get(pollutant, 800.0)
+            threshold = ALARM_THRESHOLDS.get(pollutant, 600.0)
             if val > threshold:
                 anomalies.append(f"STACJA {station_code}: [{date}] Ekstremalnie wysoka wartość {val} (Próg: {threshold})")
 
