@@ -38,23 +38,30 @@ def parse_metadata(path: Path) -> dict:
     "WGS84 λ E": "16.117390"\n
   }
   """
-  
+
+  logger.info(f"Otwieranie pliku metadanych: {path}") #zad6 logger info
   stations_data: dict = {}
   
-  with open(path, mode='r', encoding='utf-8-sig') as file: # utf-8-sig- provides BOM (hidden mark at start of file which can do errors)
-    reader: DictReader[str] = csv.DictReader(file, delimiter=METADATA_DELIMITER) # dict reader reads first row and do keys based from it for dictionary
+  try:
+    with open(path, mode='r', encoding='utf-8-sig') as file: # utf-8-sig- provides BOM (hidden mark at start of file which can do errors)
+      reader: DictReader[str] = csv.DictReader(file, delimiter=METADATA_DELIMITER) # dict reader reads first row and do keys based from it for dictionary
+      
+      for row in reader:
+        station_code: str = row.get(METADATA_KEYS.STATION_CODE.value) # get station code from dict
+        
+        if not station_code:
+          continue # skip if station_code is empty
+        
+        stations_data[station_code] = row # not clearing/converting data because task 4 is for that
+
+        #zad6
+        row_bytes = len(METADATA_DELIMITER.join(row.values()).encode('utf-8'))
+        logger.debug(f"Przeczytano wiersz stacji ({station_code}): {row_bytes} bajtów") #wyciągamy wartości, łączymy przecinkiem i mierzymy wielkość w pamięci do zad 6a
     
-    for row in reader:
-      station_code: str = row.get(METADATA_KEYS.STATION_CODE.value) # get station code from dict
-      
-      if not station_code:
-        continue # skip if station_code is empty
-      
-      stations_data[station_code] = row # not clearing/converting data because task 4 is for that
-
-      row_bytes = len(METADATA_DELIMITER.join(row.values()).encode('utf-8'))
-      logger.debug(f"Przeczytano wiersz stacji ({station_code}): {row_bytes} bajtów") #wyciągamy wartości, łączymy przecinkiem i mierzymy wielkość w pamięci do zad 6a
-
+    logger.info(f"Zamknięto plik metadanych. Wczytano {len(stations_data)} stacji.")
+  except Exception as e:
+    logger.error(f"Błąd podczas odczytu pliku metadanych {path}: {e}")
+    raise
 
   return stations_data
 
@@ -76,60 +83,68 @@ def parse_measurements(path: Path) -> list[dict]:
     returns list of thats measurments
   """
   
+  logger.info(f"Otwieranie pliku pomiarów: {path}")
   filename: str = path.stem # get filename
   parts: list[str] = filename.split('_') # split filename from '_'
   
   # check if filename is correckt
   if len(parts) != 3:
+    logger.warning(f"Nieprawidłowa nazwa pliku: {filename}")
     return[]
 
   year, pollutant, frequency = parts # get data from file name
 
   # read file
   measurements: list = []
-  with open(path.resolve(), mode='r', encoding='utf-8-sig') as file: # utf-8-sig- provides BOM (hidden mark at start of file which can do errors)
-    reader = csv.reader(file, delimiter=MEASUREMENTS_DELIMITER)
+  try:
+    with open(path.resolve(), mode='r', encoding='utf-8-sig') as file: # utf-8-sig- provides BOM (hidden mark at start of file which can do errors)
+      reader = csv.reader(file, delimiter=MEASUREMENTS_DELIMITER)
 
-    header_rows = []
-    try:
-      for i in range(MEASUREMENTS_NUM_ROWS_ATTRIBUTES_DATA):
-        header_rows.append(next(reader))
-    except StopIteration:
-      return[] # worng file return empty list
-    
-    # getting data from header rows
-    STATION_codes: list[str] = header_rows[MEASUREMENTS_STATION_CODES_ROW_NUM][1:] # skip first column- attribute name
-    units: list[str] = header_rows[MEASUREMENTS_UNITS_ROW_NUM][1:]
-    stand_ids: list[str] = header_rows[MEASUREMENTS_STAND_ID_ROW_NUM][1:]
-    
-    # reading real data of each row
-    for row in reader:
-      if not row or not row[0].strip():
-        continue # skip empty lines
-      
-      row_bytes = len(MEASUREMENTS_DELIMITER.join(row).encode('utf-8')) #wyciągamy wartości, łączymy przecinkiem i mierzymy wielkość w pamięci do zad 6a
-      logger.debug(f"Przeczytano wiersz pomiaru: {row_bytes} bajtów")
-
+      header_rows = []
       try:
-        date: datetime = datetime.strptime(row[0], "%m/%d/%y %H:%M") # convert str date from csv to datetime
-      except ValueError:
-        continue # skip if date is wrong
+        for i in range(MEASUREMENTS_NUM_ROWS_ATTRIBUTES_DATA):
+          header_rows.append(next(reader))
+      except StopIteration:
+        return[] # worng file return empty list
       
-      # read data from each cell in current row
-      for col_idx, value_str in enumerate(row[1:]): # enumerate provides column indexes
-        value_str: str = value_str.strip()
+      # getting data from header rows
+      STATION_codes: list[str] = header_rows[MEASUREMENTS_STATION_CODES_ROW_NUM][1:] # skip first column- attribute name
+      units: list[str] = header_rows[MEASUREMENTS_UNITS_ROW_NUM][1:]
+      stand_ids: list[str] = header_rows[MEASUREMENTS_STAND_ID_ROW_NUM][1:]
+      
+      # reading real data of each row
+      for row in reader:
+        if not row or not row[0].strip():
+          continue # skip empty lines
         
-        if not value_str:
-          continue # if cell is empty skip it
-        
+        row_bytes = len(MEASUREMENTS_DELIMITER.join(row).encode('utf-8')) #wyciągamy wartości, łączymy przecinkiem i mierzymy wielkość w pamięci do zad 6a
+        logger.debug(f"Przeczytano wiersz pomiaru: {row_bytes} bajtów")
+
         try:
-          value: float = float(value_str)
+          date: datetime = datetime.strptime(row[0], "%m/%d/%y %H:%M") # convert str date from csv to datetime
         except ValueError:
-          continue # if could not convert value skip this cell
+          continue # skip if date is wrong
         
-        measure: dict = prepare_measurement_dict(year, pollutant, frequency, STATION_codes[col_idx], stand_ids[col_idx], units[col_idx], date, value)
-        measurements.append(measure)
-        
+        # read data from each cell in current row
+        for col_idx, value_str in enumerate(row[1:]): # enumerate provides column indexes
+          value_str: str = value_str.strip()
+          
+          if not value_str:
+            continue # if cell is empty skip it
+          
+          try:
+            value: float = float(value_str)
+          except ValueError:
+            continue # if could not convert value skip this cell
+          
+          measure: dict = prepare_measurement_dict(year, pollutant, frequency, STATION_codes[col_idx], stand_ids[col_idx], units[col_idx], date, value)
+          measurements.append(measure)
+    logger.info(f"Zamknięto plik pomiarów. Wczytano {len(measurements)} rekordów.")  
+
+  except Exception as e:
+    logger.error(f"Błąd krytyczny przy pliku {path}: {e}") 
+    raise
+  
   return measurements
 
 def prepare_measurement_dict(year: str, pollutant: str, frequency: str, station_code: str, stand_id: str, unit: str, date: datetime, value: float) -> dict:

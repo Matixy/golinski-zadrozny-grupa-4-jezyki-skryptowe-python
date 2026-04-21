@@ -33,9 +33,9 @@ class LoggingArgumentParser(argparse.ArgumentParser):
     """Our parser, which saves errors to app.log"""
     
     def error(self, message):
-        # Tutaj przechwytujemy błąd z argparse i wpisujemy go do logera!
+        #przechwytujemy błąd z argparse i wpisujemy go do logera, bez tej klasy argparse sam lapal bledy i nie mozna bylo logowach ich w logach
         logger.error(f"Nieprawidłowe użycie komend (argparse): {message}")
-        # Wywołujemy oryginalną funkcję error, żeby program zakończył się poprawnie (jak oczekuje CLI)
+        #wywołujemy oryginalną funkcję error, żeby program zakończył się poprawnie (jak oczekuje CLI)
         super().error(message)
 
 
@@ -128,8 +128,8 @@ def get_station_values(station_code: str, filtered_measurements_by_date: dict) -
 
 def print_stats_from_station_values(station_code: dict, station_values: list) -> None:
   if len(station_values) == 0:
-    logger.warning(f"{CLI_KEYS.NO_STATION_VALUES_ERROR.value} {station_code}")
-    print(CLI_KEYS.NO_STATION_VALUES_ERROR.value)
+    logger.warning(f"{CLI_KEYS.NO_STATION_VALUES_ERROR.value} {station_code}") #6c iii
+    #print(CLI_KEYS.NO_STATION_VALUES_ERROR.value)
   else:
     print(station_code)
     print(CLI_KEYS.STAT_NUM_OF_MEASUREMENTS.value + str(len(station_values)))
@@ -138,8 +138,8 @@ def print_stats_from_station_values(station_code: dict, station_values: list) ->
     if len(station_values) > 1:
         print(CLI_KEYS.STAT_STATION_STD_DEV.value + f"{statistics.stdev(station_values):.2f}")
     else:
-        print(CLI_KEYS.STAT_STATION_STD_DEV.value + CLI_KEYS.TO_FEW_VALUES_ERROR.value)
-        raise utils.exceptions.CalculationError(CLI_KEYS.TO_FEW_VALUES_ERROR.value)
+        #print(CLI_KEYS.STAT_STATION_STD_DEV.value + CLI_KEYS.TO_FEW_VALUES_ERROR.value)
+        logger.warning(f"Zbyt mała liczba danych ({len(station_values)}) dla stacji {station_code}, aby obliczyć odchylenie.")
  
 
 
@@ -199,6 +199,7 @@ def main():
     # if files not exist print error and end programe
     if not path_to_measurements:
       #print(CLI_KEYS.WRONG_KEYS_ERROR.value)
+      logger.warning(f"Użytkownik podał wielkość ({params['pollutant']}) lub częstotliwość ({params['frequency']}), która nie występuje w bazie danych.")
       raise utils.exceptions.DataNotFoundError(CLI_KEYS.WRONG_KEYS_ERROR.value)
       
       
@@ -208,7 +209,7 @@ def main():
     filtered_measurements_by_date: list = get_filtered_measurements_by_date(params["start_date"], params["end_date"], path_to_measurements) # all subcommands based only on mesaurements bettwen given timestamp
     
     if not filtered_measurements_by_date:
-      logger.warning(f"{CLI_KEYS.WRONG_MEASUREMENT_DATE_ERROR.value} (od {params['start_date'].date()} do {params['end_date'].date()})")
+      logger.warning(f"{CLI_KEYS.WRONG_MEASUREMENT_DATE_ERROR.value} (od {params['start_date'].date()} do {params['end_date'].date()})")  #6c ii
       
     
     logger.info(f"Pomyślnie załadowano {len(filtered_measurements_by_date)} pomiarów.")
@@ -228,8 +229,8 @@ def main():
     #print(f"\n[BŁĄD]: {str(e)}")
 
   except Exception as e:
-        logger.critical(f"Nieoczekiwany błąd: {str(e)}", exc_info=True) #exec_info=True add more data about error 
-        print(f"\n[KRYTYCZNY BŁĄD]: Wystąpił nieoczekiwany problem. Sprawdź plik app.log.")
+    logger.critical(f"Nieoczekiwany błąd: {str(e)}", exc_info=True) #exec_info=True add more data about error 
+    #print(f"\n[KRYTYCZNY BŁĄD]: Wystąpił nieoczekiwany problem. Sprawdź plik app.log.")
 
 if __name__ == "__main__":
   main()
