@@ -1,0 +1,2 @@
+22-04-2026 07:56:07 ; INFO ; Otwieranie pliku pomiarów: data/measurements/2023_As(PM10)_24g.csv
+22-04-2026 07:56:07 ; ERROR ; Błąd krytyczny przy pliku data/measurements/2023_As(PM10)_24g.csv: [Errno 2] No such file or directory: '/Users/pawel/Studia/SEM4/Jezyki Skryptowe/Jezyk-Skryptowe/Lista5/src/data/measurements/2023_As(PM10)_24g.csv'
