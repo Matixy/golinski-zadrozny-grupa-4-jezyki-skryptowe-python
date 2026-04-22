@@ -13,7 +13,7 @@ def find_anomalies(measurements: list) -> list:
     anomalies = [] #return list
 
     ALARM_THRESHOLDS = {"PM10": 500.0}
-    FAST_CHANGE_THRESHOLD = 50.0
+    FAST_CHANGE_THRESHOLD = 100.0
 
 
     all_stations_data = {}

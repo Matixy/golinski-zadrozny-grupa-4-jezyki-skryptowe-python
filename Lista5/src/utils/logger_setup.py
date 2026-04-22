@@ -4,7 +4,7 @@ import sys
 
 def filter_errors(record):
     """Allows only for logs at levels weaker tham Error(INFO, WARNING, DEBUG)"""
-    return record.levelno < logging.ERROR
+    return record.levelno < logging.ERROR #true if level is lower than Error(40)
 
 def set_logger() -> logging.Logger:
     logger = logging.getLogger(__name__) # create or get a logger with the current module name
@@ -13,7 +13,8 @@ def set_logger() -> logging.Logger:
     if not logger.handlers:    # avoid duplicated log messages, 
         log_file = Path("cli_app.log")
         file_handler = logging.FileHandler(log_file, encoding="utf-8")
-        formatter = logging.Formatter(fmt= "%(asctime)s ; %(levelname)s ; %(message)s", datefmt="%d-%m-%Y %H:%M:%S")
+        #formatter = logging.Formatter(fmt= "%(asctime)s ; %(levelname)s ; %(message)s" , datefmt="%d-%m-%Y %H:%M:%S") #datefmt - date format for asctime
+        formatter = logging.Formatter(fmt="%(asctime)s ; %(levelname)s ; %(name)s ; %(filename)s:%(lineno)d ; %(message)s" , datefmt="%d-%m-%Y %H:%M:%S")
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)
 

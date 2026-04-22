@@ -72,13 +72,31 @@ Lista5/
 
   # Statystyki dla konkretnej stacji (np. SlGodGliniki):
   python src/cli.py --wielkosc "As(PM10)" --czestotliwosc 24g --start 2023-01-01 --koniec 2023-01-31 statystyki --stacja "SlGodGliniki"
+
+  #Warning bo niewystarczajaca liczba danych
+  py src\cli.py --wielkosc As(PM10) --czestotliwosc 24g --start 2023-01-01 --koniec 2023-01-01 statystyki --stacja "SlGodGliniki"
+
+  #Error bo błędna wartosc czestotliwosci
+  py src\cli.py --wielkosc As(PM10) --czestotliwosc 2g --start 2023-01-01 --koniec 2023-01-31 statystyki --stacja "SlGodGliniki"
+  
+  #Anomalie
+  py src\cli.py --wielkosc As(PM10) --czestotliwosc 24g --start 2023-01-01 --koniec 2023-12-31 anomalie
+
+  py src\cli.py --wielkosc PM10 --czestotliwosc 24g --start 2023-01-01 --koniec 2023-12-31 anomalie
+
+  # 3. Przykład użycia CLI Typer
+  python src/cli_typer.py losowa-stacja --wielkosc PM10 --czestotliwosc 24g --start 2023-01-01 --koniec 2023-01-31
+
+  python src/cli_typer.py statystyki DsJelGorSoko --wielkosc PM10 --czestotliwosc 24g --start 2023-01-01 --koniec 2023-01-31 
+
+  python src/cli_typer.py --help 
 ```
 
 ## 📝 Podsumowanie pracy i Podział obowiązków
 | Członek Zespołu | Zakres obowiązków i wykonane zadania                                                                                                                                                                                                                      |
 | :--- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Paweł Goliński** | Konfiguracja systemu logowania (Zad. 6) z podziałem na stdout/stderr <br/> Zadania dodatkowe: Detekcja anomalii w seriach pomiarowych oraz analiza alternatywnych bibliotek CLI (Typer/Click).
-| **Mateusz Zadrozny** | Implementacja parserów CSV (Zad. 1) <br/> grupowań Regex (Zad. 2) <br/> ekstrakcji adresów (Zad. 3) <br/> Transformacja i walidacja danych (Zad. 4) <br/> Przygotowanie szkieletu CLI w argparse (Zad. 5).
+| **Paweł Goliński** | Konfiguracja systemu logowania z podziałem na stdout/stderr <br/> Zadania dodatkowe:<Br> Stworzenie Aplikacji Cli z biblioteką Typer <br> Detekcja anomalii w seriach pomiarowych <br> Przygotowanie README
+| **Mateusz Zadrozny** | Implementacja parserów CSV  <br/> grupowań Regex <br/> ekstrakcji adresów <br/> Transformacja i walidacja danych  <br/> Przygotowanie szkieletu CLI w argparse.
 
 ---
 
