@@ -124,8 +124,6 @@ def main():
     print(f'{station_code} -> {coords}')
     break
   
-  normalize_station_name(stations) # 4d
-  
   # 4c
   print("\n4c")
   two_part_named_stations: dict = get_two_part_name_stations(stations) 
@@ -133,6 +131,9 @@ def main():
     print(station)
     break
 
+  normalize_station_name(stations) # 4d
+  
+  
   print("\n4e")
   print(check_mobile_stations(stations)) # 4e False- Nr 48
 

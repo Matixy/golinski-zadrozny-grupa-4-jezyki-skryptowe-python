@@ -56,7 +56,8 @@ def get_addresses(path: Path, city: str) -> list[tuple[str, str, str, str]]:
   return addresses
 
 def main():
-  res = get_addresses(pathlib.Path(".\\data\\stacje.csv"), "Świdnica")
+  p = Path("data") / "stacje.csv"
+  res = get_addresses(p, "Świdnica")
   for i in res:
     print(i)
 

@@ -19,8 +19,8 @@ import utils.exceptions
 
 from anomaly_finder import find_anomalies
 
-MEASUREMENTS_DIRECTORY_PATH: Path = pathlib.Path(".\\data\\measurements")
-METADATA_DIRECTORY_PATH: Path = pathlib.Path(".\\data\\stacje.csv")
+MEASUREMENTS_DIRECTORY_PATH: Path = pathlib.Path("data/measurements")
+METADATA_DIRECTORY_PATH: Path = pathlib.Path("data/stacje.csv")
 
 def validate_date_argparse(date: str):
   """"validate date for argparse in format YYYY-MM-DD"""
@@ -77,10 +77,10 @@ def create_argument_parser() -> ArgumentParser:
 
 
 
-def get_filtered_measurements_by_date(start_date: datetime.datetime, end_date: datetime.datetime, path: Path) -> list:
+def get_filtered_measurements_by_date(start_date: datetime, end_date: datetime, path: Path) -> list:
   """"Returns this measurements data rows bettwen start and end date"""
   
-  measurements: list = csv_parser.parse_measurements(path)
+  measurements: list = csv_parser.parse_measurements(path, True)
   
   filtered_measurements: list = []
   
@@ -221,7 +221,7 @@ def main():
       
 
     # parse and filter data
-    stations: dict = csv_parser.parse_metadata(METADATA_DIRECTORY_PATH)
+    stations: dict = csv_parser.parse_metadata(METADATA_DIRECTORY_PATH, True)
     filtered_measurements_by_date: list = get_filtered_measurements_by_date(params["start_date"], params["end_date"], path_to_measurements) # all subcommands based only on mesaurements bettwen given timestamp
     
     if not filtered_measurements_by_date:
