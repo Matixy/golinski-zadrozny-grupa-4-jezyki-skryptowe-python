@@ -45,7 +45,8 @@ def group_measurement_files_by_key(path: Path) -> dict[tuple[str, str, str], Pat
   return files_dict
 
 def main():
-  res = group_measurement_files_by_key(pathlib.Path(".\\data\\measurements"))
+  p = Path("data") / "measurements"
+  res = group_measurement_files_by_key(p)
   for key,val in res.items():
     print(f'{key} = {val}')
 
