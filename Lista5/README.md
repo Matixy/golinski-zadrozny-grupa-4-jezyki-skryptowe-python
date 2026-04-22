@@ -82,6 +82,8 @@ Lista5/
   #Anomalie
   py src\cli.py --wielkosc As(PM10) --czestotliwosc 24g --start 2023-01-01 --koniec 2023-12-31 anomalie
 
+  py src\cli.py --wielkosc PM10 --czestotliwosc 24g --start 2023-01-01 --koniec 2023-12-31 anomalie
+
   # 3. Przykład użycia CLI Typer
   python src/cli_typer.py losowa-stacja --wielkosc PM10 --czestotliwosc 24g --start 2023-01-01 --koniec 2023-01-31
 
