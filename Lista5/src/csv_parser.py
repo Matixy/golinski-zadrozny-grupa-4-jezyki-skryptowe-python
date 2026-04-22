@@ -16,7 +16,7 @@ MEASUREMENTS_STATION_CODES_ROW_NUM: int = 1 # on this row index in csv file is s
 MEASUREMENTS_UNITS_ROW_NUM: int = 4 # on this row index in csv file is unit
 MEASUREMENTS_STAND_ID_ROW_NUM: int = 5 # on this row index in csv file is stand id
 
-def parse_metadata(path: Path, show_debug: bool = True) -> dict:
+def parse_metadata(path: Path, show_debug: bool = False) -> dict:
   """"
   Reads data from stacje.csv file of each station returns dict where key is STATION_CODE and value is data of station
   
@@ -67,7 +67,7 @@ def parse_metadata(path: Path, show_debug: bool = True) -> dict:
 
   return stations_data
 
-def parse_measurements(path: Path, show_debug: bool = True) -> list[dict]:
+def parse_measurements(path: Path, show_debug: bool = False) -> list[dict]:
   """"
     Reads single measurement file, returns list of dicts each dict is one measurment data from specific date
     
@@ -173,7 +173,7 @@ def prepare_measurement_dict(year: str, pollutant: str, frequency: str, station_
 
 def main():    
   measurement_path = Path("data") / "measurements" / "2023_As(PM10)_24g.csv" # pathlib take care off proper system path symbol
-  res = parse_measurements(measurement_path, False) # example for test
+  res = parse_measurements(measurement_path) # example for test
   # for i in res:
   #   print(i)
   #   break;
