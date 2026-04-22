@@ -37,7 +37,7 @@ class LoggingArgumentParser(argparse.ArgumentParser):
   def error(self, message):
     #przechwytujemy błąd z argparse i wpisujemy go do logera, bez tej klasy argparse sam lapal bledy i nie mozna bylo logowach ich w logach
     logger.error(f"Nieprawidłowe użycie komend (argparse): {message}")
-    #wywołujemy oryginalną funkcję error, żeby program zakończył się poprawnie (jak oczekuje CLI)
+    #wywołujemy oryginalną funkcję error, żeby program zakończył się poprawnie
     super().error(message)
 
 
