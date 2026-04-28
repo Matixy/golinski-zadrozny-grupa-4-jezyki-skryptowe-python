@@ -18,7 +18,7 @@ def fib(n: int) -> int:
 
 if __name__ == "__main__":
   fib_gen = make_generator(fib)
-  for _ in range(10):
+  for _ in range(40):
     print(next(fib_gen))
   print()
   
