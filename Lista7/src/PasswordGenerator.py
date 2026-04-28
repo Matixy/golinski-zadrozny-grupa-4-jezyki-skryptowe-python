@@ -32,7 +32,8 @@ class PasswordGenerator:
     
     return "".join(random.choice(self.charset) for _ in range(self.length))
   
-  
+
+# tests
 if __name__ == "__main__":
   passwordGenerator: PasswordGenerator = PasswordGenerator(3, None, 5)
   passwordGenerator2: PasswordGenerator = PasswordGenerator(5, "a2cx", 2)
