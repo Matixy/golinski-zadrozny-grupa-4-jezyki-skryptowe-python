@@ -41,7 +41,13 @@ Lista5/
   python -m venv venv
   source venv/bin/activate # lub venv\Scripts\activate na Windows
 
-  #DOPISAC PRZYKLADY UZYCIA DLA POSZCZEGOLNYCH ZADAN 
+  # 2. Skrypty/moduły uruchamia się z folderu głownego danej listy 
+  #Przyklady:
+  python src/make_generator.py
+
+  python src/make_generator_mem.py
+  
+  python src/log_decorator.py
 ```
 
 ## 📝 Podsumowanie pracy i Podział obowiązków
@@ -53,7 +59,12 @@ Lista5/
 ---
 
 ## ⚠️ Napotkane problemy
-
+- Brak instrukcji for, while i if zmuszał do zmiany podejścia.
+- Przyjmowanie przez dekorator własnego parametru.
 ---
 
 ## 🎓 Czego się nauczyliśmy?
+- Poprawiliśmy umiejętność korzystania z list składanych i operatora ternarnego
+- Poznaliśmy definicje domknięcia, jego zalet i tego jak się go uzywa w pythonie
+- Czym jest memoizacja i jak jej uzywać.
+- Czym są dekoratory, jak je tworzyć i obsługiwać.
