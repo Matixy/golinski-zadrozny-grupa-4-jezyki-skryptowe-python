@@ -1,13 +1,13 @@
 def acronym(word_list: list[str]) -> str:
-    char_list = [word[0] for word in word_list]
+    char_list = [word[0] for word in word_list if word] #if word zabezpiecza przed pustym strigiem lub Nonem
     return "".join(char_list).upper()
 
 
 
 def median(num_list: list[int]) -> float:
-    num_list.sort()
-    size = len(num_list)
-    mediana = num_list[size//2] if size%2==1 else (num_list[size//2] + num_list[size//2 -1]) /2
+    sorted_list = sorted(num_list)
+    size = len(sorted_list)
+    mediana = sorted_list[size//2] if size%2==1 else (sorted_list[size//2] + sorted_list[size//2 -1]) /2
     return mediana
 
 
@@ -55,20 +55,20 @@ def _get_sorted_words_by_letter_list(word_list: list[str], key_word: str) -> lis
 
 
 def main():
-    words = ["zaklad", "ubezpieczen", "spolecznych"]
+    words = ["zaklad", "ubezpieczen", "spolecznych", ""]
     print("A) "+ acronym(words))
 
     nums = [1,7,2,7,2,4,3,9]
     print(f"B) Lista: {sorted(nums)} Mediana: {median(nums)}")
 
-    print(f"C) {pierwiastek(-3, 0.01)}")
+    print(f"C) {pierwiastek(-3, 0.1)}")
 
     sentence = "on i ona"
     print(f"D) {make_alpha_dict(sentence)}")
 
     print(f"E) {flatten([1, [2, 3], (8, []), [(4, 5), 6]])}")
 
-    print(f"F) {group_anagrams(["kot", "tok", "pies", "kep", "pek"])}")
+    print(f"F) {group_anagrams(['kot', 'tok', 'pies', 'kep', 'pek'])}")
 
 
 if __name__ == "__main__":
