@@ -25,7 +25,7 @@ def parse_logging_level(level_name: str) -> int:
 
 
 
-def log_decorator(log_lvl = "INFO"):     # Decorators can accept their own arguments by adding another wrapper level.
+def log_decorator(log_lvl = "INFO"):     #Decorators can accept their own arguments by adding another wrapper level.
     def log_decorator(func):
         def enchanced_func(*args, **kwargs):
             level = parse_logging_level(log_lvl)
@@ -69,8 +69,7 @@ class TeaMachine:
 def main():
     logger_setup.setup_logger()
 
-    # maker = log_decorator("DEBUG")(make_tea)
-    # maker(2,6)
+    #log_decorator("DEBUG")(make_tea)(2,6) #without syntactic sugar of decorator
 
     make_tea(2,6)
     
