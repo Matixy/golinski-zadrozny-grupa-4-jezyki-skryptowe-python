@@ -3,14 +3,10 @@ def acronym(word_list: list[str]) -> str:
     return "".join(char_list).upper()
 
 
-
-def median(num_list: list[int]) -> float:
+def median(num_list: list[int]) -> float | None:
     sorted_list = sorted(num_list)
     size = len(sorted_list)
-    mediana = sorted_list[size//2] if size%2==1 else (sorted_list[size//2] + sorted_list[size//2 -1]) /2
-    return mediana
-
-
+    return (sorted_list[size//2] if size % 2 == 1 else (sorted_list[size//2] + sorted_list[size//2 - 1]) / 2) if num_list else None
 
 def pierwiastek(x: float, epsilon: float) -> float:
     x = abs(x)
@@ -58,8 +54,9 @@ def main():
     words = ["zaklad", "ubezpieczen", "spolecznych", ""]
     print("A) "+ acronym(words))
 
+    nums2 = []
     nums = [1,7,2,7,2,4,3,9]
-    print(f"B) Lista: {sorted(nums)} Mediana: {median(nums)}")
+    print(f"B) Lista: {sorted(nums2)} Mediana: {median(nums2)}")
 
     print(f"C) {pierwiastek(-3, 0.1)}")
 
