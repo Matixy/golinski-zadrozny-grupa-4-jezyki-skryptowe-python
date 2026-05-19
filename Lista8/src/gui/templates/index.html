@@ -13,12 +13,16 @@
       href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
     />
   </head>
-  <body class="bg-dark text-light p-2  h-100 overflow-hidden">
-    <header class="h-25">{% include 'header.html' %}</header>
+  <body class="bg-dark text-light p-2 vh-100 d-flex flex-column overflow-hidden">
+    <header class="flex-shrink-0">{% include 'header.html' %}</header>
 
-    <main id="master" class="overflow-hidden h-75">
-      <div class="container-fluid p-2 mb-3 h-100">
-         <div class="row text-start mb-3">
+    <aside>
+      {% include 'error.html' %}
+    </aside>
+
+    <main id="master" class="flex-grow-1 overflow-hidden">
+      <div class="container-fluid p-2 h-100 d-flex flex-column">
+         <div class="row text-start mb-3 flex-shrink-0">
               <div class="col-4">
                 <div class="input-group align-self-start">
                   <span
@@ -28,7 +32,7 @@
                   >
                   <input
                     type="date"
-                    class="form-control"
+                    class="form-control text-black"
                     aria-describedby="basic-addon3 basic-addon4"
                     aria-label="data-log-start"
                     value="TUTAJ POCZĄTEK"
@@ -45,7 +49,7 @@
                   >
                   <input
                     type="date"
-                    class="form-control"
+                    class="form-control text-black"
                     aria-describedby="basic-addon3 basic-addon4"
                     aria-label="data-log-end"
                     value="TUTAJ KONIEC DATY"
@@ -54,27 +58,34 @@
               </div>
             </div>
 
-        <div class="row">
-          <div class="d-flex align-items-start flex-column col-4 mb-3 h-100 overflow-auto border-end border-secondary custom-scrollbar">
-          
-            {% for log_id, log in logi.items() %}
-            <section
-              class=""
-              hx-get="/szczegoly/{{ log_id }}"
-              hx-target="#detail-pane"
-            >
-              <strong>{{ log.ip }}</strong> - [{{ log.status }}] {{ log.uri }}
-            </section>
-            {% endfor %}
+        <div class="row flex-grow-1 overflow-hidden">
+          <div class="col-4 h-100 overflow-auto">
+            <div class="d-flex flex-column">
+              <ul class="list-group">
 
+                {% for log_id, log in logi.items() %}
+              <li
+                class="list-group-item text-nowrap overflow-hidden bg-dark-subtle border-bottom border-dark"
+                hx-get="/szczegoly/{{ log_id }}"
+                hx-target="#detail-pane"
+              >
+                TUTAJ JAK JAKIS LOG JEST WYSWIETLANY TO DO DANEGO LI DODAC ACTIVE KLASE{{ log.ip }} - [{{ log.status }}] {{ log.uri }}
+              </li>
+              {% endfor %}
+              </ul>
+
+            </div>
           </div>
 
-          <section id="detail-pane" class="col-8">
-            <p>Kliknij log z listy, aby zobaczyć szczegóły...</p>
+          <section id="detail-pane" class="col-8 h-100 text-center">
+            <p>Click on log to see details</p>
+            <div> {% include 'detail.html' %} </div>
           </section>
         </div>
       </div>
     </main>
+
+    <footer class="">{% include 'footer.html' %}</footer>
 
     <script src="https://unpkg.com/htmx.org@1.9.6"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>

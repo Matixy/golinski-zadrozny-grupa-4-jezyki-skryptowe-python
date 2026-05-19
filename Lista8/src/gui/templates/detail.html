@@ -1,13 +1,117 @@
 <div>
-    <h2>Szczegóły Loga</h2>
-    <p><strong>Adres hosta (IP):</strong> {{ log.ip }}</p>
-    <p><strong>Data:</strong> {{ log.data }}</p>
-    <p><strong>Metoda:</strong> {{ log.metoda }}</p>
-    <p><strong>URI:</strong> {{ log.uri }}</p>
-    
-    <p><strong>Status:</strong> 
-        <span style="color: {% if log.status == 200 %}green{% else %}red{% endif %}; font-weight: bold;">
-            {{ log.status }}
-        </span>
-    </p>
+  <div class="d-flex flex-column">
+    <div class="mx-5 my-3">
+      <div class="input-group align-self-start w-75">
+        <span
+          class="input-group-text bg-dark text-light fs-5 fw-medium"
+          id="basic-addon3"
+          >Remote host:</span
+        >
+        <input
+          type="text"
+          class="form-control fs-5"
+          aria-describedby="basic-addon3 basic-addon4"
+          aria-label="log-remote-host"
+          disabled
+          readonly
+          value="TUTAJ HOST Z PYTHONA"
+        />
+      </div>
+    </div>
+    <div class="mx-5 my-3">
+      <div class="input-group align-self-start w-100">
+        <span
+          class="input-group-text bg-dark text-light fs-5 fw-medium"
+          id="basic-addon3"
+          >Date:</span
+        >
+        <input
+          type="text"
+          class="form-control fs-5"
+          aria-describedby="basic-addon3 basic-addon4"
+          aria-label="log-date"
+          disabled
+          readonly
+          value="TUTAJ DATA Z PYTHONA"
+        />
+      </div>
+    </div>
+    <div class="row mx-5 my-3">
+      <div class="col col-6 text-start pe-2 ps-0">
+        <div class="input-group align-self-start">
+          <span
+            class="input-group-text bg-dark text-light fs-5 fw-medium"
+            id="basic-addon3"
+            >Time:</span
+          >
+          <input
+            type="time"
+            class="form-control fs-5"
+            aria-describedby="basic-addon3 basic-addon4"
+            aria-label="log-time"
+            disabled
+            readonly
+            value="TUTAJ TIME Z PYTHONA"
+          />
+        </div>
+      </div>
+
+      <div class="col col-6 text-start p-0">
+        <div class="input-group align-self-start col-6">
+          <span
+            class="input-group-text bg-dark text-light fs-5 fw-medium"
+            id="basic-addon3"
+            >Timezone:</span
+          >
+          <input
+            type="text"
+            class="form-control fs-5"
+            aria-describedby="basic-addon3 basic-addon4"
+            aria-label="log-timezone"
+            disabled
+            readonly
+            value="TUTAJ TIMEZONE Z PYTHONA"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row mx-5 my-3">
+      <div class="col col-6 text-start p-0">
+        <div class="d-flex justify-content-between">
+            <p class="fs-5 fw-medium w-75">Status code:</p>
+            <p class="fs-5 w-25">XXX</p>
+        </div>
+      </div>
+
+      <div class="col col-6 text-start p-0">
+        <div class="d-flex justify-content-between">
+            <p class="fs-5 fw-medium w-50">Method:</p>
+            <p class="fs-5 w-50">METHOD Z PY</p>
+        </div>
+      </div>
+    </div>
+    <div class="mx-5 my-3">
+      <div class="input-group align-self-start w-100">
+        <span
+          class="input-group-text bg-dark text-light fs-5 fw-medium"
+          id="basic-addon3"
+          >Resource:</span
+        >
+        <input
+          type="text"
+          class="form-control fs-5 overflow-auto"
+          aria-describedby="basic-addon3 basic-addon4"
+          aria-label="log-date"
+          disabled
+          readonly
+          value="TUTAJ RESOURCE Z PYTHONA"
+        />
+      </div>
+    </div>
+    <div class="row mx-5 my-3">
+      <div class="text-start d-flex p-0">
+        <p class="fs-5 fw-medium w-25">Size:</p>
+        <p class="fs-5">XXXXXX Bytes</p>
+      </div>
+  </div>
 </div>
