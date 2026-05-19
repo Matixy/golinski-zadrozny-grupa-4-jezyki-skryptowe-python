@@ -16,15 +16,19 @@
   <body class="bg-dark text-light p-2 vh-100 d-flex flex-column overflow-hidden">
     <header class="flex-shrink-0">{% include 'header.html' %}</header>
 
-    <aside>
-      {% include 'error.html' %}
+    <aside class="z-3 position-absolute top-0 end-0">
+      <div class="d-flex flex-column vh-100 overflow-auto">
+        {% for _ in range(20) %}
+          {% include 'error.html' %}
+        {% endfor %}
+      </div>
     </aside>
 
     <main id="master" class="flex-grow-1 overflow-hidden">
-      <div class="container-fluid p-2 h-100 d-flex flex-column">
+      <div class="container-fluid py-2 h-100 d-flex flex-column">
          <div class="row text-start mb-3 flex-shrink-0">
-              <div class="col-4">
-                <div class="input-group align-self-start">
+              <div class="col-5">
+                <div class="input-group">
                   <span
                     class="input-group-text bg-dark text-light"
                     id="basic-addon3"
@@ -40,8 +44,8 @@
                 </div>
               </div>
 
-              <div class="col-4">
-                <div class="input-group align-self-start">
+              <div class="col-5">
+                <div class="input-group d-flex justify-content-end">
                   <span
                     class="input-group-text bg-dark text-light"
                     id="basic-addon3"
@@ -61,23 +65,23 @@
         <div class="row flex-grow-1 overflow-hidden">
           <div class="col-4 h-100 overflow-auto">
             <div class="d-flex flex-column">
-              <ul class="list-group">
+              <div class="list-group">
 
                 {% for log_id, log in logi.items() %}
               <li
-                class="list-group-item text-nowrap overflow-hidden bg-dark-subtle border-bottom border-dark"
+                class="list-group-item text-nowrap overflow-hidden px-1 bg-dark-subtle border-bottom border-dark"
                 hx-get="/szczegoly/{{ log_id }}"
                 hx-target="#detail-pane"
               >
                 TUTAJ JAK JAKIS LOG JEST WYSWIETLANY TO DO DANEGO LI DODAC ACTIVE KLASE{{ log.ip }} - [{{ log.status }}] {{ log.uri }}
               </li>
               {% endfor %}
-              </ul>
+              </div>
 
             </div>
           </div>
 
-          <section id="detail-pane" class="col-8 h-100 text-center">
+          <section id="detail-pane" class="col-8 h-100 text-center overflow-auto">
             <p>Click on log to see details</p>
             <div> {% include 'detail.html' %} </div>
           </section>
@@ -85,7 +89,9 @@
       </div>
     </main>
 
-    <footer class="">{% include 'footer.html' %}</footer>
+    <footer class="">
+      {% include 'footer.html' %}
+    </footer>
 
     <script src="https://unpkg.com/htmx.org@1.9.6"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
