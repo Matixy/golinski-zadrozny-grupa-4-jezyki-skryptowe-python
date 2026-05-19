@@ -1,0 +1,13 @@
+<div>
+    <h2>Szczegóły Loga</h2>
+    <p><strong>Adres hosta (IP):</strong> {{ log.ip }}</p>
+    <p><strong>Data:</strong> {{ log.data }}</p>
+    <p><strong>Metoda:</strong> {{ log.metoda }}</p>
+    <p><strong>URI:</strong> {{ log.uri }}</p>
+    
+    <p><strong>Status:</strong> 
+        <span style="color: {% if log.status == 200 %}green{% else %}red{% endif %}; font-weight: bold;">
+            {{ log.status }}
+        </span>
+    </p>
+</div>
