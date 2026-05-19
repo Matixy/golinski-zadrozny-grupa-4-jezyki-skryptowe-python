@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Log Browser</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='icon.png') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
+    />
+  </head>
+  <body class="bg-dark text-light p-2  h-100 overflow-hidden">
+    <header class="h-25">{% include 'header.html' %}</header>
+
+    <main id="master" class="overflow-hidden h-75">
+      <div class="container-fluid p-2 mb-3 h-100">
+         <div class="row text-start mb-3">
+              <div class="col-4">
+                <div class="input-group align-self-start">
+                  <span
+                    class="input-group-text bg-dark text-light"
+                    id="basic-addon3"
+                    >From:</span
+                  >
+                  <input
+                    type="date"
+                    class="form-control"
+                    aria-describedby="basic-addon3 basic-addon4"
+                    aria-label="data-log-start"
+                    value="TUTAJ POCZĄTEK"
+                  />
+                </div>
+              </div>
+
+              <div class="col-4">
+                <div class="input-group align-self-start">
+                  <span
+                    class="input-group-text bg-dark text-light"
+                    id="basic-addon3"
+                    >To:</span
+                  >
+                  <input
+                    type="date"
+                    class="form-control"
+                    aria-describedby="basic-addon3 basic-addon4"
+                    aria-label="data-log-end"
+                    value="TUTAJ KONIEC DATY"
+                  />
+                </div>
+              </div>
+            </div>
+
+        <div class="row">
+          <div class="d-flex align-items-start flex-column col-4 mb-3 h-100 overflow-auto border-end border-secondary custom-scrollbar">
+          
+            {% for log_id, log in logi.items() %}
+            <section
+              class=""
+              hx-get="/szczegoly/{{ log_id }}"
+              hx-target="#detail-pane"
+            >
+              <strong>{{ log.ip }}</strong> - [{{ log.status }}] {{ log.uri }}
+            </section>
+            {% endfor %}
+
+          </div>
+
+          <section id="detail-pane" class="col-8">
+            <p>Kliknij log z listy, aby zobaczyć szczegóły...</p>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+  </body>
+</html>
