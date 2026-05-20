@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Log Browser</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='icon.png') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
+    />
+  </head>
+  <body class="bg-dark text-light p-2 vh-100 d-flex flex-column overflow-hidden">
+    <header class="flex-shrink-0">{% include 'header.html' %}</header>
+
+    <aside class="z-3 position-absolute top-0 end-0">
+      <div class="d-flex flex-column vh-100 overflow-auto">
+        {% for _ in range(20) %}
+          {% include 'error.html' %}
+        {% endfor %}
+      </div>
+    </aside>
+
+    <main id="master" class="flex-grow-1 overflow-hidden">
+      <div class="container-fluid py-2 h-100 d-flex flex-column">
+         <div class="row text-start mb-3 flex-shrink-0">
+              <div class="col-5">
+                <div class="input-group">
+                  <span
+                    class="input-group-text bg-dark text-light"
+                    id="basic-addon3"
+                    >From:</span
+                  >
+                  <input
+                    type="date"
+                    class="form-control text-black"
+                    aria-describedby="basic-addon3 basic-addon4"
+                    aria-label="data-log-start"
+                    value="TUTAJ POCZĄTEK"
+                  />
+                </div>
+              </div>
+
+              <div class="col-5">
+                <div class="input-group d-flex justify-content-end">
+                  <span
+                    class="input-group-text bg-dark text-light"
+                    id="basic-addon3"
+                    >To:</span
+                  >
+                  <input
+                    type="date"
+                    class="form-control text-black"
+                    aria-describedby="basic-addon3 basic-addon4"
+                    aria-label="data-log-end"
+                    value="TUTAJ KONIEC DATY"
+                  />
+                </div>
+              </div>
+            </div>
+
+        <div class="row flex-grow-1 overflow-hidden">
+          <div class="col-4 h-100 overflow-auto">
+            <div class="d-flex flex-column">
+              <div class="list-group">
+
+                {% for log_id, log in logi.items() %}
+              <li
+                class="list-group-item text-nowrap overflow-hidden px-1 bg-dark-subtle border-bottom border-dark"
+                hx-get="/szczegoly/{{ log_id }}"
+                hx-target="#detail-pane"
+              >
+                TUTAJ JAK JAKIS LOG JEST WYSWIETLANY TO DO DANEGO LI DODAC ACTIVE KLASE{{ log.ip }} - [{{ log.status }}] {{ log.uri }}
+              </li>
+              {% endfor %}
+              </div>
+
+            </div>
+          </div>
+
+          <section id="detail-pane" class="col-8 h-100 text-center overflow-auto">
+            <p>Click on log to see details</p>
+            <div> {% include 'detail.html' %} </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer class="">
+      {% include 'footer.html' %}
+    </footer>
+
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+  </body>
+</html>
