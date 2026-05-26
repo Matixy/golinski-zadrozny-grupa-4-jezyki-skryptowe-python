@@ -21,7 +21,7 @@ class AppState:
   def __init__(self):
     self.all_logs = []  #w tej liscie przechowywane sa wszystkie logi
     self.filtered_logs = [] #w tej sa przechowywane logi do wyswietlania
-    self.curr_file_name = "Wybierz plik ..."
+    self.curr_file_name = "Choose file..."
     self.LOG_LIST_SIZE = 1000
     self.start_date_str = ""
     self.end_date_str = ""
