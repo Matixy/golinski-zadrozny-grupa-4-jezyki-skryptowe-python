@@ -22,6 +22,10 @@ class AppState:
     self.all_logs = []  #w tej liscie przechowywane sa wszystkie logi
     self.filtered_logs = [] #w tej sa przechowywane logi do wyswietlania
     self.curr_file_name = "Wybierz plik ..."
+    self.LOG_LIST_SIZE = 1000
+    self.start_date_str = ""
+    self.end_date_str = ""
+
 app_state = AppState()
 
 
@@ -29,12 +33,22 @@ app_state = AppState()
 @app.route("/")
 def home():
   #przekazanie listy logów do szablonu HTML
-  return render_template(TemplatesNames.INDEX.value , logi=app_state.filtered_logs[:2000], file_name=app_state.curr_file_name)
+  return render_template(TemplatesNames.INDEX.value , 
+                          logs=app_state.filtered_logs[:app_state.LOG_LIST_SIZE], 
+                          start_index=0, next_index=app_state.LOG_LIST_SIZE, 
+                          total_count=len(app_state.filtered_logs), 
+                          file_name=app_state.curr_file_name, 
+                          start_date=app_state.start_date_str,
+                          end_date=app_state.end_date_str)
+
+
 
 @app.route("/detail/<int:log_id>")
 def show_details(log_id):
   selected_log = app_state.filtered_logs[log_id]
   return render_template(TemplatesNames.DETAILS.value, log=selected_log)
+
+
 
 @app.route("/read_file", methods=["POST"])
 def read_file():
@@ -43,7 +57,7 @@ def read_file():
         file = request.files["plik_logow"]
         
         if file.filename != "":
-            # Tworzymy folder 'uploads' jeśli nie istnieje i zapisujemy plik tymczasowo
+            #tworzenie folderu 'uploads' jeśli nie istnieje i zapisanie pliku tymczasowo
             os.makedirs("uploads", exist_ok=True)
             saving_path = os.path.join("uploads", file.filename)
             file.save(saving_path)
@@ -57,17 +71,36 @@ def read_file():
             if os.path.exists(saving_path):
                 os.remove(saving_path)  #usuwanie tymczasowego pliku z dysku
             
-    # Na koniec przeładowujemy stronę główną, żeby wyświetliła nową listę
-    return redirect("/")
+    return redirect("/") #przeladowanie strony glownej
+
+
 
 @app.route("/filter", methods=["POST"])
 def filter_log():
-  start_str = request.form.get("date_start")
-  end_str = request.form.get("date_end")
+  start_str = request.form.get("date_start") or ""
+  end_str = request.form.get("date_end") or ""
+  app_state.start_date_str = start_str
+  app_state.end_date_str = end_str
 
   app_state.filtered_logs = filter_logs_by_date(app_state.all_logs, start_str, end_str)
 
   return redirect("/")
+
+
+
+@app.route("/load_more/<int:start_index>")
+def load_more(start_index):
+   next_index = start_index + app_state.LOG_LIST_SIZE
+   next_logs = app_state.filtered_logs[start_index:next_index]
+
+   return render_template(
+      TemplatesNames.LOGS_BOX.value,
+      logs = next_logs,
+      start_index=start_index,
+      next_index=next_index,
+      total_count=len(app_state.filtered_logs)
+   )
+
 
 
 
