@@ -18,7 +18,7 @@
 
     <aside class="z-3 position-absolute top-0 end-0">
       <div class="d-flex flex-column vh-100 overflow-auto">
-        {% for _ in range(20) %}
+        {% for _ in range(0) %}
           {% include 'error.html' %}
         {% endfor %}
       </div>
@@ -27,53 +27,45 @@
     <main id="master" class="flex-grow-1 overflow-hidden">
       <div class="container-fluid py-2 h-100 d-flex flex-column">
          <div class="row text-start mb-3 flex-shrink-0">
-              <div class="col-5">
+            <form action="/filter" method="POST" class="row text-start mb-3 flex-shrink-0 align-items-center">
+  
+              <div class="col-4">
                 <div class="input-group">
-                  <span
-                    class="input-group-text bg-dark text-light"
-                    id="basic-addon3"
-                    >From:</span
-                  >
-                  <input
-                    type="date"
-                    class="form-control text-black"
-                    aria-describedby="basic-addon3 basic-addon4"
-                    aria-label="data-log-start"
-                    value="TUTAJ POCZĄTEK"
-                  />
+                  <span class="input-group-text bg-dark text-light">From:</span>
+                  <!-- Dodane name="date_start" -->
+                  <input type="datetime-local" step="1" name="date_start" class="form-control text-black" />
                 </div>
               </div>
 
-              <div class="col-5">
-                <div class="input-group d-flex justify-content-end">
-                  <span
-                    class="input-group-text bg-dark text-light"
-                    id="basic-addon3"
-                    >To:</span
-                  >
-                  <input
-                    type="date"
-                    class="form-control text-black"
-                    aria-describedby="basic-addon3 basic-addon4"
-                    aria-label="data-log-end"
-                    value="TUTAJ KONIEC DATY"
-                  />
+              <div class="col-4">
+                <div class="input-group">
+                  <span class="input-group-text bg-dark text-light">To:</span>
+                  <!-- Dodane name="date_end" -->
+                  <input type="datetime-local" step="1" name="date_end" class="form-control text-black" />
                 </div>
               </div>
-            </div>
+
+              <div class="col-4 text-end">
+                <!-- Przycisk, który wyśle te daty do Pythona -->
+                <button type="submit" class="btn btn-outline-light w-100">Zastosuj filtr</button>
+              </div>
+
+            </form>
+          </div>
 
         <div class="row flex-grow-1 overflow-hidden">
           <div class="col-4 h-100 overflow-auto">
             <div class="d-flex flex-column">
               <div class="list-group">
-
-                {% for log_id, log in logi.items() %}
+              {% for log in logi %}
               <li
                 class="list-group-item text-nowrap overflow-hidden px-1 bg-dark-subtle border-bottom border-dark"
-                hx-get="/szczegoly/{{ log_id }}"
+                hx-get="/detail/{{ loop.index0 }}"
                 hx-target="#detail-pane"
               >
-                TUTAJ JAK JAKIS LOG JEST WYSWIETLANY TO DO DANEGO LI DODAC ACTIVE KLASE{{ log.ip }} - [{{ log.status }}] {{ log.uri }}
+              <!-- loop.index0 to wbudowany licznik petli -->
+                <!-- TUTAJ JAK JAKIS LOG JEST WYSWIETLANY TO DO DANEGO LI DODAC ACTIVE KLASE{{ log.ip }} - [{{ log.status }}] {{ log.uri }} -->
+                {{ log.orig_h }} - [{{ log.status }}] {{ log.uri }}
               </li>
               {% endfor %}
               </div>
@@ -83,7 +75,6 @@
 
           <section id="detail-pane" class="col-8 h-100 text-center overflow-auto">
             <p>Click on log to see details</p>
-            <div> {% include 'detail.html' %} </div>
           </section>
         </div>
       </div>

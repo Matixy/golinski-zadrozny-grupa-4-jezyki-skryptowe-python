@@ -14,7 +14,7 @@
           aria-label="log-remote-host"
           disabled
           readonly
-          value="TUTAJ HOST Z PYTHONA"
+          value="{{ log.orig_h }}"
         />
       </div>
     </div>
@@ -32,7 +32,7 @@
           aria-label="log-date"
           disabled
           readonly
-          value="TUTAJ DATA Z PYTHONA"
+          value="{{ log.timestamp.strftime('%Y-%m-%d') }}"
         />
       </div>
     </div>
@@ -51,7 +51,7 @@
             aria-label="log-time"
             disabled
             readonly
-            value="TUTAJ TIME Z PYTHONA"
+            value="{{ log.timestamp.strftime('%H:%M:%S') }}"
           />
         </div>
       </div>
@@ -79,14 +79,14 @@
       <div class="col-12 col-xl-6 text-start pe-xl-2 ps-xl-0 p-0 mb-3 mb-xl-0">
         <div class="d-flex justify-content-between">
             <p class="fw-medium w-75">Status code:</p>
-            <p class="w-25 text-end">XXX</p>
+            <p class="w-25 text-end">{{ log.status }}</p>
         </div>
       </div>
 
       <div class="col-12 col-xl-6 text-start p-0 mt-3 mt-xl-0">
         <div class="d-flex justify-content-between">
             <p class="fw-medium w-50">Method:</p>
-            <p class="w-50 text-end">METHOD Z PY</p>
+            <p class="w-50 text-end">{{ log.method }}</p>
         </div>
       </div>
     </div>
@@ -104,7 +104,7 @@
           aria-label="log-date"
           disabled
           readonly
-          value="TUTAJ RESOURCE Z PYTHONA"
+          value="{{ log.uri }}"
         />
       </div>
     </div>
