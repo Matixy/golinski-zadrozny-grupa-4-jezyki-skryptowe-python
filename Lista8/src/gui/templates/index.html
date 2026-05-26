@@ -32,21 +32,18 @@
               <div class="col-4">
                 <div class="input-group">
                   <span class="input-group-text bg-dark text-light">From:</span>
-                  <!-- Dodane name="date_start" -->
-                  <input type="datetime-local" step="1" name="date_start" class="form-control text-black" />
+                  <input type="datetime-local" step="1" name="date_start" class="form-control text-black" value="{{ start_date }}"/>
                 </div>
               </div>
 
               <div class="col-4">
                 <div class="input-group">
                   <span class="input-group-text bg-dark text-light">To:</span>
-                  <!-- Dodane name="date_end" -->
-                  <input type="datetime-local" step="1" name="date_end" class="form-control text-black" />
+                  <input type="datetime-local" step="1" name="date_end" class="form-control text-black" value="{{ end_date }}"/>
                 </div>
               </div>
 
               <div class="col-4 text-end">
-                <!-- Przycisk, który wyśle te daty do Pythona -->
                 <button type="submit" class="btn btn-outline-light w-100">Zastosuj filtr</button>
               </div>
 
@@ -57,17 +54,7 @@
           <div class="col-4 h-100 overflow-auto">
             <div class="d-flex flex-column">
               <div class="list-group">
-              {% for log in logi %}
-              <li
-                class="list-group-item text-nowrap overflow-hidden px-1 bg-dark-subtle border-bottom border-dark"
-                hx-get="/detail/{{ loop.index0 }}"
-                hx-target="#detail-pane"
-              >
-              <!-- loop.index0 to wbudowany licznik petli -->
-                <!-- TUTAJ JAK JAKIS LOG JEST WYSWIETLANY TO DO DANEGO LI DODAC ACTIVE KLASE{{ log.ip }} - [{{ log.status }}] {{ log.uri }} -->
-                {{ log.orig_h }} - [{{ log.status }}] {{ log.uri }}
-              </li>
-              {% endfor %}
+                {% include 'logs_box.html' %}
               </div>
 
             </div>
