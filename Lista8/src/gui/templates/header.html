@@ -1,39 +1,16 @@
-<!-- <nav>
-  <div class="container-fluid p-2 mb-4 h-25">
-    <div class="row">
-      <div class="col-10 text-start">
-        <div class="input-group align-self-start">
-          <span class="input-group-text bg-dark text-light" id="basic-addon3">Path:</span>
-          <input type="text" class="form-control overflow-auto" aria-describedby="basic-addon3 basic-addon4" 
-          aria-label="path-folder" 
-          disabled readonly value="TUTAJ SCIEZKA Z PYTHONA"
-          >
-        </div>
-      </div>
-
-      <div class="col-2 text-end">
-        <button type="button" class="btn btn-outline-light w-75">Open</button>
-      </div>
-    </div>
-  </div>
-</nav> -->
-
 <nav>
   <div class="container-fluid p-2 mb-4 h-25">
-    <!-- Formularz, który wyśle wybrany plik na adres /wczytaj -->
     <form action="/read_file" method="POST" enctype="multipart/form-data" class="row m-0 w-100">
       
       <div class="col-10 text-start">
         <div class="input-group align-self-start">
           <span class="input-group-text bg-dark text-light" id="basic-addon3">File:</span>
-          <!-- TUTAJ ZMIENILIŚMY VALUE, ABY CZYTAŁ ZMIENNĄ Z PYTHONA -->
+    
           <input type="text" class="form-control overflow-auto" aria-describedby="basic-addon3" 
                  aria-label="path-folder" disabled readonly value="{{ file_name }}">
         </div>
       </div>
-
       <div class="col-2 text-end">
-        <!--ukrywamy input na plik i nakładamy na niego wygląd przycisku -->
         <label class="btn btn-outline-light w-75 m-0">
           Open 
           <input type="file" name="plik_logow" accept=".log,.txt" hidden onchange="this.form.submit()">

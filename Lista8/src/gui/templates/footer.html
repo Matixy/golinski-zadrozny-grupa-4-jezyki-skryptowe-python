@@ -1,12 +1,31 @@
 <div>
   <div class="container-fluid">
-    <div class="row">
-			<div class="col-6 text-start">
-				<button type="button" class="btn btn-outline-light w-75">Previous</button>
+    <div class="row justify-content-evenly">
+			<div class="col-5 text-center">
+				{% if prev_id is not none %}
+					{%set isDisabled = ""%}
+				{% else %}
+					{% set isDisabled = "disabled" %}
+				{% endif %}
+				<button type="button" class="btn btn-outline-light w-75" {{ isDisabled }}
+						hx-get="/detail/{{ prev_id }}"
+						hx-target="#detail-pane">
+					Previous
+				</button>
 			</div>
 
-			<div class="col-6 text-end">
-				<button type="button" class="btn btn-outline-light w-75">Next</button>
+			<div class="col-5 text-center">
+				{% if next_id is not none %}
+					{%set isDisabled = ""%}
+				{% else %}
+					{% set isDisabled = "disabled" %}
+				{% endif %}
+				<button type="button" class="btn btn-outline-light w-75" {{ isDisabled }}
+						hx-get="/detail/{{ next_id }}"
+						hx-target="#detail-pane"
+						>
+					Next
+				</button>
 			</div>
     </div>
   </div>
