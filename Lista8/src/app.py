@@ -46,7 +46,10 @@ def home():
 @app.route("/detail/<int:log_id>")
 def show_details(log_id):
   selected_log = app_state.filtered_logs[log_id]
-  return render_template(TemplatesNames.DETAILS.value, log=selected_log)
+  prev_id = log_id-1 if log_id>0 else None
+  next_id = log_id+1 if log_id< len(app_state.filtered_logs)-1 else None
+
+  return render_template(TemplatesNames.DETAILS.value, log=selected_log, prev_id=prev_id, next_id=next_id)
 
 
 
