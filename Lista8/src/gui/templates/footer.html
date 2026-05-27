@@ -1,32 +1,28 @@
-<div>
-  <div class="container-fluid">
-    <div class="row justify-content-evenly">
-			<div class="col-5 text-center">
-				{% if prev_id is not none %}
-					{%set isDisabled = ""%}
-				{% else %}
-					{% set isDisabled = "disabled" %}
-				{% endif %}
-				<button type="button" class="btn btn-outline-light w-75" {{ isDisabled }}
-						hx-get="/detail/{{ prev_id }}"
-						hx-target="#detail-pane">
-					Previous
-				</button>
-			</div>
+<div class="d-flex gap-5 px-4 mb-4 justify-content-between">
+    
+    {% if prev_id is not none %}
+        {% set isPrevDisabled = "" %}
+    {% else %}
+        {% set isPrevDisabled = "disabled" %}
+    {% endif %}
+    
+    <button type="button" class="btn btn-outline-light w-25 py-3" {{ isPrevDisabled }}
+            hx-get="/detail/{{ prev_id }}"
+            hx-target="#detail-pane">
+        Previous
+    </button>
 
-			<div class="col-5 text-center">
-				{% if next_id is not none %}
-					{%set isDisabled = ""%}
-				{% else %}
-					{% set isDisabled = "disabled" %}
-				{% endif %}
-				<button type="button" class="btn btn-outline-light w-75" {{ isDisabled }}
-						hx-get="/detail/{{ next_id }}"
-						hx-target="#detail-pane"
-						>
-					Next
-				</button>
-			</div>
-    </div>
-  </div>
+
+    {% if next_id is not none %}
+        {% set isNextDisabled = "" %}
+    {% else %}
+        {% set isNextDisabled = "disabled" %}
+    {% endif %}
+    
+    <button type="button" class="btn btn-outline-light w-25 py-3" {{ isNextDisabled }}
+            hx-get="/detail/{{ next_id }}"
+            hx-target="#detail-pane">
+        Next
+    </button>
+    
 </div>

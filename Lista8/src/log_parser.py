@@ -13,6 +13,10 @@ class LogEntry:
     host: str
     uri: str
     status: int
+    user_agent: str
+    resp_body_len: int
+    resp_mime_types: str
+    referrer: str
 
 
 def read_log(filepath: str) -> list[LogEntry]:
@@ -35,6 +39,13 @@ def read_log(filepath: str) -> list[LogEntry]:
                 orig_p = int(list_from_line[3])
                 resp_p = int(list_from_line[5])
                 status_code = int(list_from_line[14])
+                
+                body_len_str = list_from_line[13]
+                
+                user_agent = list_from_line[11].split(" ")[0] if list_from_line[11] != '-' else None
+                resp_body_len = int(body_len_str) if body_len_str != '-' else 0
+                resp_mime = list_from_line[26] if list_from_line[26] != '-' else None
+                referrer = list_from_line[10] if list_from_line[10] != '-' else None
 
                 #tworzenie obiektu
                 entry = LogEntry(
@@ -47,15 +58,17 @@ def read_log(filepath: str) -> list[LogEntry]:
                     method=list_from_line[7],
                     host=list_from_line[8],
                     uri=list_from_line[9],
-                    status=status_code
-
+                    status=status_code,
+                    user_agent= user_agent,
+                    resp_body_len= resp_body_len,
+                    resp_mime_types= resp_mime,
+                    referrer= referrer 
                 )
                 log_list.append(entry)
 
             except (ValueError, IndexError):    #Zabezpieczenie przed bledami konwersji i indeksow
                 continue
             
-        print(log_list[11])
     return log_list 
 
 
