@@ -1,6 +1,7 @@
 {% for log in logs %}
     {% set current_id = start_index + loop.index0 %} {# tworzenie zmiennej przechowujacej id logu #}
     <li 
+        id="log-item-{{ current_id }}" 
         class="log-item list-group-item text-nowrap overflow-hidden px-1 border-bottom border-dark"
         hx-get="/detail/{{ current_id }}"
         hx-target="#detail-pane"
@@ -23,21 +24,3 @@
     </button>
 </li>
 {% endif %}
-
-<script>
-    const changeActiveLog = (el) => {
-        // check if cliked element already has log-item class
-        let target = el.target.closest('.log-item') // closest is taking closest .log-item element
-
-        if (target) {
-            document.querySelectorAll('.log-item').forEach(el => {
-                el.classList.remove('active');
-            });
-
-            target.classList.add('active');
-        }
-    }
-
-    // event listeners
-    document.body.addEventListener('click', changeActiveLog);
-</script>

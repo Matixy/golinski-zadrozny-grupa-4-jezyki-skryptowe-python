@@ -25,6 +25,8 @@ class AppState:
     self.LOG_LIST_SIZE = 1000
     self.start_date_str = ""
     self.end_date_str = ""
+    self.loaded_logs_count = 0
+    self.current_log_id = None
 
 app_state = AppState()
 
@@ -32,6 +34,10 @@ app_state = AppState()
 # main view
 @app.route("/")
 def home():
+  # reset licznika aktualnie wyswietlonych logow do bazowej pozycji 
+  app_state.loaded_logs_count = min(app_state.LOG_LIST_SIZE, len(app_state.filtered_logs))
+
+  
   #przekazanie listy logów do szablonu HTML
   return render_template(TemplatesNames.INDEX.value , 
                           logs=app_state.filtered_logs[:app_state.LOG_LIST_SIZE], 
@@ -39,17 +45,21 @@ def home():
                           total_count=len(app_state.filtered_logs), 
                           file_name=app_state.curr_file_name, 
                           start_date=app_state.start_date_str,
-                          end_date=app_state.end_date_str)
+                          end_date=app_state.end_date_str,
+                          loaded_logs_count = min(app_state.LOG_LIST_SIZE, len(app_state.filtered_logs))
+                          )
 
 
 
 @app.route("/detail/<int:log_id>")
 def show_details(log_id):
+  app_state.current_log_id = log_id 
   selected_log = app_state.filtered_logs[log_id]
   prev_id = log_id-1 if log_id>0 else None
-  next_id = log_id+1 if log_id< len(app_state.filtered_logs)-1 else None
+  
+  next_id = log_id+1 if log_id< app_state.loaded_logs_count-1 else None
 
-  return render_template(TemplatesNames.DETAILS.value, log=selected_log, prev_id=prev_id, next_id=next_id)
+  return render_template(TemplatesNames.DETAILS.value, log=selected_log, prev_id=prev_id, next_id=next_id, current_id=log_id)
 
 
 
@@ -93,16 +103,29 @@ def filter_log():
 
 @app.route("/load_more/<int:start_index>")
 def load_more(start_index):
-   next_index = start_index + app_state.LOG_LIST_SIZE
-   next_logs = app_state.filtered_logs[start_index:next_index]
+  next_index = start_index + app_state.LOG_LIST_SIZE
+  next_index = min(next_index, len(app_state.filtered_logs))
+   
+  next_logs = app_state.filtered_logs[start_index:next_index]
 
-   return render_template(
+  app_state.loaded_logs_count = next_index
+
+  # creating basic new log to logos_box
+  html_response = render_template(
       TemplatesNames.LOGS_BOX.value,
       logs = next_logs,
       start_index=start_index,
       next_index=next_index,
       total_count=len(app_state.filtered_logs)
    )
+  
+  if getattr(app_state, 'current_log_id', None) is not None:
+    # generate new detail pane caused by next button logic while loading more logs
+    details_html = show_details(app_state.current_log_id)
+    # replace old details to updated
+    html_response += f'\n<section id="detail-pane" class="col-8 h-100 text-center overflow-auto" hx-swap-oob="true">{details_html}</section>'
+
+  return html_response
 
 
 
