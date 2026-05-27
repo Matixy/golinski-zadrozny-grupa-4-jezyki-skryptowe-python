@@ -14,7 +14,7 @@
           aria-label="log-remote-host"
           disabled
           readonly
-          value="{{ log.orig_h }}"
+          value="{{ log.orig_h }} : {{ log.orig_p }}"
         />
       </div>
     </div>
@@ -55,7 +55,7 @@
           />
         </div>
       </div>
-
+<!-- 
       <div class="col-12 col-xl-6 text-start p-0 mt-3 mt-xl-0">
         <div class="input-group align-self-start col-6">
           <span
@@ -73,7 +73,7 @@
             value="TUTAJ TIMEZONE Z PYTHONA"
           />
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="row mx-5 my-3">
       <div class="col-12 col-xl-6 text-start pe-xl-2 ps-xl-0 p-0 mb-3 mb-xl-0">
@@ -110,8 +110,8 @@
     </div>
     <div class="row mx-5 my-3">
       <div class="col-12 col-xl-6 text-start d-flex pe-xl-2 ps-xl-0 p-0 mb-3 mb-xl-0">
-        <p class="fw-medium w-25">Size:</p>
-        <p class="w-75 text-end">XXXXXX Bytes</p>
+        <p class="fw-medium w-25">UID:</p>
+        <p class="w-75 text-end">{{ log.uid }}</p>
       </div>
   </div>
 
