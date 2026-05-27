@@ -1,138 +1,94 @@
-<div>
-  <div class="d-flex flex-column">
-    <div class="mx-5 my-3">
-      <div class="input-group align-self-start w-100">
-        <span
-          class="input-group-text bg-dark text-light fw-medium"
-          id="basic-addon3"
-          >Remote host:</span
-        >
-        <input
-          type="text"
-          class="form-control"
-          aria-describedby="basic-addon3 basic-addon4"
-          aria-label="log-remote-host"
-          disabled
-          readonly
-          value="{{ log.orig_h }} : {{ log.orig_p }}"
-        />
-      </div>
+ <div class="d-flex flex-column gap-3 text-start px-4 py-3">
+    <!-- remote host -->
+    <div class="input-group">
+      <span class="input-group-text bg-dark text-light fw-medium">Remote host:</span>
+      <input type="text" class="form-control" disabled readonly value="{{ log.orig_h }} : {{ log.orig_p }}" />
     </div>
-    <div class="mx-5 my-3">
-      <div class="input-group align-self-start w-100">
-        <span
-          class="input-group-text bg-dark text-light fw-medium"
-          id="basic-addon3"
-          >Date:</span
-        >
-        <input
-          type="text"
-          class="form-control"
-          aria-describedby="basic-addon3 basic-addon4"
-          aria-label="log-date"
-          disabled
-          readonly
-          value="{{ log.timestamp.strftime('%Y-%m-%d') }}"
-        />
-      </div>
-    </div>
-    <div class="row mx-5 my-3">
-      <div class="col-12 col-xl-6 text-start pe-xl-2 ps-xl-0 p-0 mb-3 mb-xl-0">
-        <div class="input-group align-self-start">
-          <span
-            class="input-group-text bg-dark text-light fw-medium"
-            id="basic-addon3"
-            >Time:</span
-          >
-          <input
-            type="text"
-            class="form-control"
-            aria-describedby="basic-addon3 basic-addon4"
-            aria-label="log-time"
-            disabled
-            readonly
-            value="{{ log.timestamp.strftime('%H:%M:%S') }}"
-          />
-        </div>
-      </div>
-<!-- 
-      <div class="col-12 col-xl-6 text-start p-0 mt-3 mt-xl-0">
-        <div class="input-group align-self-start col-6">
-          <span
-            class="input-group-text bg-dark text-light fw-medium"
-            id="basic-addon3"
-            >Timezone:</span
-          >
-          <input
-            type="text"
-            class="form-control"
-            aria-describedby="basic-addon3 basic-addon4"
-            aria-label="log-timezone"
-            disabled
-            readonly
-            value="TUTAJ TIMEZONE Z PYTHONA"
-          />
-        </div>
-      </div> -->
-    </div>
-    <div class="row mx-5 my-3">
-      <div class="col-12 col-xl-6 text-start pe-xl-2 ps-xl-0 p-0 mb-3 mb-xl-0">
-        <div class="d-flex justify-content-between">
-            <p class="fw-medium w-75">Status code:</p>
-            <p class="w-25 text-end">{{ log.status }}</p>
-        </div>
-      </div>
 
-      <div class="col-12 col-xl-6 text-start p-0 mt-3 mt-xl-0">
+    <!-- date -->
+    <div class="input-group">
+      <span class="input-group-text bg-dark text-light fw-medium">Date:</span>
+      <input type="text" class="form-control" disabled readonly value="{{ log.timestamp.strftime('%Y-%m-%d') }}" />
+    </div>
+
+    <!-- time -->
+    <div class="input-group">
+      <span class="input-group-text bg-dark text-light fw-medium">Time:</span>
+      <input type="text" class="form-control" disabled readonly value="{{ log.timestamp.strftime('%H:%M:%S') }}" />
+    </div>
+
+    <!-- UID -->
+    <div class="d-flex justify-content-between px-1">
+      <span class="fw-medium">UID:</span>
+      <span class="text-end">{{ log.uid }}</span>
+    </div>
+
+    <!-- status code & method (dwie kolumny) -->
+    <div class="row g-3 m-0">
+      <div class="col-12 col-lg-6 p-0 pe-lg-2">
         <div class="d-flex justify-content-between">
-            <p class="fw-medium w-50">Method:</p>
-            <p class="w-50 text-end">{{ log.method }}</p>
+          <span class="fw-medium">Status code:</span>
+          <span class="text-end">{{ log.status }}</span>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6 p-0 ps-lg-2">
+        <div class="d-flex justify-content-between">
+          <span class="fw-medium">Method:</span>
+          <span class="text-end">{{ log.method }}</span>
         </div>
       </div>
     </div>
-    <div class="mx-5 my-3">
-      <div class="input-group align-self-start w-100">
-        <span
-          class="input-group-text bg-dark text-light fw-medium"
-          id="basic-addon3"
-          >Resource:</span
-        >
-        <input
-          type="text"
-          class="form-control overflow-auto"
-          aria-describedby="basic-addon3 basic-addon4"
-          aria-label="log-date"
-          disabled
-          readonly
-          value="{{ log.uri }}"
-        />
+
+    <!-- resource -->
+    <div class="input-group">
+      <span class="input-group-text bg-dark text-light fw-medium">Resource:</span>
+      <input type="text" class="form-control" disabled readonly value="{{ log.uri }}" />
+    </div>
+
+    <!-- referrer -->
+    <div class="input-group">
+      <span class="input-group-text bg-dark text-light fw-medium">Referrer:</span>
+      <input type="text" class="form-control" disabled readonly value="{{ log.referrer }}" />
+    </div>
+
+    <!-- size & type -->
+    <div class="row g-3 m-0">
+      <div class="col-12 col-lg-6 p-0 pe-lg-2">
+        <div class="d-flex justify-content-between">
+          <span class="fw-medium">Size:</span>
+          <span class="text-end">{{ log.resp_body_len }} Bytes</span>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6 p-0 ps-lg-2 overflow-hidden">
+        <div class="d-flex justify-content-between">
+          <span class="fw-medium pe-2">Type:</span>
+          <span class="text-end text-truncate" title="{{ log.resp_mime_types }}">{{ log.resp_mime_types }}</span>
+        </div>
       </div>
     </div>
-    <div class="row mx-5 my-3">
-      <div class="col-12 col-xl-6 text-start d-flex pe-xl-2 ps-xl-0 p-0 mb-3 mb-xl-0">
-        <p class="fw-medium w-25">UID:</p>
-        <p class="w-75 text-end">{{ log.uid }}</p>
-      </div>
+
+    <!-- agent -->
+    <div class="input-group">
+      <span class="input-group-text bg-dark text-light fw-medium">Agent:</span>
+      <input type="text" class="form-control" disabled readonly value="{{ log.user_agent }}" />
+    </div>
+
   </div>
 
-  <footer class="">
-      {% include 'footer.html' %}
-    </footer>
-</div>
+  <footer class="mt-5">{% include 'footer.html' %}</footer>
 
-<script>
-{
-    // Wykona się natychmiast i zniknie z pamięci po zamknięciu klamry }
-    document.querySelectorAll('.log-item').forEach(el => {
-        el.classList.remove('active');
-    });
+  <script>
+    {
+      document.querySelectorAll(".log-item").forEach((el) => {
+        el.classList.remove("active");
+      });
 
-    // Używamy getElementById - jest szybsze i bezpieczniejsze niż querySelector
-    let activeLog = document.getElementById('log-item-{{ current_id }}');
+      let activeLog = document.getElementById("log-item-{{ current_id }}");
 
-    if (activeLog) {
-        activeLog.classList.add('active');
-        activeLog.scrollIntoView({ block: 'nearest', behavior: 'auto' });
+      if (activeLog) {
+        activeLog.classList.add("active");
+        activeLog.scrollIntoView({ block: "nearest", behavior: "auto" });
+      }
     }
-}
-</script>
+  </script>
+</div>
