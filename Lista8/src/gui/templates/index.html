@@ -16,11 +16,9 @@
   <body class="bg-dark text-light p-2 vh-100 d-flex flex-column overflow-hidden">
     <header class="flex-shrink-0">{% include 'header.html' %}</header>
 
-    <aside class="z-3 position-absolute top-0 end-0">
-      <div class="d-flex flex-column vh-100 overflow-auto">
-        {% for _ in range(0) %}
+    <aside class="z-3 position-absolute top-0 start-0">
+      <div class="overflow-auto">
           {% include 'error.html' %}
-        {% endfor %}
       </div>
     </aside>
 
