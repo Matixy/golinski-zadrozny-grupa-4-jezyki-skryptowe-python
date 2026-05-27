@@ -69,7 +69,6 @@ def read_log(filepath: str) -> list[LogEntry]:
             except (ValueError, IndexError):    #Zabezpieczenie przed bledami konwersji i indeksow
                 continue
             
-        print(log_list[11])
     return log_list 
 
 
