@@ -45,7 +45,7 @@
             >Time:</span
           >
           <input
-            type="time"
+            type="text"
             class="form-control"
             aria-describedby="basic-addon3 basic-addon4"
             aria-label="log-time"
@@ -119,3 +119,20 @@
       {% include 'footer.html' %}
     </footer>
 </div>
+
+<script>
+{
+    // Wykona się natychmiast i zniknie z pamięci po zamknięciu klamry }
+    document.querySelectorAll('.log-item').forEach(el => {
+        el.classList.remove('active');
+    });
+
+    // Używamy getElementById - jest szybsze i bezpieczniejsze niż querySelector
+    let activeLog = document.getElementById('log-item-{{ current_id }}');
+
+    if (activeLog) {
+        activeLog.classList.add('active');
+        activeLog.scrollIntoView({ block: 'nearest', behavior: 'auto' });
+    }
+}
+</script>

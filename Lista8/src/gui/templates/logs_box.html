@@ -1,7 +1,8 @@
 {% for log in logs %}
     {% set current_id = start_index + loop.index0 %} {# tworzenie zmiennej przechowujacej id logu #}
     <li 
-        class="list-group-item text-nowrap overflow-hidden px-1 bg-dark-subtle border-bottom border-dark"
+        id="log-item-{{ current_id }}" 
+        class="log-item list-group-item text-nowrap overflow-hidden px-1 border-bottom border-dark"
         hx-get="/detail/{{ current_id }}"
         hx-target="#detail-pane"
     >
@@ -10,16 +11,16 @@
 {% endfor %} 
 
 {% if next_index < total_count %}  {# wklejamy w miejsce przycisku wynik zapytania get, czyli nastepne logi, outetHTML wlasnie powoduje wymiane calego bloku, przeciwienstwo to innetHTML czyl rama zostaje i tylko wnetrze sie zmieniane#}
-<li id="przycisk-ladowania" class="list-group-item text-center bg-dark p-2 border-0">
+<li id="przycisk-ladowania" class="list-group-item text-center bg-dark p-0 pt-2 border-0">
     <button
-        class="btn btn-outline-light w-100"
+        class="btn btn-outline-light w-100 mx-0"
         hx-get="/load_more/{{ next_index }}"
         hx-target="#przycisk-ladowania"
         hx-swap="outerHTML" 
     >
-        Zaladuj kolejne logi
+        Load more logs
         <br>
-        <small class="text-muted">(Pobrano {{ next_index }} z {{ total_count }})</small>
+        <small class="text-muted">(Loaded {{ next_index }} of {{ total_count }})</small>
     </button>
 </li>
 {% endif %}
