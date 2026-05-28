@@ -23,14 +23,14 @@ def read_log(filepath: str) -> list[LogEntry]:
     """Function reads from file. Return List of LogEntry objects which contains log data"""
     log_list = []    #Lista zwracana
 
-    with open(filepath, 'r', encoding='utf-8', errors='ignore') as file:
-        for line in file:
+    with open(filepath, 'r', encoding='utf-8') as file:
+        for line_number, line in enumerate(file, start=1):
             cleaned_line = line.strip() #wyczyszczenie linii
             if cleaned_line == "":      #pominiecie jesli jest pusta
                 continue
 
             list_from_line = cleaned_line.split("\t")   #rozdzielanie na podstawie tabulatora
-            if len(list_from_line) != 27:    #sprawdzenie czy jest zgodna linia, zeby pominac bledne linie
+            if len(list_from_line) != 27:    #sprawdzenie czy jest zgodna linia, jesli nie wyrzuc blad
                 continue
 
             try:
@@ -65,10 +65,14 @@ def read_log(filepath: str) -> list[LogEntry]:
                     referrer= referrer 
                 )
                 log_list.append(entry)
-
-            except (ValueError, IndexError):    #Zabezpieczenie przed bledami konwersji i indeksow
+                
+            except (ValueError, IndexError) as e: #Zabezpieczenie przed bledami konwersji i indeksow
                 continue
-            
+    
+    #sprwadzenie czy plik zawiera chociaz jeden porpawny log:
+    if not log_list:
+        raise ValueError("File contains no valid logs!")
+    
     return log_list 
 
 

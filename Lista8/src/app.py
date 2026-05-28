@@ -27,6 +27,8 @@ class AppState:
     self.end_date_str = ""
     self.loaded_logs_count = 0
     self.current_log_id = None
+    self.error_messages = []
+    self.next_error_id = 0
 
 app_state = AppState()
 
@@ -36,7 +38,6 @@ app_state = AppState()
 def home():
   # reset licznika aktualnie wyswietlonych logow do bazowej pozycji 
   app_state.loaded_logs_count = min(app_state.LOG_LIST_SIZE, len(app_state.filtered_logs))
-
   
   #przekazanie listy logów do szablonu HTML
   return render_template(TemplatesNames.INDEX.value , 
@@ -46,7 +47,8 @@ def home():
                           file_name=app_state.curr_file_name, 
                           start_date=app_state.start_date_str,
                           end_date=app_state.end_date_str,
-                          loaded_logs_count = min(app_state.LOG_LIST_SIZE, len(app_state.filtered_logs))
+                          loaded_logs_count = min(app_state.LOG_LIST_SIZE, len(app_state.filtered_logs)),
+                          error_messages=app_state.error_messages
                           )
 
 
@@ -75,18 +77,41 @@ def read_file():
             saving_path = os.path.join("uploads", file.filename)
             file.save(saving_path)
             
-            #zapisywanie danych do obiektu, do obu list
-            logs = read_log(saving_path)
-            app_state.all_logs = logs
-            app_state.filtered_logs = logs
-            app_state.curr_file_name = file.filename
+            #lapanie bledu z parsera
+            try:
+              #zapisywanie danych do obiektu, do obu list
+              logs = read_log(saving_path)
+              app_state.all_logs = logs
+              app_state.filtered_logs = logs
+              app_state.curr_file_name = file.filename
+              
+            except ValueError as e:
+              app_state.curr_file_name = "Choose file..."
+              app_state.all_logs = []
+              app_state.filtered_logs = []
 
-            if os.path.exists(saving_path):
-                os.remove(saving_path)  #usuwanie tymczasowego pliku z dysku
+              app_state.error_messages.append({
+                  "id": app_state.next_error_id,
+                  "message": str(e)
+              })
+              
+              app_state.next_error_id += 1
+              
+            finally:
+              if os.path.exists(saving_path):
+                  os.remove(saving_path)  #usuwanie tymczasowego pliku z dysku
             
     return redirect("/") #przeladowanie strony glownej
 
+@app.route("/remove_error/<int:error_id>", methods=["POST"])
+def remove_error(error_id):
 
+    app_state.error_messages = [
+        error for error in app_state.error_messages
+        if error["id"] != error_id
+    ]
+
+    return ""
 
 @app.route("/filter", methods=["POST"])
 def filter_log():
